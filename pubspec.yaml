@@ -1,0 +1,35 @@
+name: flutter_rasp
+description: A comprehensive RASP (Runtime Application Self-Protection) plugin for Flutter. Detect root, jailbreak, emulators, debuggers, hooks, repackaging, untrusted installs, VPN, SSL pinning, and more.
+version: 3.0.0
+homepage: https://juandpt.dev
+repository: https://github.com/juandpt03/flutter_rasp
+issue_tracker: https://github.com/juandpt03/flutter_rasp/issues
+topics:
+  - security
+  - rasp
+  - ssl-pinning
+  - root-detection
+  - flutter-plugin
+
+environment:
+  sdk: ^3.11.0
+  flutter: '>=3.3.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.juandpt.flutter_rasp
+        pluginClass: FlutterRaspPlugin
+      ios:
+        pluginClass: FlutterRaspPlugin
