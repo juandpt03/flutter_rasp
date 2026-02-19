@@ -1,6 +1,6 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_rasp (2.0.1):
+  - flutter_rasp (3.1.0):
     - Flutter
   - integration_test (0.0.1):
     - Flutter
@@ -20,7 +20,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  flutter_rasp: ae9e335126f4f3e0d68856d969b203704533a71d
+  flutter_rasp: 771abda3002de8ce7530f04163915942e5592d07
   integration_test: 4a889634ef21a45d28d50d622cf412dc6d9f586e
 
 PODFILE CHECKSUM: 3c63482e143d1b91d2d2560aee9fb04ecc74ac7e

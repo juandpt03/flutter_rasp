@@ -21,8 +21,11 @@ enum Threat {
   /// Active VPN connection.
   vpn,
 
-  /// Android only.
+  /// Android only: developer options enabled.
   developerMode,
+
+  /// Android only: ADB (Android Debug Bridge) is enabled.
+  adbEnabled,
 
   /// No screen lock configured.
   devicePasscode,
@@ -41,6 +44,9 @@ enum Threat {
 
   /// Android only: app running in a cloned/dual-app environment.
   multiInstance,
+
+  /// Device hardware fingerprint changed since first app launch.
+  deviceBinding,
 
   undefined;
 

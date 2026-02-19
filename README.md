@@ -21,13 +21,15 @@ A comprehensive **RASP** (Runtime Application Self-Protection) plugin for Flutte
 | Repackaging | :white_check_mark: | :white_check_mark: | Tampered app re-signed with a different certificate. Used to inject malware, remove license checks, or steal data |
 | Trusted Install | :white_check_mark: | :white_check_mark: | Sideloaded apps bypass store review and integrity checks, increasing risk of running modified or malicious builds |
 | VPN | :white_check_mark: | :white_check_mark: | Active VPN or proxy that can intercept, inspect, and modify network traffic between the app and its servers |
-| Developer Mode | :white_check_mark: | :x: | Enabled developer options and ADB expose debugging interfaces that allow unauthorized access to app internals |
+| Developer Mode | :white_check_mark: | :x: | Enabled developer options expose debugging interfaces that allow unauthorized access to app internals |
+| ADB Enabled | :white_check_mark: | :x: | Android Debug Bridge enabled, allowing unauthorized USB debugging access to app internals and data extraction |
 | Device Passcode | :white_check_mark: | :white_check_mark: | Device without screen lock. Physical access gives unrestricted access to app data and keychain entries |
 | Secure Hardware | :white_check_mark: | :white_check_mark: | Missing hardware-backed keystore (TEE/StrongBox, Secure Enclave). Cryptographic keys can be extracted by software attacks |
 | Obfuscation | :white_check_mark: | :x: | Unobfuscated binary with readable class and symbol names, making reverse engineering and vulnerability discovery trivial |
 | Time Spoofing | :white_check_mark: | :x: | Manipulated system clock used to bypass time-based logic like token expiration, trial periods, or certificate validity |
 | Location Spoofing | :white_check_mark: | :x: | Fake GPS coordinates used to bypass geo-restrictions, cheat in location-based services, or commit region-locked fraud |
 | Multi-Instance | :white_check_mark: | :x: | Cloned or dual-app environments that run multiple copies of the app to abuse promotions, bypass rate limits, or impersonate users |
+| Device Binding | :white_check_mark: | :white_check_mark: | Detects device hardware fingerprint changes since first app launch, indicating the app was cloned or migrated to a different device |
 | Screen Capture | :white_check_mark: | :white_check_mark: | Blocks screenshots and screen recording to prevent leaking sensitive UI content like PINs, tokens, or personal data |
 
 ### SSL Certificate Pinning
@@ -46,7 +48,7 @@ A comprehensive **RASP** (Runtime Application Self-Protection) plugin for Flutte
 
 ```yaml
 dependencies:
-  flutter_rasp: ^3.0.0
+  flutter_rasp: ^3.1.0
 ```
 
 | Platform | Minimum Version |
@@ -259,7 +261,7 @@ Policies control which threats **terminate the app at the native level** before 
 | `ThreatPolicy.none` | None (report only) |
 | `ThreatPolicy.low` | repackaging, trustedInstall |
 | `ThreatPolicy.medium` | root, hook, repackaging, trustedInstall, obfuscationIssues, multiInstance |
-| `ThreatPolicy.high` | root, hook, repackaging, trustedInstall, debug, devicePasscode, obfuscationIssues, multiInstance, secureHardwareNotAvailable, locationSpoofing |
+| `ThreatPolicy.high` | root, hook, repackaging, trustedInstall, debug, devicePasscode, obfuscationIssues, multiInstance, secureHardwareNotAvailable, locationSpoofing, adbEnabled, deviceBinding |
 
 ```dart
 const policy = ThreatPolicy(
@@ -278,7 +280,7 @@ if (result.isCompromised) {
 }
 ```
 
-Available: `isRooted()`, `isEmulator()`, `isDebugged()`, `isHooked()`, `isRepackaged()`, `isUntrustedInstall()`, `isVpnConnected()`, `isDeveloperMode()`, `isDevicePasscodeDisabled()`, `isSecureHardwareUnavailable()`, `hasObfuscationIssues()`, `isTimeSpoofed()`, `isLocationSpoofed()`, `isMultiInstance()`.
+Available: `isRooted()`, `isEmulator()`, `isDebugged()`, `isHooked()`, `isRepackaged()`, `isUntrustedInstall()`, `isVpnConnected()`, `isDeveloperMode()`, `isAdbEnabled()`, `isDevicePasscodeDisabled()`, `isSecureHardwareUnavailable()`, `hasObfuscationIssues()`, `isTimeSpoofed()`, `isLocationSpoofed()`, `isMultiInstance()`, `isDeviceBindingChanged()`.
 
 ### Screen Capture Protection
 
@@ -312,12 +314,14 @@ MethodChannelFlutterRasp        SHA-256    SpkiExtractor
     |-- TrustedInstallDetector    |-- TrustedInstallDetector
     |-- VpnDetector               |-- VpnDetector
     |-- DeveloperModeDetector     |-- DevicePasscodeDetector
-    |-- DevicePasscodeDetector    |-- SecureHardwareDetector
+    |-- AdbEnabledDetector        |-- SecureHardwareDetector
+    |-- DevicePasscodeDetector    |-- DeviceBindingDetector
     |-- SecureHardwareDetector    ScreenCaptureManager
     |-- ObfuscationDetector
     |-- TimeSpoofingDetector
     |-- LocationSpoofingDetector
     |-- MultiInstanceDetector
+    |-- DeviceBindingDetector
     ScreenCaptureManager
 ```
 

@@ -38,11 +38,13 @@ class ThreatPolicy {
       Threat.repackaging,
       Threat.trustedInstall,
       Threat.debug,
+      Threat.adbEnabled,
       Threat.devicePasscode,
       Threat.obfuscationIssues,
       Threat.multiInstance,
       Threat.secureHardwareNotAvailable,
       Threat.locationSpoofing,
+      Threat.deviceBinding,
     },
   );
 }

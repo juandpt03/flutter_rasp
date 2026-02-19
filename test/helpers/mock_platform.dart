@@ -28,12 +28,14 @@ class MockFlutterRaspPlatform
     'trustedInstall': false,
     'vpn': false,
     'developerMode': false,
+    'adbEnabled': false,
     'devicePasscode': false,
     'secureHardwareNotAvailable': true,
     'obfuscationIssues': false,
     'timeSpoofing': false,
     'locationSpoofing': false,
     'multiInstance': false,
+    'deviceBinding': false,
   };
 
   @override

@@ -65,12 +65,14 @@ class MonitorLog {
       Threat.trustedInstall => 'TRUSTED_INSTALL',
       Threat.vpn => 'VPN',
       Threat.developerMode => 'DEV_MODE',
+      Threat.adbEnabled => 'ADB_ENABLED',
       Threat.devicePasscode => 'PASSCODE',
       Threat.secureHardwareNotAvailable => 'SECURE_HW',
       Threat.obfuscationIssues => 'OBFUSCATION',
       Threat.timeSpoofing => 'TIME_SPOOF',
       Threat.locationSpoofing => 'LOC_SPOOF',
       Threat.multiInstance => 'MULTI_INSTANCE',
+      Threat.deviceBinding => 'DEVICE_BINDING',
       Threat.undefined => 'UNKNOWN',
     };
   }

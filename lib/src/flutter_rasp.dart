@@ -106,6 +106,8 @@ class FlutterRasp {
 
   Future<bool> isDeveloperMode() => _check(Threat.developerMode);
 
+  Future<bool> isAdbEnabled() => _check(Threat.adbEnabled);
+
   Future<bool> isDevicePasscodeDisabled() => _check(Threat.devicePasscode);
 
   Future<bool> isSecureHardwareUnavailable() =>
@@ -118,6 +120,8 @@ class FlutterRasp {
   Future<bool> isLocationSpoofed() => _check(Threat.locationSpoofing);
 
   Future<bool> isMultiInstance() => _check(Threat.multiInstance);
+
+  Future<bool> isDeviceBindingChanged() => _check(Threat.deviceBinding);
 
   /// When `true`, hides app content from screenshots and screen recordings.
   Future<void> blockScreenCapture(bool enabled) {
@@ -182,6 +186,8 @@ class FlutterRasp {
         callback.onVpn?.call();
       case Threat.developerMode:
         callback.onDeveloperMode?.call();
+      case Threat.adbEnabled:
+        callback.onAdbEnabled?.call();
       case Threat.devicePasscode:
         callback.onDevicePasscode?.call();
       case Threat.secureHardwareNotAvailable:
@@ -194,6 +200,8 @@ class FlutterRasp {
         callback.onLocationSpoofing?.call();
       case Threat.multiInstance:
         callback.onMultiInstance?.call();
+      case Threat.deviceBinding:
+        callback.onDeviceBinding?.call();
       case Threat.undefined:
         break;
     }

@@ -15,7 +15,7 @@ void main() {
       rasp = freshRasp();
     });
 
-    /// Tests that each of the 14 ThreatCallback fields dispatches correctly.
+    /// Tests that each of the 16 ThreatCallback fields dispatches correctly.
     for (final entry in _callbackEntries) {
       test('dispatches ${entry.threatName}', () async {
         var called = false;
@@ -44,7 +44,7 @@ void main() {
       expect(hookCalled, isFalse);
     });
 
-    test('dispatches all 14 threats at once', () async {
+    test('dispatches all 16 threats at once', () async {
       final called = <String>{};
 
       await rasp.initialize(
@@ -57,19 +57,21 @@ void main() {
           onTrustedInstall: () => called.add('trustedInstall'),
           onVpn: () => called.add('vpn'),
           onDeveloperMode: () => called.add('developerMode'),
+          onAdbEnabled: () => called.add('adbEnabled'),
           onDevicePasscode: () => called.add('devicePasscode'),
           onSecureHardwareNotAvailable: () => called.add('secureHardwareNotAvailable'),
           onObfuscationIssues: () => called.add('obfuscationIssues'),
           onTimeSpoofing: () => called.add('timeSpoofing'),
           onLocationSpoofing: () => called.add('locationSpoofing'),
           onMultiInstance: () => called.add('multiInstance'),
+          onDeviceBinding: () => called.add('deviceBinding'),
         ),
       );
 
       mockPlatform.controller.add(Threat.active.map((t) => t.name).toList());
       await Future.delayed(Duration.zero);
 
-      expect(called.length, 14);
+      expect(called.length, 16);
     });
   });
 }
@@ -91,10 +93,12 @@ final _callbackEntries = [
   _CallbackEntry('trustedInstall', (cb) => ThreatCallback(onTrustedInstall: cb)),
   _CallbackEntry('vpn', (cb) => ThreatCallback(onVpn: cb)),
   _CallbackEntry('developerMode', (cb) => ThreatCallback(onDeveloperMode: cb)),
+  _CallbackEntry('adbEnabled', (cb) => ThreatCallback(onAdbEnabled: cb)),
   _CallbackEntry('devicePasscode', (cb) => ThreatCallback(onDevicePasscode: cb)),
   _CallbackEntry('secureHardwareNotAvailable', (cb) => ThreatCallback(onSecureHardwareNotAvailable: cb)),
   _CallbackEntry('obfuscationIssues', (cb) => ThreatCallback(onObfuscationIssues: cb)),
   _CallbackEntry('timeSpoofing', (cb) => ThreatCallback(onTimeSpoofing: cb)),
   _CallbackEntry('locationSpoofing', (cb) => ThreatCallback(onLocationSpoofing: cb)),
   _CallbackEntry('multiInstance', (cb) => ThreatCallback(onMultiInstance: cb)),
+  _CallbackEntry('deviceBinding', (cb) => ThreatCallback(onDeviceBinding: cb)),
 ];

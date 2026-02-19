@@ -20,12 +20,14 @@ class ThreatCallback {
     this.onTrustedInstall,
     this.onVpn,
     this.onDeveloperMode,
+    this.onAdbEnabled,
     this.onDevicePasscode,
     this.onSecureHardwareNotAvailable,
     this.onObfuscationIssues,
     this.onTimeSpoofing,
     this.onLocationSpoofing,
     this.onMultiInstance,
+    this.onDeviceBinding,
   });
 
   final VoidCallback? onRoot;
@@ -36,10 +38,12 @@ class ThreatCallback {
   final VoidCallback? onTrustedInstall;
   final VoidCallback? onVpn;
   final VoidCallback? onDeveloperMode;
+  final VoidCallback? onAdbEnabled;
   final VoidCallback? onDevicePasscode;
   final VoidCallback? onSecureHardwareNotAvailable;
   final VoidCallback? onObfuscationIssues;
   final VoidCallback? onTimeSpoofing;
   final VoidCallback? onLocationSpoofing;
   final VoidCallback? onMultiInstance;
+  final VoidCallback? onDeviceBinding;
 }

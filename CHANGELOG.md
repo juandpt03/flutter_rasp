@@ -1,3 +1,10 @@
+## 3.1.0
+
+- Separated `adbEnabled` from `developerMode` (Android) — developer mode now checks only developer settings, ADB is detected independently
+- Added `deviceBinding` threat — detects device hardware fingerprint changes since first app launch (Android & iOS)
+- Added `isAdbEnabled()` and `isDeviceBindingChanged()` check methods
+- Updated `ThreatPolicy.high` to include `adbEnabled` and `deviceBinding`
+
 ## 3.0.0
 
 - Added SSL certificate pinning — pure Dart, zero native dependencies

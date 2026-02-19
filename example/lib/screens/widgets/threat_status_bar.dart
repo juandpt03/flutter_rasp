@@ -19,12 +19,14 @@ class ThreatStatusBar extends StatelessWidget {
     Threat.trustedInstall,
     Threat.vpn,
     if (Platform.isAndroid) Threat.developerMode,
+    if (Platform.isAndroid) Threat.adbEnabled,
     Threat.devicePasscode,
     Threat.secureHardwareNotAvailable,
     if (Platform.isAndroid) Threat.obfuscationIssues,
     if (Platform.isAndroid) Threat.timeSpoofing,
     if (Platform.isAndroid) Threat.locationSpoofing,
     if (Platform.isAndroid) Threat.multiInstance,
+    Threat.deviceBinding,
   ];
 
   @override
@@ -117,12 +119,14 @@ class ThreatStatusBar extends StatelessWidget {
       Threat.trustedInstall => 'INST',
       Threat.vpn => 'VPN',
       Threat.developerMode => 'DEV',
+      Threat.adbEnabled => 'ADB',
       Threat.devicePasscode => 'PASS',
       Threat.secureHardwareNotAvailable => 'HW',
       Threat.obfuscationIssues => 'OBF',
       Threat.timeSpoofing => 'TIME',
       Threat.locationSpoofing => 'LOC',
       Threat.multiInstance => 'MULTI',
+      Threat.deviceBinding => 'BIND',
       Threat.undefined => '???',
     };
   }
@@ -137,12 +141,14 @@ class ThreatStatusBar extends StatelessWidget {
       Threat.trustedInstall => Icons.store,
       Threat.vpn => Icons.vpn_lock,
       Threat.developerMode => Icons.developer_mode,
+      Threat.adbEnabled => Icons.usb,
       Threat.devicePasscode => Icons.lock_open,
       Threat.secureHardwareNotAvailable => Icons.memory,
       Threat.obfuscationIssues => Icons.visibility_off,
       Threat.timeSpoofing => Icons.schedule,
       Threat.locationSpoofing => Icons.location_off,
       Threat.multiInstance => Icons.content_copy,
+      Threat.deviceBinding => Icons.phonelink_lock,
       Threat.undefined => Icons.help_outline,
     };
   }
@@ -157,12 +163,14 @@ class ThreatStatusBar extends StatelessWidget {
       Threat.trustedInstall => 'Sideloaded / untrusted source',
       Threat.vpn => 'VPN connection active',
       Threat.developerMode => 'Developer options enabled',
+      Threat.adbEnabled => 'ADB debugging enabled',
       Threat.devicePasscode => 'No screen lock configured',
       Threat.secureHardwareNotAvailable => 'No TEE / Secure Enclave',
       Threat.obfuscationIssues => 'Unobfuscated binary detected',
       Threat.timeSpoofing => 'Auto time sync disabled',
       Threat.locationSpoofing => 'Mock location detected',
       Threat.multiInstance => 'Cloned / dual-app environment',
+      Threat.deviceBinding => 'Device hardware fingerprint changed',
       Threat.undefined => 'Unknown threat',
     };
   }

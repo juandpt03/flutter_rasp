@@ -31,7 +31,7 @@ void main() {
       expect(result.detectedThreats, {Threat.root, Threat.hook});
     });
 
-    group('getters for all 14 threats', () {
+    group('getters for all 16 threats', () {
       final allTrue = RaspResult.fromMap({
         for (final t in Threat.active) t.name: true,
       });
@@ -79,6 +79,11 @@ void main() {
         expect(allFalse.isDeveloperMode, isFalse);
       });
 
+      test('isAdbEnabled', () {
+        expect(allTrue.isAdbEnabled, isTrue);
+        expect(allFalse.isAdbEnabled, isFalse);
+      });
+
       test('isDevicePasscodeDisabled', () {
         expect(allTrue.isDevicePasscodeDisabled, isTrue);
         expect(allFalse.isDevicePasscodeDisabled, isFalse);
@@ -107,6 +112,11 @@ void main() {
       test('isMultiInstance', () {
         expect(allTrue.isMultiInstance, isTrue);
         expect(allFalse.isMultiInstance, isFalse);
+      });
+
+      test('isDeviceBindingChanged', () {
+        expect(allTrue.isDeviceBindingChanged, isTrue);
+        expect(allFalse.isDeviceBindingChanged, isFalse);
       });
     });
 

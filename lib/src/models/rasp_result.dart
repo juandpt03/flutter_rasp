@@ -36,6 +36,8 @@ class RaspResult {
 
   bool get isDeveloperMode => threats[Threat.developerMode] ?? false;
 
+  bool get isAdbEnabled => threats[Threat.adbEnabled] ?? false;
+
   bool get isDevicePasscodeDisabled => threats[Threat.devicePasscode] ?? false;
 
   bool get isSecureHardwareUnavailable =>
@@ -48,6 +50,8 @@ class RaspResult {
   bool get isLocationSpoofed => threats[Threat.locationSpoofing] ?? false;
 
   bool get isMultiInstance => threats[Threat.multiInstance] ?? false;
+
+  bool get isDeviceBindingChanged => threats[Threat.deviceBinding] ?? false;
 
   @override
   String toString() => 'RaspResult(detected: $detectedThreats)';
