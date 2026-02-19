@@ -105,8 +105,8 @@ void main() async {
 2. Convert it to Base64. You can get it directly from terminal:
 
    ```bash
-   keytool -list -v -keystore your-keystore.jks -alias your-alias 2>/dev/null \
-     | grep SHA256 | awk '{print $2}' | tr -d ':' | xxd -r -p | base64
+   keytool -exportcert -alias {ALIAS} -keystore {KEYSTORE_FILE} -storepass {STORE_PASSWORD} \
+     | openssl dgst -sha256 -binary | base64
    ```
 
    Or use the built-in utility:

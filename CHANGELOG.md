@@ -1,3 +1,7 @@
+## 3.1.2
+
+- Updated README with direct `keytool -exportcert` command for obtaining SHA-256 hash in Base64
+
 ## 3.1.1
 
 - Improved SSL pinning documentation — added certificate renewal warning and dartdoc comments
