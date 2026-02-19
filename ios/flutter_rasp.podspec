@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'flutter_rasp'
-  s.version          = '3.1.2'
+  s.version          = '3.2.0'
   s.summary          = 'RASP (Runtime Application Self-Protection) plugin for Flutter.'
   s.description      = <<-DESC
 A comprehensive RASP plugin for Flutter that detects root, jailbreak, emulators, debuggers, hooks, repackaging, untrusted installs, VPN, developer mode, device passcode, secure hardware, obfuscation, time spoofing, location spoofing, multi-instance, and screen capture threats.
@@ -9,10 +9,10 @@ A comprehensive RASP plugin for Flutter that detects root, jailbreak, emulators,
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'juandpt03' => 'juandpt03@gmail.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
+  s.source_files = 'flutter_rasp/Sources/flutter_rasp/**/*.swift'
   s.dependency 'Flutter'
   s.platform = :ios, '13.0'
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
   s.swift_version = '5.9'
-  s.resource_bundles = {'flutter_rasp_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
+  s.resource_bundles = {'flutter_rasp_privacy' => ['flutter_rasp/Sources/flutter_rasp/PrivacyInfo.xcprivacy']}
 end

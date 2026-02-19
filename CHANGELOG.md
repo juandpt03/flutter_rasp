@@ -1,3 +1,7 @@
+## 3.2.0
+
+- Added Swift Package Manager support for iOS
+
 ## 3.1.2
 
 - Updated README with direct `keytool -exportcert` command for obtaining SHA-256 hash in Base64
