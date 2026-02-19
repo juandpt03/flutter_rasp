@@ -36,11 +36,8 @@ A comprehensive **RASP** (Runtime Application Self-Protection) plugin for Flutte
 
 | Feature | Description |
 |---------|-------------|
-| MitM Protection | Prevents man-in-the-middle attacks by rejecting connections with certificates not matching your pinned hashes, even if signed by a trusted CA |
-| Public Key Pinning | SHA-256 of SubjectPublicKeyInfo (SPKI) — survives certificate renewals |
-| Certificate Pinning | SHA-256 of the full DER-encoded certificate |
-| Backup Pins | Multiple pins per host for key rotation |
-| HTTP Client Compatibility | `dart:io`, Dio (`onHttpClientCreate`), `http` (`IOClient`) |
+| PEM Certificate Pinning | Only trusts the `.pem` certificates you provide — any other connection fails automatically |
+| Compatible with `dart:io`, Dio, `package:http` | Works with any HTTP client that accepts a `dart:io` `HttpClient` |
 
 ---
 
@@ -124,99 +121,48 @@ void main() async {
 
 ### SSL Certificate Pinning
 
-SSL Pinning operates independently from the threat detection system. Use `SslPinningClient` to create an `HttpClient` that rejects connections not matching your pins.
-
-#### Getting the Pin Hash
-
-Use `openssl` to extract the pin hash from your server. The command depends on the pinning mode you choose:
-
-**Public Key Pin** (recommended — survives certificate renewals):
+Download your server's certificate:
 
 ```bash
-openssl s_client -connect api.example.com:443 -servername api.example.com 2>/dev/null \
-  | openssl x509 -pubkey -noout \
-  | openssl pkey -pubin -outform DER \
-  | openssl dgst -sha256 -binary \
-  | base64
+openssl s_client -connect your-api.com:443 -servername your-api.com \
+  2>/dev/null | openssl x509 > assets/certs/your_server.pem
 ```
 
-**Certificate Pin** (full certificate hash — changes on every renewal):
+Register it in `pubspec.yaml`:
 
-```bash
-openssl s_client -connect api.example.com:443 -servername api.example.com 2>/dev/null \
-  | openssl x509 -outform DER \
-  | openssl dgst -sha256 -binary \
-  | base64
+```yaml
+flutter:
+  assets:
+    - assets/certs/
 ```
-
-> **Note:** Public key pins survive certificate renewals as long as the same key pair is reused. Certificate pins change every time the certificate is renewed, requiring an app update.
-
-#### Basic Usage (dart:io)
 
 ```dart
-import 'package:flutter_rasp/flutter_rasp.dart';
+const config = SslPinningConfig(
+  certificateAssetPaths: ['assets/certs/your_server.pem'],
+);
 
-final config = SslPinningConfig(pins: {
-  'api.example.com': [
-    SslPin.publicKey('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX='),
-  ],
-});
-
-final client = SslPinningClient.create(config);
-final request = await client.getUrl(Uri.parse('https://api.example.com/data'));
-final response = await request.close();
+final client = await SslPinningClient.createHttpClient(config);
 ```
 
-#### With Backup Pins (Key Rotation)
+Works with any HTTP client that accepts a `dart:io` `HttpClient`:
 
 ```dart
-final config = SslPinningConfig(pins: {
-  'api.example.com': [
-    SslPin.publicKey('current_key_hash_AAAAAAAAAAAAAAAAAAAAAAAAAAA='),
-    SslPin.publicKey('backup_key_hash_BBBBBBBBBBBBBBBBBBBBBBBBBBBB='),
-  ],
-});
-```
+// dart:io
+final request = await client.getUrl(Uri.parse('https://your-api.com/endpoint'));
 
-#### With Dio
-
-```dart
-final client = SslPinningClient.create(config);
-
+// Dio
 final dio = Dio()
   ..httpClientAdapter = IOHttpClientAdapter(
-    onHttpClientCreate: (_) => client,
+    createHttpClient: () => client,
   );
-```
 
-#### With http Package
-
-```dart
-final client = SslPinningClient.create(config);
+// package:http
 final httpClient = IOClient(client);
-
-final response = await httpClient.get(Uri.parse('https://api.example.com/data'));
 ```
 
-#### Pinning Failure Callback
+You can also use `SslPinningClient.createContext(config)` to get a `SecurityContext` directly if you need more control.
 
-```dart
-final client = SslPinningClient.create(
-  config,
-  onPinningFailure: (host, certificate) {
-    debugPrint('Pinning failed for $host');
-  },
-);
-```
-
-#### Pinning Modes
-
-| Mode | Constructor | Description |
-|------|-------------|-------------|
-| Public Key | `SslPin.publicKey(hash)` | SHA-256 of the SPKI. Recommended: survives certificate renewals |
-| Certificate | `SslPin.certificate(hash)` | SHA-256 of the full DER-encoded certificate |
-
-> **Tip:** Prefer `publicKey` mode — it survives certificate renewals as long as the key pair is reused.
+See the [example app](example/lib/notifiers/ssl_pinning_notifier.dart) for a complete working implementation.
 
 ### Supported Stores / Distribution Methods
 
@@ -297,9 +243,9 @@ Flutter App
     |
 FlutterRasp (Singleton)             SslPinningClient (Independent)
     |                                    |
-FlutterRaspPlatform (Interface)     PinValidator
-    |                                |         |
-MethodChannelFlutterRasp        SHA-256    SpkiExtractor
+FlutterRaspPlatform (Interface)     SecurityContext (withTrustedRoots: false)
+    |
+MethodChannelFlutterRasp
     |--- MethodChannel (commands/checks)
     |--- EventChannel  (threat stream)
 

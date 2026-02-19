@@ -12,35 +12,32 @@ class SslPinningSection extends StatelessWidget {
     return ValueListenableBuilder<SslPinningStatus>(
       valueListenable: notifier,
       builder: (context, status, _) {
-        final (color, icon, label, subtitle) = switch (status) {
+        final (color, icon, subtitle) = switch (status) {
           SslPinningStatus.idle => (
             const Color(0xFF64B5F6),
             Icons.lock_outline,
-            'SSL PINNING',
-            'Tap to test connection',
+            'Tap a client to test',
           ),
           SslPinningStatus.testing => (
             const Color(0xFFFFB74D),
             Icons.sync,
-            'SSL PINNING',
-            'Testing...',
+            'Testing with ${notifier.lastClientType?.label ?? ''}...',
           ),
           SslPinningStatus.success => (
             const Color(0xFF00E676),
             Icons.lock,
-            'SSL PINNING',
-            'Pin verified — connection secure',
+            '${notifier.lastClientType?.label ?? ''} — connection secure',
           ),
           SslPinningStatus.failure => (
             const Color(0xFFEF5350),
             Icons.lock_open,
-            'SSL PINNING',
             notifier.lastError ?? 'Pin mismatch',
           ),
         };
 
+        final isTesting = status == SslPinningStatus.testing;
+
         return GestureDetector(
-          onTap: status == SslPinningStatus.testing ? null : notifier.testPinning,
           onLongPress: notifier.reset,
           child: Container(
             margin: const EdgeInsets.fromLTRB(16, 8, 16, 0),
@@ -50,26 +47,26 @@ class SslPinningSection extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: color.withValues(alpha: 0.25)),
             ),
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(icon, color: color, size: 18),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        label,
-                        style: TextStyle(
-                          fontFamily: 'monospace',
-                          color: color,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1.0,
-                        ),
+                Row(
+                  children: [
+                    Icon(icon, color: color, size: 18),
+                    const SizedBox(width: 10),
+                    Text(
+                      'SSL PINNING',
+                      style: TextStyle(
+                        fontFamily: 'monospace',
+                        color: color,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 1.0,
                       ),
-                      const SizedBox(height: 2),
-                      Text(
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
                         subtitle,
                         style: TextStyle(
                           fontFamily: 'monospace',
@@ -78,33 +75,30 @@ class SslPinningSection extends StatelessWidget {
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 3,
-                  ),
-                  decoration: BoxDecoration(
-                    color: color.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: color.withValues(alpha: 0.3)),
-                  ),
-                  child: Text(
-                    switch (status) {
-                      SslPinningStatus.idle => 'TEST',
-                      SslPinningStatus.testing => '...',
-                      SslPinningStatus.success => 'OK',
-                      SslPinningStatus.failure => 'FAIL',
-                    },
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      color: color,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w700,
                     ),
-                  ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    _ClientButton(
+                      label: 'dart:io',
+                      color: color,
+                      onTap: isTesting ? null : notifier.testWithDartIo,
+                    ),
+                    const SizedBox(width: 6),
+                    _ClientButton(
+                      label: 'Dio',
+                      color: color,
+                      onTap: isTesting ? null : notifier.testWithDio,
+                    ),
+                    const SizedBox(width: 6),
+                    _ClientButton(
+                      label: 'http',
+                      color: color,
+                      onTap: isTesting ? null : notifier.testWithHttp,
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -113,4 +107,48 @@ class SslPinningSection extends StatelessWidget {
       },
     );
   }
+}
+
+class _ClientButton extends StatelessWidget {
+  const _ClientButton({
+    required this.label,
+    required this.color,
+    required this.onTap,
+  });
+
+  final String label;
+  final Color color;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.15),
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(color: color.withValues(alpha: 0.3)),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'monospace',
+            color: color,
+            fontSize: 10,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+extension on HttpClientType {
+  String get label => switch (this) {
+    HttpClientType.dartIo => 'dart:io',
+    HttpClientType.dio => 'Dio',
+    HttpClientType.http => 'http',
+  };
 }

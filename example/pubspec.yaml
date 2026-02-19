@@ -10,6 +10,8 @@ dependencies:
     sdk: flutter
   flutter_rasp:
     path: ../
+  dio: ^5.9.1
+  http: ^1.6.0
 
 dev_dependencies:
   integration_test:
@@ -20,3 +22,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/certs/

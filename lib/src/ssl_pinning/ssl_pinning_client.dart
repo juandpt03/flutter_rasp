@@ -1,47 +1,43 @@
+import 'dart:convert';
 import 'dart:io';
 
-import '../models/ssl_pinning_config.dart';
-import 'pin_validator.dart';
+import 'package:flutter/services.dart';
 
-/// Creates [HttpClient] instances with SSL certificate pinning.
+import '../models/ssl_pinning_config.dart';
+
+/// SSL certificate pinning via [SecurityContext] with `withTrustedRoots: false`.
 ///
-/// Rejects connections whose certificate or public key doesn't match
-/// the configured [SslPinningConfig].
-///
-/// Uses `withTrustedRoots: false` so that [HttpClient.badCertificateCallback]
-/// is invoked for every TLS handshake, not only for untrusted certificates.
-///
-/// Compatible with `dart:io`, Dio (`onHttpClientCreate`), and `http` (`IOClient`).
+/// Only the PEM certificates in [SslPinningConfig] are trusted.
+/// Connections to servers with a different certificate chain fail
+/// with a [HandshakeException].
 class SslPinningClient {
   const SslPinningClient._();
 
-  /// Creates an [HttpClient] that validates server certificates against [config].
-  ///
-  /// The certificate must match at least one pin for the target host.
-  /// Connections to hosts without configured pins are rejected.
-  static HttpClient create(
+  /// Returns a [SecurityContext] that only trusts the PEM certificates
+  /// in [config]. Use it to build your own [HttpClient].
+  static Future<SecurityContext> createContext(
     SslPinningConfig config, {
-    void Function(String host, X509Certificate certificate)? onPinningFailure,
-  }) {
+    AssetBundle? bundle,
+  }) async {
     config.validate();
 
+    final effectiveBundle = bundle ?? rootBundle;
     final context = SecurityContext(withTrustedRoots: false);
-    final client = HttpClient(context: context);
 
-    client.badCertificateCallback = (cert, host, port) {
-      if (!config.isPinned(host)) return false;
+    for (final assetPath in config.certificateAssetPaths) {
+      final pem = await effectiveBundle.loadString(assetPath);
+      context.setTrustedCertificatesBytes(utf8.encode(pem));
+    }
 
-      final isValid = PinValidator.validate(cert, host, config);
+    return context;
+  }
 
-      if (!isValid) {
-        try {
-          onPinningFailure?.call(host, cert);
-        } catch (_) {}
-      }
-
-      return isValid;
-    };
-
-    return client;
+  /// Returns a ready-to-use [HttpClient] with SSL pinning configured.
+  static Future<HttpClient> createHttpClient(
+    SslPinningConfig config, {
+    AssetBundle? bundle,
+  }) async {
+    final context = await createContext(config, bundle: bundle);
+    return HttpClient(context: context);
   }
 }

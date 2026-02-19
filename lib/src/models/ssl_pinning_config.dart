@@ -1,45 +1,21 @@
-import 'dart:collection';
-
-import '../utils/hash_converter.dart';
-import 'ssl_pin.dart';
-
-/// Maps hostnames to their expected [SslPin] values.
+/// Configuration for [SslPinningClient].
 ///
-/// Each host can have multiple pins for key rotation.
+/// Provide asset paths to `.pem` certificate files.
 class SslPinningConfig {
-  final Map<String, List<SslPin>> pins;
+  /// Asset paths pointing to `.pem` certificate files.
+  final List<String> certificateAssetPaths;
 
-  const SslPinningConfig({required this.pins});
+  const SslPinningConfig({required this.certificateAssetPaths});
 
-  /// Creates an unmodifiable [SslPinningConfig] from a runtime-built map.
-  factory SslPinningConfig.immutable({
-    required Map<String, List<SslPin>> pins,
-  }) {
-    return SslPinningConfig(
-      pins: UnmodifiableMapView({
-        for (final entry in pins.entries)
-          entry.key: List<SslPin>.unmodifiable(entry.value),
-      }),
-    );
-  }
-
-  List<SslPin> pinsForHost(String host) => pins[host] ?? const [];
-
-  bool isPinned(String host) => pins.containsKey(host);
-
-  /// Throws [ArgumentError] on empty pin lists or invalid hashes.
+  /// Throws [ArgumentError] if [certificateAssetPaths] is empty
+  /// or contains blank entries.
   void validate() {
-    for (final entry in pins.entries) {
-      if (entry.value.isEmpty) {
-        throw ArgumentError('Host "${entry.key}" has an empty pin list.');
-      }
-      for (final pin in entry.value) {
-        if (!hashConverter.isValidBase64Sha256(pin.sha256Hash)) {
-          throw ArgumentError(
-            'Invalid Base64 SHA-256 hash for host "${entry.key}": '
-            '${pin.sha256Hash}',
-          );
-        }
+    if (certificateAssetPaths.isEmpty) {
+      throw ArgumentError('At least one certificate asset path is required.');
+    }
+    for (final path in certificateAssetPaths) {
+      if (path.trim().isEmpty) {
+        throw ArgumentError('Certificate asset path must not be empty.');
       }
     }
   }

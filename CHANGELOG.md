@@ -4,19 +4,15 @@
 - Added `deviceBinding` threat — detects device hardware fingerprint changes since first app launch (Android & iOS)
 - Added `isAdbEnabled()` and `isDeviceBindingChanged()` check methods
 - Updated `ThreatPolicy.high` to include `adbEnabled` and `deviceBinding`
+- **Breaking:** Replaced hash-based SSL pinning with PEM-based pinning via `SecurityContext`
+- `SslPinningConfig` now takes `certificateAssetPaths` pointing to `.pem` certificate files
+- `SslPinningClient.createContext()` returns a `SecurityContext` — use it in any `HttpClient`
+- `SslPinningClient.createHttpClient()` returns a ready-to-use `HttpClient` with pinned certificates
+- Removed `SslPin`, `PinValidator`, `SpkiExtractor`, `SslPinningMode`, and `onPinningFailure`
 
 ## 3.0.0
 
 - Added SSL certificate pinning — pure Dart, zero native dependencies
-- Two pinning modes: `SslPinningMode.publicKey` (SPKI hash, survives cert renewals) and `SslPinningMode.certificate` (full DER hash)
-- `SslPinningClient.create()` returns an `HttpClient` with pinning enforced; compatible with `dart:io`, Dio, and `http` package
-- `SslPinningConfig` maps hostnames to pins with validation and immutable factory
-- `SslPin.publicKey()` / `SslPin.certificate()` constructors for concise pin declaration
-- `PinValidator` validates certificates against configured pins per host
-- `SpkiExtractor` — minimal ASN.1 parser to extract SubjectPublicKeyInfo from DER-encoded certificates
-- Pure-Dart SHA-256 implementation (FIPS 180-4), no external crypto dependency
-- Optional `onPinningFailure` callback for logging/analytics on pin mismatch
-- Connections to unpinned hosts are rejected by default
 - `obfuscationIssues` threat now conditionally included only on Android
 
 ## 2.0.1
