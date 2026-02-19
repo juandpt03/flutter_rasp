@@ -162,6 +162,8 @@ final httpClient = IOClient(client);
 
 You can also use `SslPinningClient.createContext(config)` to get a `SecurityContext` directly if you need more control.
 
+> **Important:** The pinned certificate is bundled in your app assets. When your server renews or rotates its certificate, you must publish an app update with the new `.pem` file — otherwise connections will fail. Plan certificate renewals alongside app releases.
+
 See the [example app](example/lib/notifiers/ssl_pinning_notifier.dart) for a complete working implementation.
 
 ### Supported Stores / Distribution Methods
