@@ -1,3 +1,8 @@
+## 3.1.1
+
+- Improved SSL pinning documentation — added certificate renewal warning and dartdoc comments
+- Updated example app to use `createHttpClient()` across all HTTP clients (dart:io, Dio, package:http)
+
 ## 3.1.0
 
 - Separated `adbEnabled` from `developerMode` (Android) — developer mode now checks only developer settings, ADB is detected independently
