@@ -1,3 +1,8 @@
+## 3.2.1
+
+- Fixed R8 build failure on release builds (Android)
+- Separated ProGuard rules to avoid side effects on consumer apps
+
 ## 3.2.0
 
 - Added Swift Package Manager support for iOS

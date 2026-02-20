@@ -1,5 +1,5 @@
 group = "com.juandpt.flutter_rasp"
-version = "3.1.2"
+version = "3.2.1"
 
 buildscript {
     val kotlinVersion = "2.2.20"
@@ -52,6 +52,7 @@ android {
     defaultConfig {
         minSdk = 24
         consumerProguardFiles("consumer-rules.pro")
+        proguardFiles("proguard-rules.pro")
     }
 
     testOptions {
