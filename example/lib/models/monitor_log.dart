@@ -72,7 +72,6 @@ class MonitorLog {
       Threat.timeSpoofing => 'TIME_SPOOF',
       Threat.locationSpoofing => 'LOC_SPOOF',
       Threat.multiInstance => 'MULTI_INSTANCE',
-      Threat.deviceBinding => 'DEVICE_BINDING',
       Threat.undefined => 'UNKNOWN',
     };
   }

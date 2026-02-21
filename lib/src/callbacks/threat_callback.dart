@@ -27,7 +27,6 @@ class ThreatCallback {
     this.onTimeSpoofing,
     this.onLocationSpoofing,
     this.onMultiInstance,
-    this.onDeviceBinding,
   });
 
   final VoidCallback? onRoot;
@@ -45,5 +44,4 @@ class ThreatCallback {
   final VoidCallback? onTimeSpoofing;
   final VoidCallback? onLocationSpoofing;
   final VoidCallback? onMultiInstance;
-  final VoidCallback? onDeviceBinding;
 }

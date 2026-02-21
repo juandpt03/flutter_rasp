@@ -35,7 +35,6 @@ class MockFlutterRaspPlatform
     'timeSpoofing': false,
     'locationSpoofing': false,
     'multiInstance': false,
-    'deviceBinding': false,
   };
 
   @override

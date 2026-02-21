@@ -1,3 +1,7 @@
+## 3.4.0
+
+- Removed `deviceBinding` threat — device fingerprinting proved unreliable across OS updates and factory resets
+
 ## 3.3.0
 
 - Fixed `ObfuscationDetector` false positives — now inspects internal DEX classes instead of manifest components (Android)

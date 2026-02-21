@@ -3,13 +3,13 @@ import 'package:flutter_rasp/flutter_rasp.dart';
 
 void main() {
   group('Threat', () {
-    test('has 17 values (16 active + undefined)', () {
-      expect(Threat.values.length, 17);
+    test('has 16 values (15 active + undefined)', () {
+      expect(Threat.values.length, 16);
     });
 
     test('active excludes undefined', () {
       expect(Threat.active, isNot(contains(Threat.undefined)));
-      expect(Threat.active.length, 16);
+      expect(Threat.active.length, 15);
     });
 
     test('active contains all threats', () {
@@ -29,7 +29,6 @@ void main() {
         Threat.timeSpoofing,
         Threat.locationSpoofing,
         Threat.multiInstance,
-        Threat.deviceBinding,
       ]));
     });
 

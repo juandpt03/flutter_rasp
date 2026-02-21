@@ -29,7 +29,6 @@ A comprehensive **RASP** (Runtime Application Self-Protection) plugin for Flutte
 | Time Spoofing | :white_check_mark: | :x: | Manipulated system clock used to bypass time-based logic like token expiration, trial periods, or certificate validity |
 | Location Spoofing | :white_check_mark: | :x: | Fake GPS coordinates used to bypass geo-restrictions, cheat in location-based services, or commit region-locked fraud |
 | Multi-Instance | :white_check_mark: | :x: | Cloned or dual-app environments that run multiple copies of the app to abuse promotions, bypass rate limits, or impersonate users |
-| Device Binding | :white_check_mark: | :white_check_mark: | Detects device hardware fingerprint changes since first app launch, indicating the app was cloned or migrated to a different device |
 | Screen Capture | :white_check_mark: | :white_check_mark: | Blocks screenshots and screen recording to prevent leaking sensitive UI content like PINs, tokens, or personal data |
 
 ### SSL Certificate Pinning
@@ -209,7 +208,7 @@ Policies control which threats **terminate the app at the native level** before 
 | `ThreatPolicy.none` | None (report only) |
 | `ThreatPolicy.low` | repackaging, trustedInstall |
 | `ThreatPolicy.medium` | root, hook, repackaging, trustedInstall, obfuscationIssues, multiInstance |
-| `ThreatPolicy.high` | root, hook, repackaging, trustedInstall, debug, devicePasscode, obfuscationIssues, multiInstance, secureHardwareNotAvailable, locationSpoofing, adbEnabled, deviceBinding |
+| `ThreatPolicy.high` | root, hook, repackaging, trustedInstall, debug, devicePasscode, obfuscationIssues, multiInstance, secureHardwareNotAvailable, locationSpoofing, adbEnabled |
 
 ```dart
 const policy = ThreatPolicy(
@@ -250,7 +249,7 @@ if (result.isCompromised) {
 }
 ```
 
-Available: `isRooted()`, `isEmulator()`, `isDebugged()`, `isHooked()`, `isRepackaged()`, `isUntrustedInstall()`, `isVpnConnected()`, `isDeveloperMode()`, `isAdbEnabled()`, `isDevicePasscodeDisabled()`, `isSecureHardwareUnavailable()`, `hasObfuscationIssues()`, `isTimeSpoofed()`, `isLocationSpoofed()`, `isMultiInstance()`, `isDeviceBindingChanged()`.
+Available: `isRooted()`, `isEmulator()`, `isDebugged()`, `isHooked()`, `isRepackaged()`, `isUntrustedInstall()`, `isVpnConnected()`, `isDeveloperMode()`, `isAdbEnabled()`, `isDevicePasscodeDisabled()`, `isSecureHardwareUnavailable()`, `hasObfuscationIssues()`, `isTimeSpoofed()`, `isLocationSpoofed()`, `isMultiInstance()`.
 
 ### Screen Capture Protection
 
@@ -285,13 +284,12 @@ MethodChannelFlutterRasp
     |-- VpnDetector               |-- VpnDetector
     |-- DeveloperModeDetector     |-- DevicePasscodeDetector
     |-- AdbEnabledDetector        |-- SecureHardwareDetector
-    |-- DevicePasscodeDetector    |-- DeviceBindingDetector
-    |-- SecureHardwareDetector    ScreenCaptureManager
+    |-- DevicePasscodeDetector    ScreenCaptureManager
+    |-- SecureHardwareDetector
     |-- ObfuscationDetector
     |-- TimeSpoofingDetector
     |-- LocationSpoofingDetector
     |-- MultiInstanceDetector
-    |-- DeviceBindingDetector
     ScreenCaptureManager
 ```
 

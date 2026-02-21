@@ -202,7 +202,7 @@ void main() {
       expect(result.threats.containsKey(Threat.undefined), isFalse);
     });
 
-    /// Data-driven test for all 16 individual check methods.
+    /// Data-driven test for all 15 individual check methods.
     for (final entry in _checkEntries) {
       test('${entry.methodName} delegates to platform', () async {
         mockPlatform.checkResults = {entry.threatName: entry.expected};
@@ -311,10 +311,4 @@ final _checkEntries = [
     (r) => r.isLocationSpoofed(),
   ),
   _CheckEntry('isMultiInstance', 'multiInstance', true, (r) => r.isMultiInstance()),
-  _CheckEntry(
-    'isDeviceBindingChanged',
-    'deviceBinding',
-    true,
-    (r) => r.isDeviceBindingChanged(),
-  ),
 ];

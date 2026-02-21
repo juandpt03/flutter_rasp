@@ -31,7 +31,7 @@ void main() {
       expect(result.detectedThreats, {Threat.root, Threat.hook});
     });
 
-    group('getters for all 16 threats', () {
+    group('getters for all 15 threats', () {
       final allTrue = RaspResult.fromMap({
         for (final t in Threat.active) t.name: true,
       });
@@ -112,11 +112,6 @@ void main() {
       test('isMultiInstance', () {
         expect(allTrue.isMultiInstance, isTrue);
         expect(allFalse.isMultiInstance, isFalse);
-      });
-
-      test('isDeviceBindingChanged', () {
-        expect(allTrue.isDeviceBindingChanged, isTrue);
-        expect(allFalse.isDeviceBindingChanged, isFalse);
       });
     });
 

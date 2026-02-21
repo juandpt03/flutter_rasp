@@ -44,7 +44,6 @@ class ThreatPolicy {
       Threat.multiInstance,
       Threat.secureHardwareNotAvailable,
       Threat.locationSpoofing,
-      Threat.deviceBinding,
     },
   );
 }

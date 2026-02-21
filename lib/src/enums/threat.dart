@@ -45,9 +45,6 @@ enum Threat {
   /// Android only: app running in a cloned/dual-app environment.
   multiInstance,
 
-  /// Device hardware fingerprint changed since first app launch.
-  deviceBinding,
-
   undefined;
 
   static final Set<Threat> active = Set.unmodifiable(

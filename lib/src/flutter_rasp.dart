@@ -121,8 +121,6 @@ class FlutterRasp {
 
   Future<bool> isMultiInstance() => _check(Threat.multiInstance);
 
-  Future<bool> isDeviceBindingChanged() => _check(Threat.deviceBinding);
-
   /// When `true`, hides app content from screenshots and screen recordings.
   Future<void> blockScreenCapture(bool enabled) {
     _ensureInitialized();
@@ -200,8 +198,6 @@ class FlutterRasp {
         callback.onLocationSpoofing?.call();
       case Threat.multiInstance:
         callback.onMultiInstance?.call();
-      case Threat.deviceBinding:
-        callback.onDeviceBinding?.call();
       case Threat.undefined:
         break;
     }
