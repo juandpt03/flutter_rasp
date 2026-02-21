@@ -1,7 +1,8 @@
-## 3.2.1
+## 3.3.0
 
+- Fixed `ObfuscationDetector` false positives — now inspects internal DEX classes instead of manifest components (Android)
 - Fixed R8 build failure on release builds (Android)
-- Separated ProGuard rules to avoid side effects on consumer apps
+- Separated ProGuard consumer rules to avoid side effects on host apps
 
 ## 3.2.0
 

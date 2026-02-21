@@ -45,7 +45,7 @@ A comprehensive **RASP** (Runtime Application Self-Protection) plugin for Flutte
 
 ```yaml
 dependencies:
-  flutter_rasp: ^3.1.0
+  flutter_rasp: ^3.3.0
 ```
 
 | Platform | Minimum Version |
@@ -218,6 +218,28 @@ const policy = ThreatPolicy(
 ```
 
 > **Tip:** Use `ThreatPolicy.none` during development.
+
+### Obfuscation Detection (Android)
+
+`flutter run` → detected (debug has no R8)
+`flutter run --release` → not detected (R8 obfuscates classes)
+
+Enable R8 in `android/app/build.gradle.kts`:
+
+```kotlin
+buildTypes {
+    release {
+        isMinifyEnabled = true
+        isShrinkResources = true
+        proguardFiles(
+            getDefaultProguardFile("proguard-android-optimize.txt"),
+            "proguard-rules.pro"
+        )
+    }
+}
+```
+
+> **Note:** Flutter's `--obfuscate` flag only covers Dart code. `isMinifyEnabled = true` is required to obfuscate the native Android layer.
 
 ### Scans & Individual Checks
 
