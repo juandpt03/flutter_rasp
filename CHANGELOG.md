@@ -1,3 +1,8 @@
+## 3.5.4
+
+- Fixed iOS repackaging false positives caused by generic dylib name matching
+- Expanded suspicious dylib detection list based on OWASP MASTG and IOSSecuritySuite (iOS)
+
 ## 3.5.3
 
 - `signingCertHashes` now accepts SHA-256 hex with colons directly from Google Play Console (Android)
