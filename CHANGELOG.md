@@ -1,3 +1,8 @@
+## 3.5.2
+
+- Skip redundant team ID and bundle ID checks on App Store/TestFlight (iOS)
+- Trust App Store and TestFlight as valid install sources (iOS)
+
 ## 3.5.1
 
 - Improved TestFlight detection — uses `sandboxReceipt` as sole reliable indicator (iOS)
