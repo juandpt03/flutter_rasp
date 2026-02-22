@@ -44,7 +44,7 @@ A comprehensive **RASP** (Runtime Application Self-Protection) plugin for Flutte
 
 ```yaml
 dependencies:
-  flutter_rasp: ^3.3.0
+  flutter_rasp: ^3.5.1
 ```
 
 | Platform | Minimum Version |
@@ -95,20 +95,21 @@ void main() async {
 
 **Android** — `signingCertHashes` expects your signing certificate fingerprint in **Base64** format.
 
-1. Get the SHA-256 fingerprint from `keytool`, Google Play Console (**App signing** section), or Firebase Console. You will end up with a hex string like this:
+> **Important:** Google Play re-signs your app. You must use the **Play signing key**, not your local keystore.
+
+1. Go to **Google Play Console** → your app → **Release** → **App integrity** → **App signing** and copy the **SHA-256** fingerprint from the **App signing key certificate** section. You will get a hex string like:
 
    ```
    A1:2B:3C:4D:5E:6F:70:81:92:A3:B4:C5:D6:E7:F8:09:1A:2B:3C:4D:5E:6F:70:81:92:A3:B4:C5:D6:E7:F8:09
    ```
 
-2. Convert it to Base64. You can get it directly from terminal:
+2. Convert it to Base64. Remove the colons and convert from terminal:
 
    ```bash
-   keytool -exportcert -alias {ALIAS} -keystore {KEYSTORE_FILE} -storepass {STORE_PASSWORD} \
-     | openssl dgst -sha256 -binary | base64
+   echo -n "A12B3C4D5E6F708192A3B4C5D6E7F8091A2B3C4D5E6F708192A3B4C5D6E7F809" | xxd -r -p | base64
    ```
 
-   Or use the built-in utility:
+   Or use the built-in utility (accepts the hex with colons):
 
    ```dart
    final base64Hash = hashConverter.fromSha256toBase64(

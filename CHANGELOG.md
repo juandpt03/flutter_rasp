@@ -1,10 +1,16 @@
+## 3.5.1
+
+- Improved TestFlight detection — uses `sandboxReceipt` as sole reliable indicator (iOS)
+
 ## 3.5.0
 
 - Fixed repackaging false positives on App Store, TestFlight, and unconfigured builds (Android & iOS)
+- Fixed trusted install false positives on TestFlight (iOS)
 - Fixed VPN false positives caused by iOS internal `utun` interfaces
 - Fixed iOS monitoring not resuming after returning from background
+- Improved TestFlight detection — uses `sandboxReceipt` as sole indicator (iOS)
 - Improved `TrustedInstallDetector` with `initiatingPackageName` fallback (Android 11+)
-- Improved Team ID extraction with `com.apple.developer.team-identifier` fallback (iOS)
+- Added `com.apple.developer.team-identifier` fallback for Team ID extraction (iOS)
 
 ## 3.4.0
 
