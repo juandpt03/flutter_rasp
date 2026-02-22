@@ -15,7 +15,8 @@ class ConfigVerifier {
       throw RaspException.emptySigningHashes();
     }
     for (final hash in config.signingCertHashes) {
-      if (!hashConverter.isValidBase64Sha256(hash)) {
+      final cleaned = hash.replaceAll(':', '');
+      if (!hashConverter.isValidSha256Format(cleaned)) {
         throw RaspException.invalidHashFormat();
       }
     }

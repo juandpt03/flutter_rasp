@@ -44,14 +44,19 @@ void main() {
     });
 
     test('androidConfig serializes correctly', () {
+      const sha =
+          'AE:4F:12:31:E0:AF:E1:35:E9:BC:0A:F5:21:AF:9B:C6:'
+          '7E:09:76:B1:B4:D6:4E:79:90:DB:AC:30:82:E4:6E:69';
       const config = RaspConfig(
         androidConfig: AndroidRaspConfig(
-          signingCertHashes: ['abc123=='],
+          signingCertHashes: [sha],
           supportedStores: ['com.android.vending'],
         ),
       );
       final android = config.toMap()['androidConfig'] as Map<String, dynamic>;
-      expect(android['signingCertHashes'], ['abc123==']);
+      final hashes = android['signingCertHashes'] as List;
+      expect(hashes.length, 1);
+      expect(hashes.first, hashConverter.fromSha256toBase64(sha));
       expect(android['supportedStores'], ['com.android.vending']);
     });
 
@@ -96,7 +101,12 @@ void main() {
 
   group('AndroidRaspConfig', () {
     test('has sensible default supportedStores', () {
-      const config = AndroidRaspConfig(signingCertHashes: ['hash==']);
+      const config = AndroidRaspConfig(
+        signingCertHashes: [
+          'AE:4F:12:31:E0:AF:E1:35:E9:BC:0A:F5:21:AF:9B:C6:'
+              '7E:09:76:B1:B4:D6:4E:79:90:DB:AC:30:82:E4:6E:69',
+        ],
+      );
       expect(config.supportedStores, contains('com.android.vending'));
       expect(config.supportedStores, contains('com.amazon.venezia'));
       expect(config.supportedStores, contains('com.huawei.appmarket'));

@@ -1,6 +1,11 @@
+import '../utils/hash_converter.dart';
+
 /// Android-specific configuration for repackaging and install-origin detection.
 class AndroidRaspConfig {
-  /// Base64-encoded SHA-256 hashes of the expected signing certificates.
+  /// SHA-256 fingerprint of the signing certificate, as shown in Google Play Console.
+  ///
+  /// Go to **Google Play Console** > your app > **App integrity** > **App signing**
+  /// and copy the SHA-256 fingerprint (e.g. `'A1:2B:3C:4D:...'`).
   final List<String> signingCertHashes;
 
   /// Package names of allowed install sources.
@@ -17,7 +22,8 @@ class AndroidRaspConfig {
   });
 
   Map<String, dynamic> toMap() => {
-    'signingCertHashes': signingCertHashes,
+    'signingCertHashes':
+        signingCertHashes.map(hashConverter.fromSha256toBase64).toList(),
     'supportedStores': supportedStores,
   };
 }

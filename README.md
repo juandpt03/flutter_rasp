@@ -71,7 +71,7 @@ void main() async {
       policy: ThreatPolicy.high,
       monitoringInterval: Duration(seconds: 10),
       androidConfig: AndroidRaspConfig(
-        signingCertHashes: ['AKoRuyLMM91E7lX/Zqp3u4jMmd0A7hH/Iqozu0TMVd0='],
+        signingCertHashes: ['A1:2B:3C:4D:5E:6F:70:81:92:A3:B4:C5:D6:E7:F8:09:1A:2B:3C:4D:5E:6F:70:81:92:A3:B4:C5:D6:E7:F8:09'],
       ),
       iosConfig: IosRaspConfig(
         teamId: 'A1B2C3D4E5',
@@ -93,29 +93,17 @@ void main() async {
 
 ### Platform Configuration
 
-**Android** — `signingCertHashes` expects your signing certificate fingerprint in **Base64** format.
+**Android** — `signingCertHashes` accepts the SHA-256 fingerprint directly from Google Play Console.
 
 > **Important:** Google Play re-signs your app. You must use the **Play signing key**, not your local keystore.
 
-1. Go to **Google Play Console** → your app → **Release** → **App integrity** → **App signing** and copy the **SHA-256** fingerprint from the **App signing key certificate** section. You will get a hex string like:
+Go to **Google Play Console** → your app → **Release** → **App integrity** → **App signing** and copy the **SHA-256** fingerprint from the **App signing key certificate** section. Pass it directly:
 
-   ```
-   A1:2B:3C:4D:5E:6F:70:81:92:A3:B4:C5:D6:E7:F8:09:1A:2B:3C:4D:5E:6F:70:81:92:A3:B4:C5:D6:E7:F8:09
-   ```
-
-2. Convert it to Base64. Remove the colons and convert from terminal:
-
-   ```bash
-   echo -n "A12B3C4D5E6F708192A3B4C5D6E7F8091A2B3C4D5E6F708192A3B4C5D6E7F809" | xxd -r -p | base64
-   ```
-
-   Or use the built-in utility (accepts the hex with colons):
-
-   ```dart
-   final base64Hash = hashConverter.fromSha256toBase64(
-     'A1:2B:3C:4D:5E:6F:70:81:92:A3:B4:C5:D6:E7:F8:09:1A:2B:3C:4D:5E:6F:70:81:92:A3:B4:C5:D6:E7:F8:09',
-   );
-   ```
+```dart
+AndroidRaspConfig(
+  signingCertHashes: ['A1:2B:3C:4D:5E:6F:70:81:92:A3:B4:C5:D6:E7:F8:09:1A:2B:3C:4D:5E:6F:70:81:92:A3:B4:C5:D6:E7:F8:09'],
+)
+```
 
 **iOS** — Find your Team ID at [Apple Developer Account](https://developer.apple.com/account) → **Membership Details**.
 

@@ -17,7 +17,7 @@ Future<void> main() async {
       policy: ThreatPolicy.none,
       monitoringInterval: Duration(seconds: 5),
       androidConfig: AndroidRaspConfig(
-        signingCertHashes: ['AKoRuyLMM91E7lX/Zqp3u4jMmd0A7hH/Iqozu0TMVd0='],
+        signingCertHashes: ['00:AA:11:BB:22:CC:33:DD:44:EE:55:FF:66:AA:77:BB:88:CC:99:DD:00:11:FF:22:AA:33:BB:44:CC:55:DD:66'],
       ),
       iosConfig: IosRaspConfig(
         teamId: 'A1B2C3D4E5',

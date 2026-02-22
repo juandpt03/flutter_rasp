@@ -1,3 +1,7 @@
+## 3.5.3
+
+- `signingCertHashes` now accepts SHA-256 hex with colons directly from Google Play Console (Android)
+
 ## 3.5.2
 
 - Skip redundant team ID and bundle ID checks on App Store/TestFlight (iOS)

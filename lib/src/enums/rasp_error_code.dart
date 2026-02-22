@@ -14,7 +14,7 @@ enum RaspErrorCode {
     'Cannot block screen capture: no active Activity available.',
   ),
   emptySigningHashes(
-    'signingCertHashes must not be empty. Provide at least one SHA-256 hash in Base64.',
+    'signingCertHashes must not be empty. Provide at least one SHA-256 fingerprint.',
   ),
   emptyBundleIds(
     'bundleIds must not be empty. Provide at least one expected bundle identifier.',
@@ -23,7 +23,7 @@ enum RaspErrorCode {
     'teamId must not be empty. Provide your Apple Developer Team ID.',
   ),
   invalidHashFormat(
-    'Invalid signing hash format. Expected Base64-encoded SHA-256 (32 bytes).',
+    'Invalid signing hash format. Expected SHA-256 hex fingerprint (e.g. A1:2B:3C:...).',
   ),
   alreadyInitialized('FlutterRasp is already initialized.'),
   notInitialized('FlutterRasp must be initialized. Call initialize() first.'),
