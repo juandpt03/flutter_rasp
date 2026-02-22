@@ -44,7 +44,7 @@ A comprehensive **RASP** (Runtime Application Self-Protection) plugin for Flutte
 
 ```yaml
 dependencies:
-  flutter_rasp: ^3.5.4
+  flutter_rasp: ^3.6.0
 ```
 
 | Platform | Minimum Version |

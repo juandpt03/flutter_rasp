@@ -1,3 +1,11 @@
+## 3.6.0
+
+- Strengthened root and jailbreak detection with new bypass-resistant techniques (Android & iOS)
+- Improved hook detection with runtime memory and thread analysis (Android & iOS)
+- Improved debug detection with additional process-level checks (Android & iOS)
+- Expanded emulator/simulator detection coverage (Android & iOS)
+- Expanded cloner and mock location app databases (Android)
+
 ## 3.5.4
 
 - Fixed iOS repackaging false positives caused by generic dylib name matching
