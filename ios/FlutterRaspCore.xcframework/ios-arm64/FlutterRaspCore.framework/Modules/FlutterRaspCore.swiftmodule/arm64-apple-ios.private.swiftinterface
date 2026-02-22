@@ -1,0 +1,35 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.2.1 effective-5.10 (swiftlang-6.2.1.4.8 clang-1700.4.4.1)
+// swift-module-flags: -target arm64-apple-ios13.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -module-name FlutterRaspCore -package-name ios
+// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2.1
+import Darwin
+import Foundation
+import LocalAuthentication
+import MachO
+import Security
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@_hasMissingDesignatedInitializers final public class DetectorRegistry {
+  public static let shared: FlutterRaspCore.DetectorRegistry
+  #if compiler(>=5.3) && $NonescapableTypes
+  final public func configure(teamId: Swift.String?, bundleIds: [Swift.String]?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  final public func detectAll(enabledThreats: [Swift.String]? = nil) -> [Swift.String : Swift.Bool]
+  #endif
+  final public func detect(threatName: Swift.String) -> Swift.Bool
+  #if compiler(>=5.3) && $NonescapableTypes
+  final public func detectThreats(enabledThreats: [Swift.String]? = nil) -> [Swift.String]
+  #endif
+  final public func clearCache()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers final public class ScreenCaptureManager {
+  public static let shared: FlutterRaspCore.ScreenCaptureManager
+  final public func block(_ enabled: Swift.Bool)
+  final public func getIsBlocked() -> Swift.Bool
+  @objc deinit
+}

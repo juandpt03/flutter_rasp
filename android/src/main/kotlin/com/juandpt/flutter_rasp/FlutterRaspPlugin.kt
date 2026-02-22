@@ -4,8 +4,8 @@ import android.app.Activity
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import com.juandpt.flutter_rasp.detectors.DetectorRegistry
-import com.juandpt.flutter_rasp.detectors.ScreenCaptureManager
+import com.juandpt.flutter_rasp_core.DetectorRegistry
+import com.juandpt.flutter_rasp_core.ScreenCaptureManager
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding

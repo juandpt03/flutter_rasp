@@ -73,6 +73,7 @@ android {
 }
 
 dependencies {
+    implementation(files("libs/flutter_rasp_core-release.aar"))
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.mockito:mockito-core:5.0.0")
 }

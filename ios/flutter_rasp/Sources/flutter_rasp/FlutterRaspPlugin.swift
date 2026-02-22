@@ -1,4 +1,5 @@
 import Flutter
+import FlutterRaspCore
 import UIKit
 
 public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
@@ -6,7 +7,7 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
     private let sinkQueue = DispatchQueue(label: "com.juandpt.flutter_rasp.sink")
     private let monitoringQueue = DispatchQueue(label: "com.juandpt.flutter_rasp.monitoring", qos: .utility)
     private var eventSink: FlutterEventSink?
-    private let screenCaptureManager = ScreenCaptureManager()
+    private let screenCaptureManager = ScreenCaptureManager.shared
     private var monitoringTimer: DispatchSourceTimer?
     private let stateLock = NSLock()
 

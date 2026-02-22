@@ -13,10 +13,14 @@ let package = Package(
     targets: [
         .target(
             name: "flutter_rasp",
-            dependencies: [],
+            dependencies: ["FlutterRaspCore"],
             resources: [
                 .process("PrivacyInfo.xcprivacy"),
             ]
+        ),
+        .binaryTarget(
+            name: "FlutterRaspCore",
+            path: "../FlutterRaspCore.xcframework"
         )
     ]
 )

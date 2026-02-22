@@ -1,0 +1,704 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "FlutterRaspCore",
+    "printedName": "FlutterRaspCore",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "MachO",
+        "printedName": "MachO",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Darwin",
+        "printedName": "Darwin",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "DetectorRegistry",
+        "printedName": "DetectorRegistry",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "shared",
+            "printedName": "shared",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "DetectorRegistry",
+                "printedName": "FlutterRaspCore.DetectorRegistry",
+                "usr": "s:15FlutterRaspCore16DetectorRegistryC"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore16DetectorRegistryC6sharedACvpZ",
+            "mangledName": "$s15FlutterRaspCore16DetectorRegistryC6sharedACvpZ",
+            "moduleName": "FlutterRaspCore",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DetectorRegistry",
+                    "printedName": "FlutterRaspCore.DetectorRegistry",
+                    "usr": "s:15FlutterRaspCore16DetectorRegistryC"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore16DetectorRegistryC6sharedACvgZ",
+                "mangledName": "$s15FlutterRaspCore16DetectorRegistryC6sharedACvgZ",
+                "moduleName": "FlutterRaspCore",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "configure",
+            "printedName": "configure(teamId:bundleIds:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "[Swift.String]?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[Swift.String]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore16DetectorRegistryC9configure6teamId9bundleIdsySSSg_SaySSGSgtF",
+            "mangledName": "$s15FlutterRaspCore16DetectorRegistryC9configure6teamId9bundleIdsySSSg_SaySSGSgtF",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "detectAll",
+            "printedName": "detectAll(enabledThreats:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Dictionary",
+                "printedName": "[Swift.String : Swift.Bool]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "usr": "s:SD"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "[Swift.String]?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[Swift.String]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore16DetectorRegistryC9detectAll14enabledThreatsSDySSSbGSaySSGSg_tF",
+            "mangledName": "$s15FlutterRaspCore16DetectorRegistryC9detectAll14enabledThreatsSDySSSbGSaySSGSg_tF",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "detect",
+            "printedName": "detect(threatName:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore16DetectorRegistryC6detect10threatNameSbSS_tF",
+            "mangledName": "$s15FlutterRaspCore16DetectorRegistryC6detect10threatNameSbSS_tF",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "detectThreats",
+            "printedName": "detectThreats(enabledThreats:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Swift.String]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sa"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "[Swift.String]?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[Swift.String]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore16DetectorRegistryC13detectThreats07enabledG0SaySSGAFSg_tF",
+            "mangledName": "$s15FlutterRaspCore16DetectorRegistryC13detectThreats07enabledG0SaySSGAFSg_tF",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "clearCache",
+            "printedName": "clearCache()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore16DetectorRegistryC10clearCacheyyF",
+            "mangledName": "$s15FlutterRaspCore16DetectorRegistryC10clearCacheyyF",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:15FlutterRaspCore16DetectorRegistryC",
+        "mangledName": "$s15FlutterRaspCore16DetectorRegistryC",
+        "moduleName": "FlutterRaspCore",
+        "declAttributes": [
+          "Final",
+          "AccessControl"
+        ],
+        "hasMissingDesignatedInitializers": true,
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "LocalAuthentication",
+        "printedName": "LocalAuthentication",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "MachO",
+        "printedName": "MachO",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "ScreenCaptureManager",
+        "printedName": "ScreenCaptureManager",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "shared",
+            "printedName": "shared",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "ScreenCaptureManager",
+                "printedName": "FlutterRaspCore.ScreenCaptureManager",
+                "usr": "s:15FlutterRaspCore20ScreenCaptureManagerC"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore20ScreenCaptureManagerC6sharedACvpZ",
+            "mangledName": "$s15FlutterRaspCore20ScreenCaptureManagerC6sharedACvpZ",
+            "moduleName": "FlutterRaspCore",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ScreenCaptureManager",
+                    "printedName": "FlutterRaspCore.ScreenCaptureManager",
+                    "usr": "s:15FlutterRaspCore20ScreenCaptureManagerC"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore20ScreenCaptureManagerC6sharedACvgZ",
+                "mangledName": "$s15FlutterRaspCore20ScreenCaptureManagerC6sharedACvgZ",
+                "moduleName": "FlutterRaspCore",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "block",
+            "printedName": "block(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore20ScreenCaptureManagerC5blockyySbF",
+            "mangledName": "$s15FlutterRaspCore20ScreenCaptureManagerC5blockyySbF",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "getIsBlocked",
+            "printedName": "getIsBlocked()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore20ScreenCaptureManagerC12getIsBlockedSbyF",
+            "mangledName": "$s15FlutterRaspCore20ScreenCaptureManagerC12getIsBlockedSbyF",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:15FlutterRaspCore20ScreenCaptureManagerC",
+        "mangledName": "$s15FlutterRaspCore20ScreenCaptureManagerC",
+        "moduleName": "FlutterRaspCore",
+        "declAttributes": [
+          "Final",
+          "AccessControl"
+        ],
+        "hasMissingDesignatedInitializers": true,
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Security",
+        "printedName": "Security",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": [
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/DebugDetector.swift",
+      "kind": "StringLiteral",
+      "offset": 238,
+      "length": 7,
+      "value": "\"debug\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/DebugDetector.swift",
+      "kind": "BooleanLiteral",
+      "offset": 284,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/DetectorRegistry.swift",
+      "kind": "FloatLiteral",
+      "offset": 576,
+      "length": 3,
+      "value": "5.0"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/DevicePasscodeDetector.swift",
+      "kind": "StringLiteral",
+      "offset": 104,
+      "length": 16,
+      "value": "\"devicePasscode\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/HookDetector.swift",
+      "kind": "StringLiteral",
+      "offset": 98,
+      "length": 6,
+      "value": "\"hook\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/HookDetector.swift",
+      "kind": "Array",
+      "offset": 144,
+      "length": 568,
+      "value": "[\"frida\", \"fridagadget\", \"frida-agent\", \"cycript\", \"gum-js-loop\", \"substrate\", \"mobilesubstrate\", \"substrateloader\", \"shadow\", \"liberty\", \"a-bypass\", \"flyjb\", \"ellekit\", \"libhooker\", \"libblackjack\", \"substitute\", \"tweakinject\", \"cephei\", \"rocketbootstrap\", \"preferencloader\", \"objectionagent\", \"r2frida\", \"snoopmethodswizzler\", \"sslkillswitch\", \"sslkillswitch2\"]"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/HookDetector.swift",
+      "kind": "Array",
+      "offset": 750,
+      "length": 150,
+      "value": "[\"FRIDA\", \"FRIDA_SERVER\", \"_MSSafeMode\", \"SUBSTRATE_HOME\", \"_SafeMode\", \"DYLD_INSERT_LIBRARIES\"]"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/HookDetector.swift",
+      "kind": "Array",
+      "offset": 1383,
+      "length": 20,
+      "value": "[27042, 27043, 4242]"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/JailbreakDetector.swift",
+      "kind": "StringLiteral",
+      "offset": 103,
+      "length": 6,
+      "value": "\"root\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/JailbreakDetector.swift",
+      "kind": "Array",
+      "offset": 145,
+      "length": 2216,
+      "value": "[\"\/Applications\/Cydia.app\", \"\/Applications\/Sileo.app\", \"\/Applications\/Zebra.app\", \"\/Applications\/Filza.app\", \"\/Applications\/Installer.app\", \"\/Applications\/FlyJB.app\", \"\/Applications\/Icy.app\", \"\/Applications\/RockApp.app\", \"\/Library\/MobileSubstrate\/MobileSubstrate.dylib\", \"\/Library\/MobileSubstrate\", \"\/Library\/PreferenceBundles\/LibertyPref.bundle\", \"\/Library\/PreferenceBundles\/ShadowPreferences.bundle\", \"\/Library\/PreferenceBundles\/ABypassPrefs.bundle\", \"\/Library\/PreferenceBundles\/FlyJBPrefs.bundle\", \"\/bin\/bash\", \"\/etc\/apt\", \"\/private\/var\/lib\/apt\/\", \"\/usr\/bin\/ssh\", \"\/usr\/bin\/cycript\", \"\/usr\/sbin\/frida-server\", \"\/usr\/lib\/libjailbreak.dylib\", \"\/usr\/lib\/libhooker.dylib\", \"\/usr\/lib\/libblackjack.dylib\", \"\/usr\/lib\/substitute-inserter.dylib\", \"\/usr\/lib\/TweakInject\", \"\/usr\/lib\/ABDYLD.dylib\", \"\/usr\/lib\/ABSubLoader.dylib\", \"\/usr\/lib\/checkra1n\", \"\/usr\/libexec\/cydia\/firmware.sh\", \"\/var\/cache\/apt\", \"\/var\/lib\/cydia\", \"\/var\/log\/syslog\", \"\/var\/tmp\/cydia.log\", \"\/var\/jb\", \"\/var\/jb\/usr\/bin\", \"\/var\/jb\/Library\", \"\/var\/jb\/bin\/bash\", \"\/var\/jb\/usr\/lib\/TweakLoader.dylib\", \"\/var\/jb\/usr\/lib\/libsubstitute.dylib\", \"\/var\/jb\/usr\/lib\/libhooker.dylib\", \"\/var\/jb\/basebin\/launchd\", \"\/var\/jb\/basebin\/jbctl\", \"\/var\/jb\/basebin\/roothideinit\", \"\/var\/jb\/basebin\/pspawn_payload\", \"\/var\/jb\/basebin\/systemhook\", \"\/var\/binpack\", \"\/var\/binpack\/bin\/bash\", \"\/var\/LIB\/trollstore\", \"\/var\/containers\/Bundle\/Application\/.installed_trollstore\", \"\/var\/containers\/Bundle\/iosTrollStore\", \"\/var\/mobile\/Library\/TrollStore\", \"\/var\/mobile\/Library\/Preferences\/com.ex.substitute.plist\", \"\/private\/var\/lib\/undecimus\", \"\/private\/var\/mobileLibrary\/Preferences\/me.jjolano.shadow.plist\", \"\/private\/preboot\/jb\", \"\/cores\/binpack\/Applications\/palera1nLoader.app\", \"\/cores\/jbinit.log\", \"\/cores\/binpack\"]"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/JailbreakDetector.swift",
+      "kind": "Array",
+      "offset": 2402,
+      "length": 181,
+      "value": "[\"cydia:\/\/\", \"sileo:\/\/\", \"zbra:\/\/\", \"filza:\/\/\", \"undecimus:\/\/\", \"trollstore:\/\/\", \"palera1n:\/\/\", \"apt-repo:\/\/\"]"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/RepackagingDetector.swift",
+      "kind": "StringLiteral",
+      "offset": 92,
+      "length": 13,
+      "value": "\"repackaging\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/ScreenCaptureManager.swift",
+      "kind": "BooleanLiteral",
+      "offset": 139,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/ScreenCaptureManager.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2654,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/SecureHardwareDetector.swift",
+      "kind": "StringLiteral",
+      "offset": 111,
+      "length": 28,
+      "value": "\"secureHardwareNotAvailable\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/SecureHardwareDetector.swift",
+      "kind": "StringLiteral",
+      "offset": 167,
+      "length": 34,
+      "value": "\"com.juandpt.flutter_rasp.se_test\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/SimulatorDetector.swift",
+      "kind": "StringLiteral",
+      "offset": 90,
+      "length": 10,
+      "value": "\"emulator\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/TrustedInstallDetector.swift",
+      "kind": "StringLiteral",
+      "offset": 95,
+      "length": 16,
+      "value": "\"trustedInstall\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/VpnDetector.swift",
+      "kind": "StringLiteral",
+      "offset": 84,
+      "length": 5,
+      "value": "\"vpn\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/VpnDetector.swift",
+      "kind": "Array",
+      "offset": 130,
+      "length": 30,
+      "value": "[\"tun\", \"tap\", \"ppp\", \"ipsec\"]"
+    }
+  ]
+}
