@@ -21,6 +21,12 @@ allprojects {
     }
 }
 
+rootProject.allprojects {
+    repositories {
+        maven { url = uri("${project(":flutter_rasp").projectDir}/repo") }
+    }
+}
+
 plugins {
     id("com.android.library")
     id("kotlin-android")
@@ -36,8 +42,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
     }
 
     sourceSets {
@@ -73,7 +81,7 @@ android {
 }
 
 dependencies {
-    implementation(files("libs/flutter_rasp_core-release.aar"))
+    api("com.juandpt:flutter_rasp_core:1.0.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.mockito:mockito-core:5.0.0")
 }
