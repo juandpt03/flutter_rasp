@@ -1,3 +1,8 @@
+## 4.0.0
+
+- **Breaking:** Native detection logic is now distributed as pre-compiled binaries instead of source code (Android & iOS)
+- Improved plugin security — detection algorithms are obfuscated and protected against reverse engineering
+
 ## 3.6.0
 
 - Strengthened root and jailbreak detection with new bypass-resistant techniques (Android & iOS)
