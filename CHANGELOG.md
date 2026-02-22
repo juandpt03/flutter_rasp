@@ -1,3 +1,11 @@
+## 3.5.0
+
+- Fixed repackaging false positives on App Store, TestFlight, and unconfigured builds (Android & iOS)
+- Fixed VPN false positives caused by iOS internal `utun` interfaces
+- Fixed iOS monitoring not resuming after returning from background
+- Improved `TrustedInstallDetector` with `initiatingPackageName` fallback (Android 11+)
+- Improved Team ID extraction with `com.apple.developer.team-identifier` fallback (iOS)
+
 ## 3.4.0
 
 - Removed `deviceBinding` threat — device fingerprinting proved unreliable across OS updates and factory resets

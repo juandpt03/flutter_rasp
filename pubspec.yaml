@@ -1,6 +1,6 @@
 name: flutter_rasp
 description: "RASP plugin for Flutter. Detect root, jailbreak, emulators, debuggers, hooks, repackaging, VPN, SSL pinning, and more."
-version: 3.4.0
+version: 3.5.0
 homepage: https://juandpt.dev
 repository: https://github.com/juandpt03/flutter_rasp
 issue_tracker: https://github.com/juandpt03/flutter_rasp/issues

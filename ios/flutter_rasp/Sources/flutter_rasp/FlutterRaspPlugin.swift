@@ -9,6 +9,7 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
     private let screenCaptureManager = ScreenCaptureManager()
     private var monitoringTimer: DispatchSourceTimer?
     private let stateLock = NSLock()
+
     private var _enabledThreats: [String]?
     private var enabledThreats: [String]? {
         get { stateLock.lock(); defer { stateLock.unlock() }; return _enabledThreats }
@@ -20,6 +21,11 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
         set { stateLock.lock(); defer { stateLock.unlock() }; _exitThreats = newValue }
     }
     private var monitoringInterval: TimeInterval = 10.0
+    private var _isMonitoringActive: Bool = false
+    private var isMonitoringActive: Bool {
+        get { stateLock.lock(); defer { stateLock.unlock() }; return _isMonitoringActive }
+        set { stateLock.lock(); defer { stateLock.unlock() }; _isMonitoringActive = newValue }
+    }
 
     public static func register(with registrar: FlutterPluginRegistrar) {
         let methodChannel = FlutterMethodChannel(
@@ -71,6 +77,7 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
         let interval = (args?["monitoringInterval"] as? Int ?? 10000)
 
         applyIosConfig(args)
+        DetectorRegistry.shared.clearCache()
 
         let immediateThreats = DetectorRegistry.shared.detectThreats(enabledThreats: enabledThreats)
         let currentExitThreats = exitThreats
@@ -81,8 +88,9 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
             exit(1)
         }
 
-        stopMonitoringInternal()
+        cancelTimer()
         monitoringInterval = TimeInterval(interval) / 1000.0
+        isMonitoringActive = true
         startMonitoringTimer()
         monitoringQueue.async { [weak self] in
             self?.performMonitoringScan()
@@ -92,7 +100,10 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
     }
 
     private func handleStopMonitoring(result: FlutterResult) {
-        stopMonitoringInternal()
+        isMonitoringActive = false
+        cancelTimer()
+        enabledThreats = nil
+        exitThreats = []
         removeLifecycleObservers()
         result(nil)
     }
@@ -149,6 +160,8 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
     }
 
     private func performMonitoringScan() {
+        guard isMonitoringActive else { return }
+
         let threats = DetectorRegistry.shared.detectThreats(enabledThreats: enabledThreats)
         if !threats.isEmpty {
             let currentExitThreats = exitThreats
@@ -160,8 +173,9 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
             let reportable = threats.filter { !currentExitThreats.contains($0) }
             if !reportable.isEmpty {
                 DispatchQueue.main.async { [weak self] in
-                    self?.sinkQueue.sync {
-                        self?.eventSink?(reportable)
+                    guard let self else { return }
+                    self.sinkQueue.sync {
+                        self.eventSink?(reportable)
                     }
                 }
             }
@@ -172,7 +186,8 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
         let timer = DispatchSource.makeTimerSource(queue: monitoringQueue)
         timer.schedule(
             deadline: .now() + monitoringInterval,
-            repeating: monitoringInterval
+            repeating: monitoringInterval,
+            leeway: .milliseconds(100)
         )
         timer.setEventHandler { [weak self] in
             self?.performMonitoringScan()
@@ -181,14 +196,14 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
         timer.resume()
     }
 
-    private func stopMonitoringInternal() {
+    private func cancelTimer() {
         monitoringTimer?.cancel()
         monitoringTimer = nil
-        enabledThreats = nil
-        exitThreats = []
     }
 
     private func addLifecycleObservers() {
+        removeLifecycleObservers()
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(appDidBecomeActive),
@@ -209,18 +224,17 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
     }
 
     @objc private func appDidBecomeActive() {
-        if enabledThreats != nil {
-            monitoringTimer?.cancel()
-            monitoringTimer = nil
-            startMonitoringTimer()
-            monitoringQueue.async { [weak self] in
-                self?.performMonitoringScan()
-            }
+        guard isMonitoringActive else { return }
+
+        DetectorRegistry.shared.clearCache()
+        cancelTimer()
+        startMonitoringTimer()
+        monitoringQueue.async { [weak self] in
+            self?.performMonitoringScan()
         }
     }
 
     @objc private func appWillResignActive() {
-        monitoringTimer?.cancel()
-        monitoringTimer = nil
+        cancelTimer()
     }
 }
