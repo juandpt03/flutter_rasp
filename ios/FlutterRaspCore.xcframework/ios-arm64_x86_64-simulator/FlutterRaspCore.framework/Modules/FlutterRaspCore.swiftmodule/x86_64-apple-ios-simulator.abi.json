@@ -598,23 +598,37 @@
     {
       "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/HookDetector.swift",
       "kind": "Array",
-      "offset": 144,
-      "length": 568,
-      "value": "[\"frida\", \"fridagadget\", \"frida-agent\", \"cycript\", \"gum-js-loop\", \"substrate\", \"mobilesubstrate\", \"substrateloader\", \"shadow\", \"liberty\", \"a-bypass\", \"flyjb\", \"ellekit\", \"libhooker\", \"libblackjack\", \"substitute\", \"tweakinject\", \"cephei\", \"rocketbootstrap\", \"preferencloader\", \"objectionagent\", \"r2frida\", \"snoopmethodswizzler\", \"sslkillswitch\", \"sslkillswitch2\"]"
+      "offset": 157,
+      "length": 991,
+      "value": "[\"fridagadget\", \"fridagadget.dylib\", \"frida-gadget\", \"frida-gadget.dylib\", \"frida-agent\", \"frida-agent.dylib\", \"frida-core\", \"frida-core.dylib\", \"gum-js-loop\", \"gum-js-loop.dylib\", \"cycript\", \"libcycript.dylib\", \"mobilesubstrate.dylib\", \"substrateloader.dylib\", \"substrateinserter.dylib\", \"libsubstitute.dylib\", \"libsubstitute.0.dylib\", \"libhooker.dylib\", \"libhooker\", \"libblackjack.dylib\", \"ellekit\", \"ellekit.dylib\", \"systemhook.dylib\", \"shadow.dylib\", \"liberty.dylib\", \"a-bypass.dylib\", \"flyjb.dylib\", \"tweakinject.dylib\", \"tweakloader.dylib\", \"preferencloader.dylib\", \"cephei.dylib\", \"cepheiui.dylib\", \"cepheiprefs.dylib\", \"rocketbootstrap.dylib\", \"sslkillswitch.dylib\", \"sslkillswitch2.dylib\", \"objectionagent.dylib\", \"r2frida.dylib\", \"snoopmethodswizzler.dylib\"]"
     },
     {
       "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/HookDetector.swift",
       "kind": "Array",
-      "offset": 750,
-      "length": 150,
+      "offset": 1191,
+      "length": 121,
+      "value": "[\"\/mobilesubstrate\/\", \"\/library\/mobilesubstrate\/\", \"\/var\/jb\/\", \"\/usr\/lib\/tweaks\/\"]"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/HookDetector.swift",
+      "kind": "Array",
+      "offset": 1350,
+      "length": 151,
       "value": "[\"FRIDA\", \"FRIDA_SERVER\", \"_MSSafeMode\", \"SUBSTRATE_HOME\", \"_SafeMode\", \"DYLD_INSERT_LIBRARIES\"]"
     },
     {
       "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/HookDetector.swift",
       "kind": "Array",
-      "offset": 1383,
-      "length": 20,
-      "value": "[27042, 27043, 4242]"
+      "offset": 1539,
+      "length": 133,
+      "value": "[\"FridaGadget\", \"CydiaSubstrate\", \"ShadowService\", \"SubstrateLoader\", \"SSLKillSwitch\"]"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/HookDetector.swift",
+      "kind": "Array",
+      "offset": 1713,
+      "length": 14,
+      "value": "[27042, 27043]"
     },
     {
       "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/JailbreakDetector.swift",

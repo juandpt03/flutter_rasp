@@ -1,3 +1,8 @@
+## 4.0.1
+
+- Fixed hook detection false positives on TestFlight builds (iOS)
+- Improved hook detection accuracy and reduced false positive surface (iOS)
+
 ## 4.0.0
 
 - **Breaking:** Native detection logic is now distributed as pre-compiled binaries instead of source code (Android & iOS)
