@@ -1,3 +1,7 @@
+## 4.0.2
+
+- Fixed VPN detection false positives on physical iOS devices (iOS)
+
 ## 4.0.1
 
 - Fixed hook detection false positives on TestFlight builds (iOS)
