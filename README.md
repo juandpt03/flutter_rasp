@@ -44,7 +44,7 @@ A comprehensive **RASP** (Runtime Application Self-Protection) plugin for Flutte
 
 ```yaml
 dependencies:
-  flutter_rasp: ^4.0.2
+  flutter_rasp: ^4.0.3
 ```
 
 | Platform | Minimum Version |
@@ -260,26 +260,12 @@ FlutterRaspPlatform (Interface)     SecurityContext (withTrustedRoots: false)
 MethodChannelFlutterRasp
     |--- MethodChannel (commands/checks)
     |--- EventChannel  (threat stream)
-
-    Android (Kotlin)              iOS (Swift)
-    -----------------             -----------------
-    DetectorRegistry              DetectorRegistry
-    |-- RootDetector              |-- JailbreakDetector
-    |-- EmulatorDetector          |-- SimulatorDetector
-    |-- DebugDetector             |-- DebugDetector
-    |-- HookDetector              |-- HookDetector
-    |-- RepackagingDetector       |-- RepackagingDetector
-    |-- TrustedInstallDetector    |-- TrustedInstallDetector
-    |-- VpnDetector               |-- VpnDetector
-    |-- DeveloperModeDetector     |-- DevicePasscodeDetector
-    |-- AdbEnabledDetector        |-- SecureHardwareDetector
-    |-- DevicePasscodeDetector    ScreenCaptureManager
-    |-- SecureHardwareDetector
-    |-- ObfuscationDetector
-    |-- TimeSpoofingDetector
-    |-- LocationSpoofingDetector
-    |-- MultiInstanceDetector
-    ScreenCaptureManager
+    |
+    Android (Kotlin)                 iOS (Swift)
+    -------------------              -------------------
+    FlutterRaspPlugin                FlutterRaspPlugin
+        |                                |
+    flutter_rasp_core (AAR)          flutter_rasp_core (XCFramework)
 ```
 
 ---

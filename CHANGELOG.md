@@ -1,3 +1,7 @@
+## 4.0.3
+
+- Documentation and README improvements
+
 ## 4.0.2
 
 - Fixed VPN detection false positives on physical iOS devices (iOS)
