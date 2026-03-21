@@ -1,3 +1,7 @@
+## 5.0.1
+
+- Downgraded `pointycastle` to `^3.9.1` for broader compatibility with existing projects
+
 ## 5.0.0
 
 - Added encrypted certificate pinning — encrypt `.pem` files with a passphrase so they can't be extracted from the APK/IPA
