@@ -16,17 +16,17 @@ class SslPinningSection extends StatelessWidget {
           SslPinningStatus.idle => (
             const Color(0xFF64B5F6),
             Icons.lock_outline,
-            'Tap a client to test',
+            'Tap a mode to test',
           ),
           SslPinningStatus.testing => (
             const Color(0xFFFFB74D),
             Icons.sync,
-            'Testing with ${notifier.lastClientType?.label ?? ''}...',
+            'Testing ${notifier.lastMode?.label ?? ''}...',
           ),
           SslPinningStatus.success => (
             const Color(0xFF00E676),
             Icons.lock,
-            '${notifier.lastClientType?.label ?? ''} — connection secure',
+            '${notifier.lastMode?.label ?? ''} — secure',
           ),
           SslPinningStatus.failure => (
             const Color(0xFFEF5350),
@@ -79,24 +79,34 @@ class SslPinningSection extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 8),
-                Row(
+                Wrap(
+                  spacing: 6,
+                  runSpacing: 6,
                   children: [
                     _ClientButton(
                       label: 'dart:io',
                       color: color,
                       onTap: isTesting ? null : notifier.testWithDartIo,
                     ),
-                    const SizedBox(width: 6),
                     _ClientButton(
                       label: 'Dio',
                       color: color,
                       onTap: isTesting ? null : notifier.testWithDio,
                     ),
-                    const SizedBox(width: 6),
                     _ClientButton(
                       label: 'http',
                       color: color,
                       onTap: isTesting ? null : notifier.testWithHttp,
+                    ),
+                    _ClientButton(
+                      label: 'Encrypted',
+                      color: color,
+                      onTap: isTesting ? null : notifier.testWithEncrypted,
+                    ),
+                    _ClientButton(
+                      label: 'Remote',
+                      color: color,
+                      onTap: isTesting ? null : notifier.testWithRemote,
                     ),
                   ],
                 ),
@@ -145,10 +155,10 @@ class _ClientButton extends StatelessWidget {
   }
 }
 
-extension on HttpClientType {
+extension on SslPinningMode {
   String get label => switch (this) {
-    HttpClientType.dartIo => 'dart:io',
-    HttpClientType.dio => 'Dio',
-    HttpClientType.http => 'http',
+    SslPinningMode.plainPem => 'Plain PEM',
+    SslPinningMode.encrypted => 'Encrypted',
+    SslPinningMode.remote => 'Remote fallback',
   };
 }

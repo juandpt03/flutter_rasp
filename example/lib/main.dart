@@ -27,6 +27,14 @@ Future<void> main() async {
     onThreatDetected: raspNotifier.updateThreats,
   );
 
+  // Pre-load SSL pinning context so first HTTP request has zero latency
+  await SslPinningClient.createContext(
+    const SslPinningConfig(
+      certificateAssetPaths: ['assets/certs/httpbin.org.enc'],
+      passphrase: 'flutter_rasp',
+    ),
+  );
+
   monitorNotifier.addSystemMessage('RASP initialized \u2014 monitoring active');
 
   runApp(const MyApp());

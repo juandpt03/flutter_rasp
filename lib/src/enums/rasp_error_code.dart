@@ -27,6 +27,17 @@ enum RaspErrorCode {
   ),
   alreadyInitialized('FlutterRasp is already initialized.'),
   notInitialized('FlutterRasp must be initialized. Call initialize() first.'),
+  invalidCertificateFormat(
+    'Invalid PEM certificate: missing BEGIN/END CERTIFICATE markers. '
+    'If this is an encrypted certificate, provide a passphrase.',
+  ),
+  invalidEncryptedCertificate(
+    'Decryption failed: invalid passphrase or corrupted certificate file.',
+  ),
+  noCertificateAvailable(
+    'No certificate available. Remote fetch failed, no stored '
+    'certificate, and asset fallback failed.',
+  ),
   general('A general error occurred.'),
   unknown('An unknown error occurred.');
 

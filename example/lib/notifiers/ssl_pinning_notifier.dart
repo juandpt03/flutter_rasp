@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
@@ -8,48 +10,47 @@ import 'package:http/io_client.dart';
 
 enum SslPinningStatus { idle, testing, success, failure }
 
-enum HttpClientType { dartIo, dio, http }
+enum SslPinningMode { plainPem, encrypted, remote }
 
 class SslPinningNotifier extends ValueNotifier<SslPinningStatus> {
   SslPinningNotifier() : super(SslPinningStatus.idle);
 
   String? lastError;
-  HttpClientType? lastClientType;
+  SslPinningMode? lastMode;
 
   static const _url = 'https://httpbin.org/get';
   static const _timeout = Duration(seconds: 10);
-  static const _config = SslPinningConfig(
+
+  static const _plainConfig = SslPinningConfig(
     certificateAssetPaths: ['assets/certs/httpbin.org.pem'],
   );
 
-  Future<void> testWithDartIo() async {
-    _start(HttpClientType.dartIo);
-    try {
-      final client = await SslPinningClient.createHttpClient(_config);
-      final request = await client.getUrl(Uri.parse(_url)).timeout(_timeout);
-      final response = await request.close().timeout(_timeout);
-      final body = await response
-          .transform(utf8.decoder)
-          .join()
-          .timeout(_timeout);
+  static const _encryptedConfig = SslPinningConfig(
+    certificateAssetPaths: ['assets/certs/httpbin.org.enc'],
+    passphrase: 'flutter_rasp',
+  );
 
-      _finish(response.statusCode, body);
+  // -- Plain PEM --
+
+  Future<void> testWithDartIo() async {
+    _start(SslPinningMode.plainPem);
+    try {
+      final client = await SslPinningClient.createHttpClient(_plainConfig);
+      await _request(client);
     } catch (e) {
       _fail(e);
     }
   }
 
   Future<void> testWithDio() async {
-    _start(HttpClientType.dio);
+    _start(SslPinningMode.plainPem);
     try {
-      final client = await SslPinningClient.createHttpClient(_config);
+      final client = await SslPinningClient.createHttpClient(_plainConfig);
       final dio = Dio()
         ..httpClientAdapter = IOHttpClientAdapter(
           createHttpClient: () => client,
         );
-
       final response = await dio.get(_url).timeout(_timeout);
-
       _finish(response.statusCode ?? 0, response.data?.toString() ?? '');
     } catch (e) {
       _fail(e);
@@ -57,14 +58,57 @@ class SslPinningNotifier extends ValueNotifier<SslPinningStatus> {
   }
 
   Future<void> testWithHttp() async {
-    _start(HttpClientType.http);
+    _start(SslPinningMode.plainPem);
     try {
-      final client = await SslPinningClient.createHttpClient(_config);
+      final client = await SslPinningClient.createHttpClient(_plainConfig);
       final httpClient = IOClient(client);
-
       final response = await httpClient.get(Uri.parse(_url)).timeout(_timeout);
-
       _finish(response.statusCode, response.body);
+    } catch (e) {
+      _fail(e);
+    }
+  }
+
+  // -- Encrypted --
+
+  Future<void> testWithEncrypted() async {
+    _start(SslPinningMode.encrypted);
+    try {
+      final client = await SslPinningClient.createHttpClient(_encryptedConfig);
+      await _request(client);
+    } catch (e) {
+      _fail(e);
+    }
+  }
+
+  // -- Remote (fails → falls back to encrypted asset) --
+
+  Future<void> testWithRemote() async {
+    _start(SslPinningMode.remote);
+    try {
+      final client = await SslPinningClient.createHttpClient(
+        _encryptedConfig,
+        onFetchRemote: () async {
+          final httpClient = HttpClient()
+            ..connectionTimeout = const Duration(seconds: 3);
+          try {
+            final request = await httpClient
+                .getUrl(Uri.parse('https://example.invalid/cert.enc'))
+                .timeout(const Duration(seconds: 3));
+            final response = await request.close();
+            final builder = BytesBuilder();
+            await for (final chunk in response) {
+              builder.add(chunk);
+            }
+            return builder.toBytes();
+          } catch (_) {
+            return null;
+          } finally {
+            httpClient.close();
+          }
+        },
+      );
+      await _request(client);
     } catch (e) {
       _fail(e);
     }
@@ -72,14 +116,26 @@ class SslPinningNotifier extends ValueNotifier<SslPinningStatus> {
 
   void reset() {
     lastError = null;
-    lastClientType = null;
+    lastMode = null;
     value = SslPinningStatus.idle;
   }
 
-  void _start(HttpClientType type) {
+  // -- Internal --
+
+  Future<void> _request(HttpClient client) async {
+    final request = await client.getUrl(Uri.parse(_url)).timeout(_timeout);
+    final response = await request.close().timeout(_timeout);
+    final body = await response
+        .transform(utf8.decoder)
+        .join()
+        .timeout(_timeout);
+    _finish(response.statusCode, body);
+  }
+
+  void _start(SslPinningMode mode) {
     value = SslPinningStatus.testing;
     lastError = null;
-    lastClientType = type;
+    lastMode = mode;
   }
 
   void _finish(int statusCode, String body) {

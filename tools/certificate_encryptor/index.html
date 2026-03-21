@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RASP Certificate Encryptor</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0b0d11;
+      --card: #13161d;
+      --card-border: #1e2330;
+      --accent: #22c997;
+      --accent-hover: #1db384;
+      --accent-glow: rgba(34, 201, 151, 0.15);
+      --text: #e2e4e9;
+      --text-muted: #6b7280;
+      --input-bg: #0e1016;
+      --input-border: #262d3d;
+      --error: #ef4444;
+      --success: #22c55e;
+      --radius: 12px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 520px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    header .icon {
+      width: 48px;
+      height: 48px;
+      background: var(--accent-glow);
+      border: 1px solid rgba(34, 201, 151, 0.3);
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    header .icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--accent);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    header h1 {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-top: 6px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    /* Drop zone */
+    .drop-zone {
+      border: 2px dashed var(--input-border);
+      border-radius: 10px;
+      padding: 36px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .drop-zone:hover, .drop-zone.drag-over {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .drop-zone svg {
+      width: 32px;
+      height: 32px;
+      stroke: var(--text-muted);
+      fill: none;
+      stroke-width: 1.5;
+      margin-bottom: 10px;
+      transition: stroke 0.2s;
+    }
+
+    .drop-zone:hover svg, .drop-zone.drag-over svg {
+      stroke: var(--accent);
+    }
+
+    .drop-zone .label {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .drop-zone .hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* File info */
+    .file-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    .file-info .name {
+      flex: 1;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-info .size {
+      color: var(--text-muted);
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .file-info .remove {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      padding: 0 2px;
+      transition: color 0.15s;
+    }
+
+    .file-info .remove:hover { color: var(--error); }
+
+    /* Form fields */
+    .field {
+      margin-top: 16px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap input {
+      width: 100%;
+      padding: 10px 44px 10px 12px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .input-wrap input:focus {
+      border-color: var(--accent);
+    }
+
+    .input-wrap .actions {
+      position: absolute;
+      right: 4px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      gap: 2px;
+    }
+
+    .input-wrap .actions button {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px 6px;
+      font-size: 12px;
+      transition: color 0.15s;
+      white-space: nowrap;
+    }
+
+    .input-wrap .actions button:hover { color: var(--text); }
+
+    .btn-generate {
+      color: var(--accent) !important;
+      font-weight: 500;
+    }
+
+    .btn-generate:hover { color: var(--accent-hover) !important; }
+
+    .copied-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--card);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .copied-toast.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Advanced */
+    details {
+      margin-top: 16px;
+    }
+
+    details summary {
+      font-size: 12px;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.15s;
+    }
+
+    details summary:hover { color: var(--text); }
+
+    details .field { margin-top: 10px; }
+
+    details input[type="number"] {
+      width: 100%;
+      padding: 8px 12px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 13px;
+      outline: none;
+    }
+
+    details input[type="number"]:focus {
+      border-color: var(--accent);
+    }
+
+    details small {
+      display: block;
+      color: var(--text-muted);
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    /* Buttons */
+    .btn-encrypt {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      background: var(--accent);
+      color: #0b0d11;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, opacity 0.15s;
+    }
+
+    .btn-encrypt:hover:not(:disabled) { background: var(--accent-hover); }
+    .btn-encrypt:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    .btn-encrypt.loading {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    /* Result */
+    .result-card { display: none; }
+    .result-card.visible { display: block; animation: fadeIn 0.3s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .result-header .check {
+      width: 28px;
+      height: 28px;
+      background: rgba(34, 197, 94, 0.12);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .result-header .check svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--success);
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    .result-header h2 {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .detail-item {
+      padding: 10px 12px;
+      background: var(--input-bg);
+      border-radius: 8px;
+    }
+
+    .detail-item .label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .detail-item .value {
+      font-size: 13px;
+      font-weight: 500;
+      margin-top: 2px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    .btn-download {
+      width: 100%;
+      padding: 11px;
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-download:hover {
+      background: var(--accent-glow);
+    }
+
+    /* Usage */
+    .usage h3 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .usage pre {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 12px;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      line-height: 1.6;
+      overflow-x: auto;
+      color: var(--text-muted);
+    }
+
+    .usage pre .kw { color: #c792ea; }
+    .usage pre .str { color: #c3e88d; }
+    .usage pre .type { color: #82aaff; }
+    .usage pre .fn { color: #22c997; }
+
+    /* Error */
+    .error-msg {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: 8px;
+      color: var(--error);
+      font-size: 13px;
+      display: none;
+    }
+
+    .error-msg.visible { display: block; }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <h1>RASP Certificate Encryptor</h1>
+      <p>Encrypt PEM certificates for flutter_rasp SSL pinning</p>
+    </header>
+
+    <div class="card">
+      <div class="drop-zone" id="dropZone">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <div class="label">Drop .pem certificate here</div>
+        <div class="hint">or click to browse</div>
+      </div>
+      <input type="file" id="fileInput" accept=".pem,.crt,.cer" hidden>
+
+      <div class="file-info" id="fileInfo" hidden>
+        <span class="name" id="fileName"></span>
+        <span class="size" id="fileSize"></span>
+        <button class="remove" id="removeFile">&times;</button>
+      </div>
+
+      <div class="field">
+        <label for="passphrase">Passphrase</label>
+        <div class="input-wrap">
+          <input type="password" id="passphrase" placeholder="Enter or generate a passphrase" autocomplete="off">
+          <div class="actions">
+            <button type="button" class="btn-generate" id="generatePass">Generate</button>
+            <button type="button" id="togglePass">Show</button>
+          </div>
+        </div>
+      </div>
+
+      <details>
+        <summary>Advanced options</summary>
+        <div class="field">
+          <label for="iterations">PBKDF2 Iterations</label>
+          <input type="number" id="iterations" value="100000" min="10000" step="10000">
+          <small>Higher = slower but more resistant to brute force</small>
+        </div>
+      </details>
+
+      <button class="btn-encrypt" id="encryptBtn" disabled>Encrypt Certificate</button>
+      <div class="error-msg" id="errorMsg"></div>
+    </div>
+
+    <div class="card result-card" id="resultCard">
+      <div class="result-header">
+        <div class="check">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h2>Encrypted &amp; Verified</h2>
+      </div>
+      <div class="detail-grid">
+        <div class="detail-item">
+          <div class="label">Algorithm</div>
+          <div class="value">AES-256-GCM</div>
+        </div>
+        <div class="detail-item">
+          <div class="label">Key Derivation</div>
+          <div class="value">PBKDF2-SHA256</div>
+        </div>
+        <div class="detail-item">
+          <div class="label">Output Size</div>
+          <div class="value" id="resultSize">-</div>
+        </div>
+        <div class="detail-item">
+          <div class="label">Integrity</div>
+          <div class="value" id="resultVerify">Verified</div>
+        </div>
+      </div>
+      <button class="btn-download" id="downloadBtn">Download Encrypted Certificate</button>
+    </div>
+
+    <div class="card usage">
+      <h3>Usage in Flutter</h3>
+      <pre><span class="kw">const</span> config = <span class="type">SslPinningConfig</span>(
+  certificateAssetPaths: [<span class="str">'assets/certs/certificate.enc'</span>],
+  passphrase: <span class="str">'your_passphrase'</span>,
+);
+
+<span class="kw">final</span> client = <span class="kw">await</span> <span class="type">SslPinningClient</span>.<span class="fn">createHttpClient</span>(config);</pre>
+    </div>
+
+    <footer>
+      All encryption runs locally in your browser. No data is sent to any server.
+    </footer>
+    <div class="copied-toast" id="copiedToast">Passphrase copied to clipboard</div>
+  </div>
+
+  <script>
+    const MAGIC = [0x52, 0x41, 0x53, 0x50];
+    const VERSION = 1;
+    const HEADER_SIZE = 53;
+
+    const $ = (s) => document.querySelector(s);
+    const dropZone = $('#dropZone');
+    const fileInput = $('#fileInput');
+    const fileInfo = $('#fileInfo');
+    const fileName = $('#fileName');
+    const fileSize = $('#fileSize');
+    const removeFile = $('#removeFile');
+    const passphrase = $('#passphrase');
+    const togglePass = $('#togglePass');
+    const generatePass = $('#generatePass');
+    const copiedToast = $('#copiedToast');
+    const iterations = $('#iterations');
+    const encryptBtn = $('#encryptBtn');
+    const errorMsg = $('#errorMsg');
+    const resultCard = $('#resultCard');
+    const resultSize = $('#resultSize');
+    const resultVerify = $('#resultVerify');
+    const downloadBtn = $('#downloadBtn');
+
+    let pemContent = null;
+    let pemFileName = null;
+    let encryptedBlob = null;
+
+    // File handling
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('drag-over');
+      if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length) handleFile(fileInput.files[0]);
+    });
+
+    removeFile.addEventListener('click', () => {
+      pemContent = null;
+      pemFileName = null;
+      fileInput.value = '';
+      dropZone.hidden = false;
+      fileInfo.hidden = true;
+      resultCard.classList.remove('visible');
+      updateBtn();
+    });
+
+    function handleFile(file) {
+      hideError();
+      const reader = new FileReader();
+      reader.onload = () => {
+        pemContent = reader.result;
+        pemFileName = file.name;
+        fileName.textContent = file.name;
+        fileSize.textContent = formatBytes(file.size);
+        dropZone.hidden = true;
+        fileInfo.hidden = false;
+        resultCard.classList.remove('visible');
+        updateBtn();
+      };
+      reader.readAsText(file);
+    }
+
+    togglePass.addEventListener('click', () => {
+      const isPassword = passphrase.type === 'password';
+      passphrase.type = isPassword ? 'text' : 'password';
+      togglePass.textContent = isPassword ? 'Hide' : 'Show';
+    });
+
+    generatePass.addEventListener('click', () => {
+      const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*-_=+';
+      const values = crypto.getRandomValues(new Uint8Array(32));
+      const generated = Array.from(values, (v) => chars[v % chars.length]).join('');
+      passphrase.value = generated;
+      passphrase.type = 'text';
+      togglePass.textContent = 'Hide';
+      navigator.clipboard.writeText(generated).then(() => {
+        copiedToast.classList.add('visible');
+        setTimeout(() => copiedToast.classList.remove('visible'), 2000);
+      });
+      hideError();
+      updateBtn();
+    });
+
+    passphrase.addEventListener('input', () => { hideError(); updateBtn(); });
+
+    function updateBtn() {
+      encryptBtn.disabled = !pemContent || !passphrase.value;
+    }
+
+    // Encrypt
+    encryptBtn.addEventListener('click', async () => {
+      hideError();
+      const pass = passphrase.value;
+      const iter = Math.max(10000, parseInt(iterations.value) || 100000);
+
+      if (!pemContent.includes('-----BEGIN CERTIFICATE-----')) {
+        showError('The file does not appear to be a valid PEM certificate.');
+        return;
+      }
+
+      encryptBtn.classList.add('loading');
+      encryptBtn.textContent = 'Encrypting...';
+
+      try {
+        const encrypted = await encrypt(pemContent, pass, iter);
+
+        // Verify by decrypting
+        resultVerify.textContent = 'Verifying...';
+        resultCard.classList.add('visible');
+        await verify(encrypted, pass);
+        resultVerify.textContent = 'Verified';
+
+        resultSize.textContent = formatBytes(encrypted.byteLength);
+
+        const outName = pemFileName.replace(/\.(pem|crt|cer)$/i, '') + '.enc';
+        encryptedBlob = new Blob([encrypted], { type: 'application/octet-stream' });
+        downloadBtn.onclick = () => {
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(encryptedBlob);
+          a.download = outName;
+          a.click();
+          URL.revokeObjectURL(a.href);
+        };
+      } catch (e) {
+        resultCard.classList.remove('visible');
+        showError('Encryption failed: ' + e.message);
+      } finally {
+        encryptBtn.classList.remove('loading');
+        encryptBtn.textContent = 'Encrypt Certificate';
+      }
+    });
+
+    async function encrypt(pem, pass, iter) {
+      const enc = new TextEncoder();
+      const pemBytes = enc.encode(pem);
+      const salt = crypto.getRandomValues(new Uint8Array(32));
+      const iv = crypto.getRandomValues(new Uint8Array(12));
+
+      const key = await deriveKey(pass, salt, iter, ['encrypt']);
+      const ciphertext = await crypto.subtle.encrypt(
+        { name: 'AES-GCM', iv, tagLength: 128 }, key, pemBytes,
+      );
+
+      const header = new Uint8Array(HEADER_SIZE);
+      header.set(MAGIC, 0);
+      header[4] = VERSION;
+      header[5] = (iter >> 24) & 0xFF;
+      header[6] = (iter >> 16) & 0xFF;
+      header[7] = (iter >> 8) & 0xFF;
+      header[8] = iter & 0xFF;
+      header.set(salt, 9);
+      header.set(iv, 41);
+
+      const result = new Uint8Array(HEADER_SIZE + ciphertext.byteLength);
+      result.set(header, 0);
+      result.set(new Uint8Array(ciphertext), HEADER_SIZE);
+      return result;
+    }
+
+    async function verify(data, pass) {
+      const iter = (data[5] << 24) | (data[6] << 16) | (data[7] << 8) | data[8];
+      const salt = data.slice(9, 41);
+      const iv = data.slice(41, 53);
+      const ciphertext = data.slice(53);
+
+      const key = await deriveKey(pass, salt, iter, ['decrypt']);
+      await crypto.subtle.decrypt(
+        { name: 'AES-GCM', iv: iv, tagLength: 128 }, key, ciphertext,
+      );
+    }
+
+    async function deriveKey(pass, salt, iter, usages) {
+      const material = await crypto.subtle.importKey(
+        'raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey'],
+      );
+      return crypto.subtle.deriveKey(
+        { name: 'PBKDF2', salt, iterations: iter, hash: 'SHA-256' },
+        material,
+        { name: 'AES-GCM', length: 256 },
+        false,
+        usages,
+      );
+    }
+
+    function showError(msg) { errorMsg.textContent = msg; errorMsg.classList.add('visible'); }
+    function hideError() { errorMsg.classList.remove('visible'); }
+    function formatBytes(b) { return b < 1024 ? b + ' B' : (b / 1024).toFixed(1) + ' KB'; }
+  </script>
+</body>
+</html>

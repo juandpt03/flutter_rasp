@@ -73,6 +73,24 @@ class RaspException implements Exception {
     RaspErrorCode.notInitialized.message,
   );
 
+  factory RaspException.invalidCertificateFormat([String? detail]) =>
+      RaspException._(
+        RaspErrorCode.invalidCertificateFormat,
+        detail ?? RaspErrorCode.invalidCertificateFormat.message,
+      );
+
+  factory RaspException.invalidEncryptedCertificate([String? detail]) =>
+      RaspException._(
+        RaspErrorCode.invalidEncryptedCertificate,
+        detail ?? RaspErrorCode.invalidEncryptedCertificate.message,
+      );
+
+  factory RaspException.noCertificateAvailable([String? detail]) =>
+      RaspException._(
+        RaspErrorCode.noCertificateAvailable,
+        detail ?? RaspErrorCode.noCertificateAvailable.message,
+      );
+
   factory RaspException.general() =>
       RaspException._(RaspErrorCode.general, RaspErrorCode.general.message);
 

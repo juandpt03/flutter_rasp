@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Platform](https://img.shields.io/badge/platform-android%20%7C%20ios-green.svg)](https://flutter.dev)
 
-A comprehensive **RASP** (Runtime Application Self-Protection) plugin for Flutter. Protect your app against reverse engineering, tampering, runtime attacks, and man-in-the-middle attacks with zero external SDK dependencies.
+A comprehensive **RASP** (Runtime Application Self-Protection) plugin for Flutter. Protect your app against reverse engineering, tampering, runtime attacks, and man-in-the-middle attacks.
 
 ---
 
@@ -36,6 +36,9 @@ A comprehensive **RASP** (Runtime Application Self-Protection) plugin for Flutte
 | Feature | Description |
 |---------|-------------|
 | PEM Certificate Pinning | Only trusts the `.pem` certificates you provide — any other connection fails automatically |
+| Encrypted Certificate Pinning | Encrypt `.pem` files so they can't be extracted from your app bundle |
+| Remote Certificate Updates | Fetch certificates from your API at runtime — no app update needed on rotation |
+| Secure Storage | Certificates stored via Keychain (iOS) / EncryptedSharedPreferences (Android) |
 | Compatible with `dart:io`, Dio, `package:http` | Works with any HTTP client that accepts a `dart:io` `HttpClient` |
 
 ---
@@ -44,7 +47,7 @@ A comprehensive **RASP** (Runtime Application Self-Protection) plugin for Flutte
 
 ```yaml
 dependencies:
-  flutter_rasp: ^4.0.3
+  flutter_rasp: ^5.0.0
 ```
 
 | Platform | Minimum Version |
@@ -52,7 +55,7 @@ dependencies:
 | Android | API 24 (Android 7.0) |
 | iOS | 13.0 |
 
-No additional permissions required. Zero external SDK dependencies.
+No additional permissions required.
 
 ---
 
@@ -109,6 +112,8 @@ AndroidRaspConfig(
 
 ### SSL Certificate Pinning
 
+> **Tip:** Initialize SSL pinning at app startup (e.g., in `main()`) before making any HTTP request. The first call builds and caches the `SecurityContext` — subsequent calls return instantly with zero latency.
+
 Download your server's certificate:
 
 ```bash
@@ -124,6 +129,8 @@ flutter:
     - assets/certs/
 ```
 
+#### Plain PEM
+
 ```dart
 const config = SslPinningConfig(
   certificateAssetPaths: ['assets/certs/your_server.pem'],
@@ -131,6 +138,65 @@ const config = SslPinningConfig(
 
 final client = await SslPinningClient.createHttpClient(config);
 ```
+
+#### Encrypted PEM
+
+Encrypt your `.pem` with the [Certificate Encryptor](tools/certificate_encryptor/) web tool, then place the `.enc` file in your assets:
+
+```dart
+const config = SslPinningConfig(
+  certificateAssetPaths: ['assets/certs/your_server.enc'],
+  passphrase: 'your_passphrase',
+);
+
+final client = await SslPinningClient.createHttpClient(config);
+```
+
+#### Remote Certificate Updates
+
+Pass an `onFetchRemote` callback to update certificates at runtime — no app update needed on server certificate rotation. Each config represents one endpoint with one certificate:
+
+```dart
+// API endpoint
+const apiConfig = SslPinningConfig(
+  certificateAssetPaths: ['assets/certs/api.enc'],
+  passphrase: 'your_passphrase',
+);
+
+final apiClient = await SslPinningClient.createHttpClient(
+  apiConfig,
+  onFetchRemote: () async {
+    final response = await yourApi.get(
+      '/certs/current.enc',
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    return response.bodyBytes;
+  },
+);
+
+// CDN endpoint (independent config, independent storage)
+const cdnConfig = SslPinningConfig(
+  certificateAssetPaths: ['assets/certs/cdn.enc'],
+  passphrase: 'your_passphrase',
+);
+
+final cdnClient = await SslPinningClient.createHttpClient(
+  cdnConfig,
+  onFetchRemote: () async {
+    final response = await yourCdn.get('/certs/cdn.enc');
+    return response.bodyBytes;
+  },
+);
+```
+
+The plugin resolves each certificate independently: stored cert → remote fetch → asset fallback. Stored certificates use **Keychain** (iOS) and **EncryptedSharedPreferences** (Android), and are only written when the content changes.
+
+```dart
+await SslPinningClient.clearStoredCertificate(apiConfig);
+SslPinningClient.invalidateCache();
+```
+
+#### HTTP Client Compatibility
 
 Works with any HTTP client that accepts a `dart:io` `HttpClient`:
 
@@ -149,8 +215,6 @@ final httpClient = IOClient(client);
 ```
 
 You can also use `SslPinningClient.createContext(config)` to get a `SecurityContext` directly if you need more control.
-
-> **Important:** The pinned certificate is bundled in your app assets. When your server renews or rotates its certificate, you must publish an app update with the new `.pem` file — otherwise connections will fail. Plan certificate renewals alongside app releases.
 
 See the [example app](example/lib/notifiers/ssl_pinning_notifier.dart) for a complete working implementation.
 
@@ -253,11 +317,11 @@ await FlutterRasp.instance.blockScreenCapture(true);
 ```
 Flutter App
     |
-FlutterRasp (Singleton)             SslPinningClient (Independent)
+FlutterRasp (Singleton)             SslPinningClient
     |                                    |
-FlutterRaspPlatform (Interface)     SecurityContext (withTrustedRoots: false)
-    |
-MethodChannelFlutterRasp
+FlutterRaspPlatform (Interface)     CertificateDecryptor (encrypted .enc)
+    |                               CertificateStore     (Keychain / EncryptedSharedPrefs)
+MethodChannelFlutterRasp            SecurityContext       (withTrustedRoots: false)
     |--- MethodChannel (commands/checks)
     |--- EventChannel  (threat stream)
     |

@@ -1,6 +1,8 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_rasp (3.6.0):
+  - flutter_rasp (5.0.0):
+    - Flutter
+  - flutter_secure_storage (6.0.0):
     - Flutter
   - integration_test (0.0.1):
     - Flutter
@@ -8,6 +10,7 @@ PODS:
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_rasp (from `.symlinks/plugins/flutter_rasp/ios`)
+  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
 
 EXTERNAL SOURCES:
@@ -15,12 +18,15 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_rasp:
     :path: ".symlinks/plugins/flutter_rasp/ios"
+  flutter_secure_storage:
+    :path: ".symlinks/plugins/flutter_secure_storage/ios"
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
 
 SPEC CHECKSUMS:
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  flutter_rasp: fd5cf4229e021e023dc98c5d9c8ff2edb4d3a0c6
+  flutter_rasp: 930f1a06a17436ff4546d97f9a15b11fcdad7cd6
+  flutter_secure_storage: 1ed9476fba7e7a782b22888f956cce43e2c62f13
   integration_test: 4a889634ef21a45d28d50d622cf412dc6d9f586e
 
 PODFILE CHECKSUM: 3c63482e143d1b91d2d2560aee9fb04ecc74ac7e

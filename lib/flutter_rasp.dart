@@ -17,5 +17,7 @@ export 'src/models/rasp_config.dart';
 export 'src/models/rasp_result.dart';
 export 'src/models/ssl_pinning_config.dart';
 export 'src/models/threat_policy.dart';
+export 'src/ssl_pinning/certificate_decryptor.dart';
 export 'src/ssl_pinning/ssl_pinning_client.dart';
+export 'src/utils/certificate_store.dart';
 export 'src/utils/hash_converter.dart';

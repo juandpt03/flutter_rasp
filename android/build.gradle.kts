@@ -1,5 +1,5 @@
 group = "com.juandpt.flutter_rasp"
-version = "4.0.3"
+version = "5.0.0"
 
 buildscript {
     val kotlinVersion = "2.2.20"

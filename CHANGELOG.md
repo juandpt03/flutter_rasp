@@ -1,3 +1,13 @@
+## 5.0.0
+
+- Added encrypted certificate pinning — encrypt `.pem` files with a passphrase so they can't be extracted from the APK/IPA
+- Added remote certificate updates via `onFetchRemote` callback — one config per endpoint, each with independent storage and caching
+- Added secure on-device certificate storage via Keychain (iOS) and EncryptedSharedPreferences (Android)
+- Added in-memory certificate cache — initialize at app startup for zero-latency on subsequent calls
+- Added automatic fallback chain: stored certificate → remote fetch → bundled asset
+- Added certificate format validation for `.pem`, `.crt`, `.cer`, and `.enc` files
+- Added Certificate Encryptor web tool (`tools/certificate_encryptor/`)
+
 ## 4.0.3
 
 - Documentation and README improvements
