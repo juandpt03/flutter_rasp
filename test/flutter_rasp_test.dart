@@ -1,15 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_rasp/flutter_rasp.dart';
 import 'package:flutter_rasp/src/flutter_rasp_platform_interface.dart';
-import 'package:flutter_rasp/src/flutter_rasp_method_channel.dart';
+import 'package:flutter_rasp/src/flutter_rasp_pigeon.dart';
 
 import 'helpers/mock_platform.dart';
 
 void main() {
-  test('MethodChannelFlutterRasp is the default instance', () {
+  test('PigeonFlutterRasp is the default instance', () {
     expect(
       FlutterRaspPlatform.instance,
-      isInstanceOf<MethodChannelFlutterRasp>(),
+      isInstanceOf<PigeonFlutterRasp>(),
     );
   });
 

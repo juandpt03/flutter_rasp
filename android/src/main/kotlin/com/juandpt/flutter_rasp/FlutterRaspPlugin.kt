@@ -9,27 +9,20 @@ import com.juandpt.flutter_rasp_core.ScreenCaptureManager
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
-import io.flutter.plugin.common.EventChannel
-import io.flutter.plugin.common.MethodCall
-import io.flutter.plugin.common.MethodChannel
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import io.flutter.plugin.common.MethodChannel.Result
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 
-class FlutterRaspPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler, ActivityAware {
+class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
 
     companion object {
         private const val TAG = "FlutterRASP"
     }
 
-    private lateinit var methodChannel: MethodChannel
-    private lateinit var eventChannel: EventChannel
+    private var flutterApi: FlutterRaspFlutterApi? = null
     private var applicationContext: android.content.Context? = null
     @Volatile private var activity: Activity? = null
-    @Volatile private var eventSink: EventChannel.EventSink? = null
     private val screenCaptureManager = ScreenCaptureManager()
     private val mainHandler = Handler(Looper.getMainLooper())
     private var scheduledExecutor: ScheduledExecutorService? = null
@@ -39,96 +32,93 @@ class FlutterRaspPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamH
 
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         applicationContext = binding.applicationContext
-        methodChannel = MethodChannel(binding.binaryMessenger, "com.juandpt/flutter_rasp/methods")
-        methodChannel.setMethodCallHandler(this)
-        eventChannel = EventChannel(binding.binaryMessenger, "com.juandpt/flutter_rasp/events")
-        eventChannel.setStreamHandler(this)
+        FlutterRaspHostApi.setUp(binding.binaryMessenger, this)
+        flutterApi = FlutterRaspFlutterApi(binding.binaryMessenger)
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-        methodChannel.setMethodCallHandler(null)
-        eventChannel.setStreamHandler(null)
+        FlutterRaspHostApi.setUp(binding.binaryMessenger, null)
+        flutterApi = null
         stopMonitoringInternal()
         applicationContext = null
     }
 
-    override fun onMethodCall(call: MethodCall, result: Result) {
+    // ── HostApi ────────────────────────────────────────────────
+
+    override fun startMonitoring(config: RaspConfigMessage, callback: (Result<Unit>) -> Unit) {
         val context = applicationContext
         if (context == null) {
-            result.error("NO_CONTEXT", "Application context is not available", null)
+            callback(Result.failure(FlutterError("NO_CONTEXT", "Application context is not available", null)))
             return
         }
 
-        when (call.method) {
-            "startMonitoring" -> {
-                val args = call.arguments as? Map<*, *>
-                enabledThreats = (args?.get("enabledThreats") as? List<*>)?.filterIsInstance<String>()
-                exitThreats = (args?.get("exitThreats") as? List<*>)?.filterIsInstance<String>() ?: emptyList()
-                val interval = (args?.get("monitoringInterval") as? Number)?.toLong() ?: 10000L
-                applyAndroidConfig(args)
+        enabledThreats = config.enabledThreats
+        exitThreats = config.exitThreats
+        val interval = config.monitoringIntervalMs.toLong()
+        config.androidConfig?.let { applyAndroidConfig(it) }
 
-                val immediateThreats = DetectorRegistry.detectThreats(context, enabledThreats)
-                val currentExitThreats = exitThreats
-                if (immediateThreats.isNotEmpty() && currentExitThreats.isNotEmpty() &&
-                    immediateThreats.any { it in currentExitThreats }) {
-                    val matched = immediateThreats.filter { it in currentExitThreats }
-                    logTermination(immediateThreats, matched)
-                    terminateApp()
-                    return
-                }
-
-                startMonitoringInternal(context, interval)
-                result.success(null)
-            }
-            "stopMonitoring" -> {
-                stopMonitoringInternal()
-                result.success(null)
-            }
-            "checkThreat" -> {
-                val args = call.arguments as? Map<*, *>
-                val threatName = args?.get("threatName") as? String
-                if (threatName == null) {
-                    result.error("INVALID_ARGUMENT", "threatName is required", null)
-                    return
-                }
-                Thread {
-                    val detected = DetectorRegistry.detect(threatName, context)
-                    mainHandler.post { result.success(detected) }
-                }.start()
-            }
-            "scanAll" -> {
-                val args = call.arguments as? Map<*, *>
-                val threats = (args?.get("enabledThreats") as? List<*>)?.filterIsInstance<String>()
-                applyAndroidConfig(args)
-                Thread {
-                    val detected = DetectorRegistry.detectAll(context, threats)
-                    mainHandler.post { result.success(detected) }
-                }.start()
-            }
-            "blockScreenCapture" -> {
-                val currentActivity = activity
-                if (currentActivity == null) {
-                    result.error("SCREEN_CAPTURE_NO_ACTIVITY", "No active Activity available to block screen capture", null)
-                    return
-                }
-                val enabled = (call.arguments as? Map<*, *>)?.get("enabled") as? Boolean ?: false
-                screenCaptureManager.block(currentActivity, enabled)
-                result.success(null)
-            }
-            "isScreenCaptureBlocked" -> {
-                result.success(screenCaptureManager.isBlocked())
-            }
-            else -> result.notImplemented()
+        val immediateThreats = DetectorRegistry.detectThreats(context, enabledThreats)
+        val currentExitThreats = exitThreats
+        if (immediateThreats.isNotEmpty() && currentExitThreats.isNotEmpty() &&
+            immediateThreats.any { it in currentExitThreats }) {
+            val matched = immediateThreats.filter { it in currentExitThreats }
+            logTermination(immediateThreats, matched)
+            terminateApp()
+            return
         }
+
+        startMonitoringInternal(context, interval)
+        callback(Result.success(Unit))
     }
 
-    override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
-        eventSink = events
+    override fun stopMonitoring(callback: (Result<Unit>) -> Unit) {
+        stopMonitoringInternal()
+        callback(Result.success(Unit))
     }
 
-    override fun onCancel(arguments: Any?) {
-        eventSink = null
+    override fun checkThreat(threatName: String, callback: (Result<Boolean>) -> Unit) {
+        val context = applicationContext
+        if (context == null) {
+            callback(Result.failure(FlutterError("NO_CONTEXT", "Application context is not available", null)))
+            return
+        }
+        Thread {
+            val detected = DetectorRegistry.detect(threatName, context)
+            mainHandler.post { callback(Result.success(detected)) }
+        }.start()
     }
+
+    override fun scanAll(enabledThreats: List<String>, callback: (Result<ScanResultMessage>) -> Unit) {
+        val context = applicationContext
+        if (context == null) {
+            callback(Result.failure(FlutterError("NO_CONTEXT", "Application context is not available", null)))
+            return
+        }
+        Thread {
+            val detected = DetectorRegistry.detectAll(context, enabledThreats)
+            val entries = detected.map { (name, value) ->
+                ThreatResultEntry(threatName = name, detected = value)
+            }
+            val message = ScanResultMessage(results = entries)
+            mainHandler.post { callback(Result.success(message)) }
+        }.start()
+    }
+
+    override fun blockScreenCapture(enabled: Boolean, callback: (Result<Unit>) -> Unit) {
+        val currentActivity = activity
+        if (currentActivity == null) {
+            callback(Result.failure(FlutterError("SCREEN_CAPTURE_NO_ACTIVITY", "No active Activity available to block screen capture", null)))
+            return
+        }
+        screenCaptureManager.block(currentActivity, enabled)
+        callback(Result.success(Unit))
+    }
+
+    override fun isScreenCaptureBlocked(callback: (Result<Boolean>) -> Unit) {
+        callback(Result.success(screenCaptureManager.isBlocked()))
+    }
+
+    // ── ActivityAware ─────────────────────────────────────────
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         activity = binding.activity
@@ -146,11 +136,10 @@ class FlutterRaspPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamH
         activity = null
     }
 
-    private fun applyAndroidConfig(args: Map<*, *>?) {
-        val androidConfig = args?.get("androidConfig") as? Map<*, *> ?: return
-        val hashes = (androidConfig["signingCertHashes"] as? List<*>)?.filterIsInstance<String>()
-        val stores = (androidConfig["supportedStores"] as? List<*>)?.filterIsInstance<String>()
-        DetectorRegistry.configure(hashes, stores)
+    // ── Internal ──────────────────────────────────────────────
+
+    private fun applyAndroidConfig(config: AndroidConfigMessage) {
+        DetectorRegistry.configure(config.signingCertHashes, config.supportedStores)
     }
 
     private fun startMonitoringInternal(context: android.content.Context, intervalMs: Long) {
@@ -172,7 +161,9 @@ class FlutterRaspPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamH
                     }
                     val reportable = threats.filter { it !in currentExitThreats }
                     if (reportable.isNotEmpty()) {
-                        mainHandler.post { eventSink?.success(reportable) }
+                        mainHandler.post {
+                            flutterApi?.onThreatsDetected(reportable) {}
+                        }
                     }
                 }
             } catch (_: Exception) {

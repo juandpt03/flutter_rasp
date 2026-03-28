@@ -1,6 +1,6 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import 'flutter_rasp_method_channel.dart';
+import 'flutter_rasp_pigeon.dart';
 import 'models/rasp_config.dart';
 
 /// Platform interface for flutter_rasp native communication.
@@ -9,7 +9,7 @@ abstract class FlutterRaspPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static FlutterRaspPlatform _instance = MethodChannelFlutterRasp();
+  static FlutterRaspPlatform _instance = PigeonFlutterRasp();
 
   static FlutterRaspPlatform get instance => _instance;
 

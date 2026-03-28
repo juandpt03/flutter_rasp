@@ -2,12 +2,11 @@ import Flutter
 import FlutterRaspCore
 import UIKit
 
-public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
+public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterRaspHostApi {
 
-    private let sinkQueue = DispatchQueue(label: "com.juandpt.flutter_rasp.sink")
     private let monitoringQueue = DispatchQueue(label: "com.juandpt.flutter_rasp.monitoring", qos: .utility)
-    private var eventSink: FlutterEventSink?
     private let screenCaptureManager = ScreenCaptureManager.shared
+    private var flutterApi: FlutterRaspFlutterApi?
     private var monitoringTimer: DispatchSourceTimer?
     private let stateLock = NSLock()
 
@@ -29,55 +28,26 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
     }
 
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let methodChannel = FlutterMethodChannel(
-            name: "com.juandpt/flutter_rasp/methods",
-            binaryMessenger: registrar.messenger()
-        )
-        let eventChannel = FlutterEventChannel(
-            name: "com.juandpt/flutter_rasp/events",
-            binaryMessenger: registrar.messenger()
-        )
         let instance = FlutterRaspPlugin()
-        registrar.addMethodCallDelegate(instance, channel: methodChannel)
-        eventChannel.setStreamHandler(instance)
+        FlutterRaspHostApiSetup.setUp(
+            binaryMessenger: registrar.messenger(),
+            api: instance
+        )
+        instance.flutterApi = FlutterRaspFlutterApi(
+            binaryMessenger: registrar.messenger()
+        )
     }
 
-    public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        switch call.method {
-        case "startMonitoring":
-            handleStartMonitoring(call.arguments, result: result)
-        case "stopMonitoring":
-            handleStopMonitoring(result: result)
-        case "checkThreat":
-            handleCheckThreat(call.arguments, result: result)
-        case "scanAll":
-            handleScanAll(call.arguments, result: result)
-        case "blockScreenCapture":
-            handleBlockScreenCapture(call.arguments, result: result)
-        case "isScreenCaptureBlocked":
-            result(screenCaptureManager.getIsBlocked())
-        default:
-            result(FlutterMethodNotImplemented)
+    // ── HostApi ────────────────────────────────────────────────
+
+    func startMonitoring(config: RaspConfigMessage, completion: @escaping (Result<Void, Error>) -> Void) {
+        enabledThreats = config.enabledThreats
+        exitThreats = config.exitThreats
+        let interval = config.monitoringIntervalMs
+
+        if let ios = config.iosConfig {
+            applyIosConfig(ios)
         }
-    }
-
-    public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
-        sinkQueue.sync { eventSink = events }
-        return nil
-    }
-
-    public func onCancel(withArguments arguments: Any?) -> FlutterError? {
-        sinkQueue.sync { eventSink = nil }
-        return nil
-    }
-
-    private func handleStartMonitoring(_ arguments: Any?, result: FlutterResult) {
-        let args = arguments as? [String: Any]
-        enabledThreats = args?["enabledThreats"] as? [String]
-        exitThreats = (args?["exitThreats"] as? [String]) ?? []
-        let interval = (args?["monitoringInterval"] as? Int ?? 10000)
-
-        applyIosConfig(args)
         DetectorRegistry.shared.clearCache()
 
         let immediateThreats = DetectorRegistry.shared.detectThreats(enabledThreats: enabledThreats)
@@ -97,56 +67,54 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
             self?.performMonitoringScan()
         }
         addLifecycleObservers()
-        result(nil)
+        completion(.success(()))
     }
 
-    private func handleStopMonitoring(result: FlutterResult) {
+    func stopMonitoring(completion: @escaping (Result<Void, Error>) -> Void) {
         isMonitoringActive = false
         cancelTimer()
         enabledThreats = nil
         exitThreats = []
         removeLifecycleObservers()
-        result(nil)
+        completion(.success(()))
     }
 
-    private func handleCheckThreat(_ arguments: Any?, result: @escaping FlutterResult) {
-        guard let args = arguments as? [String: Any],
-              let threatName = args["threatName"] as? String else {
-            result(FlutterError(code: "INVALID_ARGUMENT", message: "threatName is required", details: nil))
-            return
-        }
+    func checkThreat(threatName: String, completion: @escaping (Result<Bool, Error>) -> Void) {
         monitoringQueue.async {
             let detected = DetectorRegistry.shared.detect(threatName: threatName)
             DispatchQueue.main.async {
-                result(detected)
+                completion(.success(detected))
             }
         }
     }
 
-    private func handleScanAll(_ arguments: Any?, result: @escaping FlutterResult) {
-        let args = arguments as? [String: Any]
-        let threats = args?["enabledThreats"] as? [String]
-        applyIosConfig(args)
+    func scanAll(enabledThreats: [String], completion: @escaping (Result<ScanResultMessage, Error>) -> Void) {
+        let threats = enabledThreats.isEmpty ? nil : enabledThreats
         monitoringQueue.async {
             let detected = DetectorRegistry.shared.detectAll(enabledThreats: threats)
+            let entries = detected.map { (name, value) in
+                ThreatResultEntry(threatName: name, detected: value)
+            }
+            let message = ScanResultMessage(results: entries)
             DispatchQueue.main.async {
-                result(detected)
+                completion(.success(message))
             }
         }
     }
 
-    private func handleBlockScreenCapture(_ arguments: Any?, result: FlutterResult) {
-        let args = arguments as? [String: Any]
-        let enabled = args?["enabled"] as? Bool ?? false
+    func blockScreenCapture(enabled: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
         screenCaptureManager.block(enabled)
-        result(nil)
+        completion(.success(()))
     }
 
-    private func applyIosConfig(_ args: [String: Any]?) {
-        guard let iosConfig = args?["iosConfig"] as? [String: Any] else { return }
-        let teamId = iosConfig["teamId"] as? String
-        let bundleIds = iosConfig["bundleIds"] as? [String]
-        DetectorRegistry.shared.configure(teamId: teamId, bundleIds: bundleIds)
+    func isScreenCaptureBlocked(completion: @escaping (Result<Bool, Error>) -> Void) {
+        completion(.success(screenCaptureManager.getIsBlocked()))
+    }
+
+    // ── Internal ──────────────────────────────────────────────
+
+    private func applyIosConfig(_ config: IosConfigMessage) {
+        DetectorRegistry.shared.configure(teamId: config.teamId, bundleIds: config.bundleIds)
     }
 
     private func logTermination(detected: [String], matched: [String]) {
@@ -174,10 +142,7 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
             let reportable = threats.filter { !currentExitThreats.contains($0) }
             if !reportable.isEmpty {
                 DispatchQueue.main.async { [weak self] in
-                    guard let self else { return }
-                    self.sinkQueue.sync {
-                        self.eventSink?(reportable)
-                    }
+                    self?.flutterApi?.onThreatsDetected(threats: reportable) { _ in }
                 }
             }
         }
