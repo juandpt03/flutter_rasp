@@ -47,7 +47,7 @@ A comprehensive **RASP** (Runtime Application Self-Protection) plugin for Flutte
 
 ```yaml
 dependencies:
-  flutter_rasp: ^5.0.0
+  flutter_rasp: ^5.1.0
 ```
 
 | Platform | Minimum Version |
@@ -321,9 +321,9 @@ FlutterRasp (Singleton)             SslPinningClient
     |                                    |
 FlutterRaspPlatform (Interface)     CertificateDecryptor (encrypted .enc)
     |                               CertificateStore     (Keychain / EncryptedSharedPrefs)
-MethodChannelFlutterRasp            SecurityContext       (withTrustedRoots: false)
-    |--- MethodChannel (commands/checks)
-    |--- EventChannel  (threat stream)
+PigeonFlutterRasp                   SecurityContext       (withTrustedRoots: false)
+    |--- FlutterRaspHostApi  (type-safe commands/checks)
+    |--- FlutterRaspFlutterApi (type-safe threat stream)
     |
     Android (Kotlin)                 iOS (Swift)
     -------------------              -------------------

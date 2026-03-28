@@ -1,3 +1,7 @@
+## 5.1.0
+
+- Migrated platform communication from manual `MethodChannel`/`EventChannel` to Pigeon for type-safe, generated native bindings
+
 ## 5.0.1
 
 - Downgraded `pointycastle` to `^3.9.1` for broader compatibility with existing projects
