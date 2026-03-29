@@ -141,7 +141,7 @@ final client = await SslPinningClient.createHttpClient(config);
 
 #### Encrypted PEM
 
-Encrypt your `.pem` with the [Certificate Encryptor](tools/certificate_encryptor/) web tool, then place the `.enc` file in your assets:
+Encrypt your `.pem` with the [Certificate Encryptor](tool/certificate_encryptor/) web tool, then place the `.enc` file in your assets:
 
 ```dart
 const config = SslPinningConfig(
