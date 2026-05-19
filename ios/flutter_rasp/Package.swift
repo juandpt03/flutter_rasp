@@ -20,7 +20,7 @@ let package = Package(
         ),
         .binaryTarget(
             name: "FlutterRaspCore",
-            path: "../FlutterRaspCore.xcframework"
+            path: "FlutterRaspCore.xcframework"
         )
     ]
 )

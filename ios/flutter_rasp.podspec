@@ -10,7 +10,7 @@ A comprehensive RASP plugin for Flutter that detects root, jailbreak, emulators,
   s.author           = { 'juandpt03' => 'juandpt03@gmail.com' }
   s.source           = { :path => '.' }
   s.source_files = 'flutter_rasp/Sources/flutter_rasp/**/*.swift'
-  s.vendored_frameworks = 'FlutterRaspCore.xcframework'
+  s.vendored_frameworks = 'flutter_rasp/FlutterRaspCore.xcframework'
   s.dependency 'Flutter'
   s.platform = :ios, '13.0'
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
