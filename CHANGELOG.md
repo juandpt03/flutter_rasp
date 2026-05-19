@@ -1,6 +1,6 @@
 ## 5.1.2
 
-- Fixed root detection false positives on Samsung One UI and other Android 14+ devices
+- Fixed root detection false positives on Samsung One UI and other Android 13+ devices
 - Improved Magisk, KernelSU, and APatch detection accuracy (Android)
 
 ## 5.1.1
