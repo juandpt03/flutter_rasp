@@ -1,3 +1,8 @@
+## 5.1.2
+
+- Fixed root detection false positives on Samsung One UI and other Android 14+ devices
+- Improved Magisk, KernelSU, and APatch detection accuracy (Android)
+
 ## 5.1.1
 
 - Added Firebase App Distribution, Vivo, HeyTap, Oppo, and GetApps to the default `supportedStores` list in `AndroidRaspConfig` so apps published through these stores no longer trigger trusted-install warnings out of the box
