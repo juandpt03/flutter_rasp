@@ -1,3 +1,8 @@
+## 5.1.1
+
+- Added Firebase App Distribution, Vivo, HeyTap, Oppo, and GetApps to the default `supportedStores` list in `AndroidRaspConfig` so apps published through these stores no longer trigger trusted-install warnings out of the box
+- Fixed iOS Swift Package Manager integration — `FlutterRaspCore.xcframework` now lives inside the SPM package root so SPM-based hosts can resolve it correctly
+
 ## 5.1.0
 
 - Migrated platform communication from manual `MethodChannel`/`EventChannel` to Pigeon for type-safe, generated native bindings

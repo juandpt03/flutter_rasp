@@ -47,7 +47,7 @@ A comprehensive **RASP** (Runtime Application Self-Protection) plugin for Flutte
 
 ```yaml
 dependencies:
-  flutter_rasp: ^5.1.0
+  flutter_rasp: ^5.1.1
 ```
 
 | Platform | Minimum Version |
@@ -230,25 +230,37 @@ The `supportedStores` parameter in `AndroidRaspConfig` controls which install so
 | Huawei AppGallery           | `com.huawei.appmarket`            | Included by default, no action needed    |
 | Amazon Appstore             | `com.amazon.venezia`              | Included by default, no action needed    |
 | Samsung Galaxy Store        | `com.sec.android.app.samsungapps` | Included by default, no action needed    |
-| Firebase App Distribution   | `dev.firebase.appdistribution`    |                                          |
-| Vivo App Store              | `com.vivo.appstore`               | Common on Vivo devices                   |
-| HeyTap                      | `com.heytap.market`               | Common on Realme and Oppo devices        |
-| Oppo App Market             | `com.oppo.market`                 | Common on Oppo devices                   |
-| GetApps                     | `com.xiaomi.mipicks`              | Common on Xiaomi, Redmi and POCO devices |
+| Firebase App Distribution   | `dev.firebase.appdistribution`    | Included by default, no action needed    |
+| Vivo App Store              | `com.vivo.appstore`               | Included by default. Common on Vivo devices |
+| HeyTap                      | `com.heytap.market`               | Included by default. Common on Realme and Oppo devices |
+| Oppo App Market             | `com.oppo.market`                 | Included by default. Common on Oppo devices |
+| GetApps                     | `com.xiaomi.mipicks`              | Included by default. Common on Xiaomi, Redmi and POCO devices |
 
-To support additional stores, add their package names:
+By default you don't need to set `supportedStores` at all — the full list above is applied automatically:
+
+```dart
+// Uses every store marked "Included by default".
+AndroidRaspConfig(signingCertHashes: ['...']);
+```
+
+If you **do** pass `supportedStores`, the value **replaces** the defaults entirely (it is not merged). To allow a custom store alongside the built-in ones, spread `AndroidRaspConfig.defaultSupportedStores`:
 
 ```dart
 AndroidRaspConfig(
   signingCertHashes: ['...'],
   supportedStores: [
-    ...AndroidRaspConfig().supportedStores,
-    'dev.firebase.appdistribution',  // Firebase App Distribution
-    'com.vivo.appstore',             // Vivo App Store
-    'com.heytap.market',             // HeyTap (Realme, Oppo)
-    'com.oppo.market',               // Oppo App Market
-    'com.xiaomi.mipicks',            // GetApps (Xiaomi, Redmi, POCO)
+    ...AndroidRaspConfig.defaultSupportedStores,
+    'com.your.custom.store',
   ],
+);
+```
+
+To trust **only** a specific subset (e.g. enterprise distribution where only one store is valid), pass just those package names:
+
+```dart
+AndroidRaspConfig(
+  signingCertHashes: ['...'],
+  supportedStores: ['com.your.private.store'], // defaults are discarded
 );
 ```
 
