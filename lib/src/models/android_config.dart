@@ -21,7 +21,7 @@ class AndroidRaspConfig {
     'com.amazon.venezia',
     'com.huawei.appmarket',
     'com.sec.android.app.samsungapps',
-    'dev.firebase.appdistribution',
+    'com.google.firebase.appdistribution',
     'com.vivo.appstore',
     'com.heytap.market',
     'com.oppo.market',

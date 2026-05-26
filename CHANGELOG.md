@@ -1,3 +1,7 @@
+## 5.1.3
+
+- Fixed Firebase App Distribution being flagged as an untrusted install (Android)
+
 ## 5.1.2
 
 - Fixed root detection false positives on Samsung One UI and other Android 13+ devices
