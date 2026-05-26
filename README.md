@@ -12,34 +12,34 @@ A comprehensive **RASP** (Runtime Application Self-Protection) plugin for Flutte
 
 ### Threat Detection
 
-| Threat | Android | iOS | Description |
-|--------|:-------:|:---:|-------------|
-| Root / Jailbreak | :white_check_mark: | :white_check_mark: | Compromised OS with full system access. Attackers can bypass app sandboxing, read private data, and inject code |
-| Emulator / Simulator | :white_check_mark: | :white_check_mark: | Virtual environments used to automate attacks, bypass device-bound protections, and analyze app behavior at scale |
-| Debugger | :white_check_mark: | :white_check_mark: | Attached debuggers (JDWP, ptrace) allow stepping through code, modifying variables at runtime, and extracting secrets |
-| Hooks (Frida/Xposed) | :white_check_mark: | :white_check_mark: | Instrumentation frameworks that intercept and modify function calls at runtime, bypassing security checks |
-| Repackaging | :white_check_mark: | :white_check_mark: | Tampered app re-signed with a different certificate. Used to inject malware, remove license checks, or steal data |
-| Trusted Install | :white_check_mark: | :white_check_mark: | Sideloaded apps bypass store review and integrity checks, increasing risk of running modified or malicious builds |
-| VPN | :white_check_mark: | :white_check_mark: | Active VPN or proxy that can intercept, inspect, and modify network traffic between the app and its servers |
-| Developer Mode | :white_check_mark: | :x: | Enabled developer options expose debugging interfaces that allow unauthorized access to app internals |
-| ADB Enabled | :white_check_mark: | :x: | Android Debug Bridge enabled, allowing unauthorized USB debugging access to app internals and data extraction |
-| Device Passcode | :white_check_mark: | :white_check_mark: | Device without screen lock. Physical access gives unrestricted access to app data and keychain entries |
-| Secure Hardware | :white_check_mark: | :white_check_mark: | Missing hardware-backed keystore (TEE/StrongBox, Secure Enclave). Cryptographic keys can be extracted by software attacks |
-| Obfuscation | :white_check_mark: | :x: | Unobfuscated binary with readable class and symbol names, making reverse engineering and vulnerability discovery trivial |
-| Time Spoofing | :white_check_mark: | :x: | Manipulated system clock used to bypass time-based logic like token expiration, trial periods, or certificate validity |
-| Location Spoofing | :white_check_mark: | :x: | Fake GPS coordinates used to bypass geo-restrictions, cheat in location-based services, or commit region-locked fraud |
-| Multi-Instance | :white_check_mark: | :x: | Cloned or dual-app environments that run multiple copies of the app to abuse promotions, bypass rate limits, or impersonate users |
-| Screen Capture | :white_check_mark: | :white_check_mark: | Blocks screenshots and screen recording to prevent leaking sensitive UI content like PINs, tokens, or personal data |
+| Threat               |      Android       |        iOS         | Description                                                                                                                       |
+| -------------------- | :----------------: | :----------------: | --------------------------------------------------------------------------------------------------------------------------------- |
+| Root / Jailbreak     | :white_check_mark: | :white_check_mark: | Compromised OS with full system access. Attackers can bypass app sandboxing, read private data, and inject code                   |
+| Emulator / Simulator | :white_check_mark: | :white_check_mark: | Virtual environments used to automate attacks, bypass device-bound protections, and analyze app behavior at scale                 |
+| Debugger             | :white_check_mark: | :white_check_mark: | Attached debuggers (JDWP, ptrace) allow stepping through code, modifying variables at runtime, and extracting secrets             |
+| Hooks (Frida/Xposed) | :white_check_mark: | :white_check_mark: | Instrumentation frameworks that intercept and modify function calls at runtime, bypassing security checks                         |
+| Repackaging          | :white_check_mark: | :white_check_mark: | Tampered app re-signed with a different certificate. Used to inject malware, remove license checks, or steal data                 |
+| Trusted Install      | :white_check_mark: | :white_check_mark: | Sideloaded apps bypass store review and integrity checks, increasing risk of running modified or malicious builds                 |
+| VPN                  | :white_check_mark: | :white_check_mark: | Active VPN or proxy that can intercept, inspect, and modify network traffic between the app and its servers                       |
+| Developer Mode       | :white_check_mark: |        :x:         | Enabled developer options expose debugging interfaces that allow unauthorized access to app internals                             |
+| ADB Enabled          | :white_check_mark: |        :x:         | Android Debug Bridge enabled, allowing unauthorized USB debugging access to app internals and data extraction                     |
+| Device Passcode      | :white_check_mark: | :white_check_mark: | Device without screen lock. Physical access gives unrestricted access to app data and keychain entries                            |
+| Secure Hardware      | :white_check_mark: | :white_check_mark: | Missing hardware-backed keystore (TEE/StrongBox, Secure Enclave). Cryptographic keys can be extracted by software attacks         |
+| Obfuscation          | :white_check_mark: |        :x:         | Unobfuscated binary with readable class and symbol names, making reverse engineering and vulnerability discovery trivial          |
+| Time Spoofing        | :white_check_mark: |        :x:         | Manipulated system clock used to bypass time-based logic like token expiration, trial periods, or certificate validity            |
+| Location Spoofing    | :white_check_mark: |        :x:         | Fake GPS coordinates used to bypass geo-restrictions, cheat in location-based services, or commit region-locked fraud             |
+| Multi-Instance       | :white_check_mark: |        :x:         | Cloned or dual-app environments that run multiple copies of the app to abuse promotions, bypass rate limits, or impersonate users |
+| Screen Capture       | :white_check_mark: | :white_check_mark: | Blocks screenshots and screen recording to prevent leaking sensitive UI content like PINs, tokens, or personal data               |
 
 ### SSL Certificate Pinning
 
-| Feature | Description |
-|---------|-------------|
-| PEM Certificate Pinning | Only trusts the `.pem` certificates you provide — any other connection fails automatically |
-| Encrypted Certificate Pinning | Encrypt `.pem` files so they can't be extracted from your app bundle |
-| Remote Certificate Updates | Fetch certificates from your API at runtime — no app update needed on rotation |
-| Secure Storage | Certificates stored via Keychain (iOS) / EncryptedSharedPreferences (Android) |
-| Compatible with `dart:io`, Dio, `package:http` | Works with any HTTP client that accepts a `dart:io` `HttpClient` |
+| Feature                                        | Description                                                                                |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| PEM Certificate Pinning                        | Only trusts the `.pem` certificates you provide — any other connection fails automatically |
+| Encrypted Certificate Pinning                  | Encrypt `.pem` files so they can't be extracted from your app bundle                       |
+| Remote Certificate Updates                     | Fetch certificates from your API at runtime — no app update needed on rotation             |
+| Secure Storage                                 | Certificates stored via Keychain (iOS) / EncryptedSharedPreferences (Android)              |
+| Compatible with `dart:io`, Dio, `package:http` | Works with any HTTP client that accepts a `dart:io` `HttpClient`                           |
 
 ---
 
@@ -47,13 +47,13 @@ A comprehensive **RASP** (Runtime Application Self-Protection) plugin for Flutte
 
 ```yaml
 dependencies:
-  flutter_rasp: ^5.1.2
+  flutter_rasp: ^5.1.3
 ```
 
-| Platform | Minimum Version |
-|----------|----------------|
-| Android | API 24 (Android 7.0) |
-| iOS | 13.0 |
+| Platform | Minimum Version      |
+| -------- | -------------------- |
+| Android  | API 24 (Android 7.0) |
+| iOS      | 13.0                 |
 
 No additional permissions required.
 
@@ -222,18 +222,18 @@ See the [example app](example/lib/notifiers/ssl_pinning_notifier.dart) for a com
 
 The `supportedStores` parameter in `AndroidRaspConfig` controls which install sources are considered trusted.
 
-| Store / Distribution method | Package name                      | Notes                                    |
-|-----------------------------|-----------------------------------|------------------------------------------|
-| App Store (iOS)             |                                   | Included by default, no action needed    |
-| TestFlight (iOS)            |                                   | Included by default, no action needed    |
-| Google Play                 | `com.android.vending`             | Included by default, no action needed    |
-| Huawei AppGallery           | `com.huawei.appmarket`            | Included by default, no action needed    |
-| Amazon Appstore             | `com.amazon.venezia`              | Included by default, no action needed    |
-| Samsung Galaxy Store        | `com.sec.android.app.samsungapps` | Included by default, no action needed    |
-| Firebase App Distribution   | `dev.firebase.appdistribution`    | Included by default, no action needed    |
-| Vivo App Store              | `com.vivo.appstore`               | Included by default. Common on Vivo devices |
-| HeyTap                      | `com.heytap.market`               | Included by default. Common on Realme and Oppo devices |
-| Oppo App Market             | `com.oppo.market`                 | Included by default. Common on Oppo devices |
+| Store / Distribution method | Package name                      | Notes                                                         |
+| --------------------------- | --------------------------------- | ------------------------------------------------------------- |
+| App Store (iOS)             |                                   | Included by default, no action needed                         |
+| TestFlight (iOS)            |                                   | Included by default, no action needed                         |
+| Google Play                 | `com.android.vending`             | Included by default, no action needed                         |
+| Huawei AppGallery           | `com.huawei.appmarket`            | Included by default, no action needed                         |
+| Amazon Appstore             | `com.amazon.venezia`              | Included by default, no action needed                         |
+| Samsung Galaxy Store        | `com.sec.android.app.samsungapps` | Included by default, no action needed                         |
+| Firebase App Distribution   | `dev.firebase.appdistribution`    | Included by default, no action needed                         |
+| Vivo App Store              | `com.vivo.appstore`               | Included by default. Common on Vivo devices                   |
+| HeyTap                      | `com.heytap.market`               | Included by default. Common on Realme and Oppo devices        |
+| Oppo App Market             | `com.oppo.market`                 | Included by default. Common on Oppo devices                   |
 | GetApps                     | `com.xiaomi.mipicks`              | Included by default. Common on Xiaomi, Redmi and POCO devices |
 
 By default you don't need to set `supportedStores` at all — the full list above is applied automatically:
@@ -268,12 +268,12 @@ AndroidRaspConfig(
 
 Policies control which threats **terminate the app at the native level** before Dart code can react.
 
-| Policy | Exit Threats |
-|--------|-------------|
-| `ThreatPolicy.none` | None (report only) |
-| `ThreatPolicy.low` | repackaging, trustedInstall |
-| `ThreatPolicy.medium` | root, hook, repackaging, trustedInstall, obfuscationIssues, multiInstance |
-| `ThreatPolicy.high` | root, hook, repackaging, trustedInstall, debug, devicePasscode, obfuscationIssues, multiInstance, secureHardwareNotAvailable, locationSpoofing, adbEnabled |
+| Policy                | Exit Threats                                                                                                                                               |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ThreatPolicy.none`   | None (report only)                                                                                                                                         |
+| `ThreatPolicy.low`    | repackaging, trustedInstall                                                                                                                                |
+| `ThreatPolicy.medium` | root, hook, repackaging, trustedInstall, obfuscationIssues, multiInstance                                                                                  |
+| `ThreatPolicy.high`   | root, hook, repackaging, trustedInstall, debug, devicePasscode, obfuscationIssues, multiInstance, secureHardwareNotAvailable, locationSpoofing, adbEnabled |
 
 ```dart
 const policy = ThreatPolicy(
