@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data' show BytesBuilder;
 
 import 'package:flutter/services.dart';
 
@@ -22,6 +23,7 @@ class SslPinningClient {
   const SslPinningClient._();
 
   static final _cache = <String, SecurityContext>{};
+  static final _pemCache = <String, Uint8List>{};
 
   static Future<SecurityContext> createContext(
     SslPinningConfig config, {
@@ -39,7 +41,7 @@ class SslPinningClient {
 
       if (stored != null) {
         try {
-          final ctx = _buildContext(stored, config.passphrase);
+          final ctx = _buildContext(stored, config.passphrase, key);
           _cache[key] = ctx;
           unawaited(
             _backgroundUpdate(onFetchRemote, key, config.passphrase),
@@ -52,7 +54,7 @@ class SslPinningClient {
       try {
         final bytes = await onFetchRemote();
         if (bytes != null) {
-          final ctx = _buildContext(bytes, config.passphrase);
+          final ctx = _buildContext(bytes, config.passphrase, key);
           await CertificateStore.save(bytes, key: key);
           _cache[key] = ctx;
           return ctx;
@@ -63,7 +65,7 @@ class SslPinningClient {
     }
 
     try {
-      final ctx = await _fromAssets(config, bundle);
+      final ctx = await _fromAssets(config, bundle, key);
       _cache[key] = ctx;
       return ctx;
     } catch (e) {
@@ -91,12 +93,25 @@ class SslPinningClient {
     final key = _storageKey(config);
     await CertificateStore.clear(key: key);
     _cache.remove(key);
+    _pemCache.remove(key);
   }
 
-  static void invalidateCache() => _cache.clear();
+  static void invalidateCache() {
+    _cache.clear();
+    _pemCache.clear();
+  }
 
+  /// Resolved PEM bytes for [config], or `null` if it hasn't been
+  /// initialized yet. Forward to the reporter's `pinnedCertPem` to
+  /// reuse the same cert without a second fetch.
+  static Uint8List? cachedPem(SslPinningConfig config) =>
+      _pemCache[_storageKey(config)];
 
-  static SecurityContext _buildContext(Uint8List bytes, String? passphrase) {
+  static SecurityContext _buildContext(
+    Uint8List bytes,
+    String? passphrase,
+    String key,
+  ) {
     final Uint8List pemBytes;
     if (passphrase != null) {
       pemBytes = CertificateDecryptor.decrypt(bytes, passphrase);
@@ -106,6 +121,7 @@ class SslPinningClient {
     }
     final ctx = SecurityContext(withTrustedRoots: false);
     ctx.setTrustedCertificatesBytes(pemBytes);
+    _pemCache[key] = pemBytes;
     return ctx;
   }
 
@@ -128,9 +144,11 @@ class SslPinningClient {
   static Future<SecurityContext> _fromAssets(
     SslPinningConfig config,
     AssetBundle? bundle,
+    String key,
   ) async {
     final effectiveBundle = bundle ?? rootBundle;
     final ctx = SecurityContext(withTrustedRoots: false);
+    final builder = BytesBuilder(copy: false);
 
     for (final assetPath in config.certificateAssetPaths) {
       final Uint8List pemBytes;
@@ -150,8 +168,10 @@ class SslPinningClient {
       }
 
       ctx.setTrustedCertificatesBytes(pemBytes);
+      builder.add(pemBytes);
     }
 
+    _pemCache[key] = builder.takeBytes();
     return ctx;
   }
 

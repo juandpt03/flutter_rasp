@@ -47,7 +47,7 @@ A comprehensive **RASP** (Runtime Application Self-Protection) plugin for Flutte
 
 ```yaml
 dependencies:
-  flutter_rasp: ^6.0.0
+  flutter_rasp: ^6.0.1
 ```
 
 | Platform | Minimum Version      |
@@ -375,6 +375,34 @@ await FlutterRasp.instance.initialize(
 SSL pinning is **opt-in**: pass `pinnedCertPem` to enable
 certificate pinning on the native HTTPS client. Omit it and the
 reporter falls back to the platform's default TLS validation.
+
+#### Reusing the SslPinningClient certificate
+
+If your app already pins its API traffic via
+[SslPinningClient](#ssl-certificate-pinning) — possibly with
+remote updates — call `SslPinningClient.cachedPem(config)` to pull
+the resolved PEM bytes synchronously and hand them to the
+reporter. No duplicate fetch:
+
+```dart
+const apiConfig = SslPinningConfig(
+  certificateAssetPaths: ['assets/certs/api.enc'],
+  passphrase: 'your_passphrase',
+);
+
+await SslPinningClient.createContext(
+  apiConfig,
+  onFetchRemote: () => yourApi.fetchCurrentCert(),
+);
+
+await FlutterRasp.instance.initialize(
+  config: const RaspConfig(/* ... */),
+  reporter: ReporterConfig(
+    endpoint: Uri.parse('https://your-backend.example.com/v1/ingest'),
+    pinnedCertPem: SslPinningClient.cachedPem(apiConfig),
+  ),
+);
+```
 
 ### Configuration knobs
 

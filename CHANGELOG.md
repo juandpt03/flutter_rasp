@@ -1,3 +1,11 @@
+## 6.0.1
+
+- Added `SslPinningClient.cachedPem(config)` to retrieve the PEM
+  bytes already resolved by the SSL pinning chain (memory → secure
+  storage → remote fetch → asset). Forward it to the reporter's
+  `pinnedCertPem` to reuse the same certificate without firing a
+  second remote fetch.
+
 ## 6.0.0
 
 - **New:** built-in security reporter — ships every detected
