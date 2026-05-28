@@ -1,3 +1,19 @@
+## 6.0.0
+
+- **New:** built-in security reporter — ships every detected
+  threat, policy-triggered exit, and uncaught Dart error to your
+  own backend. Enable it by passing a `ReporterConfig` to
+  `FlutterRasp.instance.initialize(...)`.
+- Reporter features: stable per-device id, JSON schema v1,
+  in-memory breadcrumbs, encrypted on-disk queue, optional
+  `HMAC-SHA256` payload signing, optional certificate pinning,
+  synchronous exit-threat shipping, background retry with
+  configurable backoffs.
+- Added `RaspReporter.instance` API: `addBreadcrumb`,
+  `captureException`, `setUserId`, `flushPending`.
+- Example app ships a zero-dependency local mock backend for
+  end-to-end validation — see `example/README.md`.
+
 ## 5.1.3
 
 - Fixed Firebase App Distribution being flagged as an untrusted install (Android)

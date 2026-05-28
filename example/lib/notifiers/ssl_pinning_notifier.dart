@@ -30,7 +30,6 @@ class SslPinningNotifier extends ValueNotifier<SslPinningStatus> {
     passphrase: 'flutter_rasp',
   );
 
-  // -- Plain PEM --
 
   Future<void> testWithDartIo() async {
     _start(SslPinningMode.plainPem);
@@ -69,7 +68,6 @@ class SslPinningNotifier extends ValueNotifier<SslPinningStatus> {
     }
   }
 
-  // -- Encrypted --
 
   Future<void> testWithEncrypted() async {
     _start(SslPinningMode.encrypted);
@@ -81,7 +79,6 @@ class SslPinningNotifier extends ValueNotifier<SslPinningStatus> {
     }
   }
 
-  // -- Remote (fails → falls back to encrypted asset) --
 
   Future<void> testWithRemote() async {
     _start(SslPinningMode.remote);
@@ -120,7 +117,6 @@ class SslPinningNotifier extends ValueNotifier<SslPinningStatus> {
     value = SslPinningStatus.idle;
   }
 
-  // -- Internal --
 
   Future<void> _request(HttpClient client) async {
     final request = await client.getUrl(Uri.parse(_url)).timeout(_timeout);

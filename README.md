@@ -47,7 +47,7 @@ A comprehensive **RASP** (Runtime Application Self-Protection) plugin for Flutte
 
 ```yaml
 dependencies:
-  flutter_rasp: ^5.1.3
+  flutter_rasp: ^6.0.0
 ```
 
 | Platform | Minimum Version      |
@@ -303,8 +303,6 @@ buildTypes {
 }
 ```
 
-> **Note:** Flutter's `--obfuscate` flag only covers Dart code. `isMinifyEnabled = true` is required to obfuscate the native Android layer.
-
 ### Scans & Individual Checks
 
 ```dart
@@ -324,37 +322,218 @@ await FlutterRasp.instance.blockScreenCapture(true);
 
 ---
 
+## Security Reporting
+
+Ship every detected threat and uncaught error to your own backend
+dashboard. Delivery is handled natively and runs end-to-end without
+extra setup on your side — just point it at an HTTPS endpoint.
+
+### What you get on the backend
+
+- A stable per-device identifier so the same handset shows up as
+  the same row across sessions. Survives uninstall.
+- The threat kind that fired — `root`, `hook`, `repackaging`,
+  `debug`, etc. — even when the policy keeps the app running.
+  Use it for prevalence dashboards (*"how many of my users have
+  Frida"*). Each unique threat ships at most once per session.
+- The threat that caused termination (`exitThreat`) when the policy
+  is `low/medium/high` and a matching threat fires.
+- Dart stack traces for uncaught Flutter / runtime errors.
+- A breadcrumb trail of recent RASP activity and app events.
+- Platform / model / OS / locale / timezone metadata. Nothing
+  more.
+
+The example app ships a tiny mock backend that renders every
+incoming report. Use it to preview the exact shape of the data
+you'll be receiving on your own dashboard:
+
+![mock backend dashboard](doc/mock_backend.png)
+
+See [`example/README.md`](example/README.md) for the three-step
+setup to run it locally.
+
+### Quick start
+
+Pass a `ReporterConfig` to `FlutterRasp.initialize(...)` — the
+reporter boots together with RASP, no separate initializer:
+
+```dart
+final pinnedCert = await rootBundle.load('assets/certs/your-backend.pem');
+
+await FlutterRasp.instance.initialize(
+  config: const RaspConfig(policy: ThreatPolicy.high, /* ... */),
+  onThreatDetected: (threats) => debugPrint('$threats'),
+  reporter: ReporterConfig(
+    endpoint: Uri.parse('https://your-backend.example.com/v1/ingest'),
+    headers: const {'X-Project-Id': 'my-app'},
+    hmacKey: const String.fromEnvironment('RASP_HMAC_KEY'),
+    pinnedCertPem: pinnedCert.buffer.asUint8List(),  // optional pinning
+  ),
+);
+```
+
+SSL pinning is **opt-in**: pass `pinnedCertPem` to enable
+certificate pinning on the native HTTPS client. Omit it and the
+reporter falls back to the platform's default TLS validation.
+
+### Configuration knobs
+
+`ReporterConfig` exposes opt-out switches and limits with sensible
+defaults:
+
+| Field | Default | Purpose |
+|---|---|---|
+| `captureFlutterErrors` | `true` | Hook `FlutterError.onError` and forward to native. |
+| `capturePlatformErrors` | `true` | Hook `PlatformDispatcher.onError`. |
+| `captureExitThreats` | `true` | Build + ship a report synchronously before RASP kills the process. |
+| `captureDetectedThreats` | `true` | Auto-ship a `threatDetected` report when a new threat appears (deduped per session). |
+| `maxBreadcrumbs` | `50` | Oldest breadcrumbs evicted FIFO. |
+| `maxPendingReports` | `50` | FIFO cap on the on-disk queue. |
+| `exitTimeout` | `1.5 s` | Time the native worker waits for the exit report to ship before killing the process. |
+| `httpTimeout` | `1.2 s` | Per-attempt HTTP timeout (connect + read). |
+| `retryBackoffs` | `[3 s, 9 s, 27 s]` | Backoff schedule after transient delivery failures. |
+| `userId` | `null` | Optional `user.id` shipped with each report. |
+
+### What is shipped
+
+```json
+{
+  "schemaVersion": 1,
+  "reportId": "0f2c4d...e7",
+  "timestamp": "2026-05-27T10:30:00.000Z",
+  "sessionId": "ab12...",
+  "type": "threatDetected",
+  "vulnerabilityKind": "root",
+  "detectedThreats": ["root", "hook"],
+  "message": "threats detected: root, hook",
+  "breadcrumbs": [
+    { "ts": "...", "category": "rasp", "level": "warning",
+      "message": "threats detected" }
+  ],
+  "device": {
+    "id": "<sha256-hex>",
+    "platform": "android",
+    "model": "Pixel 7",
+    "manufacturer": "Google",
+    "osVersion": "14",
+    "apiLevel": 34,
+    "locale": "es-ES",
+    "country": "CO",
+    "timezone": "America/Bogota",
+    "isPhysicalDevice": true
+  },
+  "app": {
+    "packageName": "com.example.app",
+    "version": "1.2.3",
+    "build": "456",
+    "installer": "com.android.vending",
+    "firstInstallMs": 1747000000000,
+    "lastUpdateMs": 1747500000000,
+    "buildType": "release",
+    "abi": "arm64-v8a"
+  },
+  "network": {
+    "type": "wifi",
+    "carrier": "Claro",
+    "mcc": "732",
+    "mnc": "101"
+  },
+  "user": { "id": "<dev-supplied or omitted>" }
+}
+```
+
+**`app.installer`** captures the install source so you can quarantine
+abuse coming from off-store distribution:
+
+| Platform | Values |
+|---|---|
+| Android | Installer package name (`com.android.vending`, `com.amazon.venezia`, …) or `sideload` for adb / unknown sources. |
+| iOS | One of `appStore`, `testFlight`, `simulator`, `dev`, `enterprise`, `sideload`, `unknown`. |
+
+**`network.type`** is one of `wifi`, `cellular`, `ethernet`, `vpn`,
+`none`, `unknown`. Carrier name + MCC/MNC are emitted on Android
+when a SIM is present; iOS omits them (Apple deprecated `CTCarrier`
+in iOS 16). Android requires the normal permission
+`ACCESS_NETWORK_STATE` (already declared by the plugin manifest,
+auto-granted at install — no runtime prompt).
+
+**What we don't collect.** Source IP, precise location, advertising
+id (IDFA/AAID), IMEI, MAC, SIM serial. The IP your dashboard sees
+already lives in the inbound HTTP request — log it server-side.
+Geo-IP from that IP is the right way to derive country / city for
+fraud analytics without prompting the user.
+
+`exitThreat` payloads add `"extras": { "source": "native" }` so
+the dashboard can tell them apart from Dart-shipped reports.
+
+When `hmacKey` is configured, every body is signed with
+`HMAC-SHA256` and the hex digest is sent as `X-Rasp-Signature`.
+
+### Reliability
+
+- Pending reports are **persisted encrypted at rest** using
+  platform-secured storage. If delivery fails or the process dies,
+  the report ships on the next launch.
+- `exitThreat` reports are shipped **synchronously before the
+  process is terminated**, on a bounded time budget you control
+  via `exitTimeout`.
+- `4xx` responses are treated as permanent rejections and dropped.
+  `5xx` / network errors are retried with the configured backoff.
+
+### Privacy
+
+Reports ship under legitimate interest (fraud / abuse prevention).
+The integrator is responsible for declaring "Device or other IDs"
+in App Store / Play Console privacy labels and honoring DSAR
+requests on their backend. The `device.id` is not an advertising
+id; Apple App Tracking Transparency does not apply when it's used
+only for fraud / abuse detection.
+
+### Trying it locally
+
+The `example/` app bundles a tiny Dart mock backend so you can see
+real reports flowing before wiring your own. See
+[`example/README.md`](example/README.md) for the three-step setup.
+
+---
+
 ## Architecture
 
 ```
 Flutter App
-    |
-FlutterRasp (Singleton)             SslPinningClient
-    |                                    |
-FlutterRaspPlatform (Interface)     CertificateDecryptor (encrypted .enc)
-    |                               CertificateStore     (Keychain / EncryptedSharedPrefs)
-PigeonFlutterRasp                   SecurityContext       (withTrustedRoots: false)
-    |--- FlutterRaspHostApi  (type-safe commands/checks)
-    |--- FlutterRaspFlutterApi (type-safe threat stream)
-    |
-    Android (Kotlin)                 iOS (Swift)
-    -------------------              -------------------
-    FlutterRaspPlugin                FlutterRaspPlugin
-        |                                |
-    flutter_rasp_core (AAR)          flutter_rasp_core (XCFramework)
+    │
+    ▼
+┌──────────────────────────────────────────────┐
+│ Dart (public API)                            │
+│   FlutterRasp · RaspReporter · SslPinning    │
+└──────────────────────────────────────────────┘
+    │  Pigeon (type-safe bridge)
+    ▼
+┌──────────────────────────────────────────────┐
+│ flutter_rasp plugin (Kotlin / Swift)         │
+│   thin platform bridge                       │
+└──────────────────────────────────────────────┘
+    │  in-process call
+    ▼
+┌──────────────────────────────────────────────┐
+│ flutter_rasp_core                            │
+│   precompiled AAR (Android) / XCFramework    │
+│   detectors · reporter · screen capture      │
+└──────────────────────────────────────────────┘
 ```
+
+Detection logic and the security reporter ship pre-compiled and
+obfuscated. The Dart layer is intentionally thin — only the public
+API surface lives there.
 
 ---
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-### Adding a New Detector
-
-1. Create a detector class implementing `ThreatDetector` (Android) or `ThreatDetectable` (iOS)
-2. Add it to the `DetectorRegistry` list
-3. Add the corresponding `Threat` enum value in Dart
+Contributions on the public Dart side (API ergonomics,
+documentation, examples, tests) are welcome — please open an issue
+or a Pull Request. Detection logic and the security reporter ship
+as pre-compiled binaries and are maintained internally.
 
 ---
 

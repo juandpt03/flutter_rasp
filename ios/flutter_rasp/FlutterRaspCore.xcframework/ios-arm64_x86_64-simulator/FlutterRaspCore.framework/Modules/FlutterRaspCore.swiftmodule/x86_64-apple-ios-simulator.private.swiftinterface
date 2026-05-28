@@ -2,16 +2,21 @@
 // swift-compiler-version: Apple Swift version 6.3 effective-5.10 (swiftlang-6.3.0.123.5 clang-2100.0.123.102)
 // swift-module-flags: -target x86_64-apple-ios13.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -O -enable-experimental-feature DebugDescriptionMacro -module-name FlutterRaspCore -package-name ios
 // swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.3
+import CommonCrypto
+import CryptoKit
 import Darwin
 import Foundation
 import LocalAuthentication
 import MachO
+import Network
 import Security
 import Swift
 import UIKit
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
+import os.log
+import os
 @_hasMissingDesignatedInitializers final public class DetectorRegistry {
   public static let shared: FlutterRaspCore.DetectorRegistry
   final public func configure(teamId: Swift.String?, bundleIds: [Swift.String]?)
@@ -26,4 +31,79 @@ import _SwiftConcurrencyShims
   final public func block(_ enabled: Swift.Bool)
   final public func getIsBlocked() -> Swift.Bool
   @objc deinit
+}
+public enum DeviceIdProvider {
+  public static func resolve() -> FlutterRaspCore.DeviceIdentity
+}
+public enum DeviceMetadataCollector {
+  public static func collect() -> FlutterRaspCore.DeviceInfo
+}
+public enum AppMetadataCollector {
+  public static func collect() -> FlutterRaspCore.AppInfo
+}
+public enum NetworkInfoCollector {
+  public static func collect() -> FlutterRaspCore.NetworkInfo
+}
+@_hasMissingDesignatedInitializers final public class Reporter {
+  public static var shared: FlutterRaspCore.Reporter? {
+    get
+  }
+  public static func initShared(config: FlutterRaspCore.ReporterConfig)
+  public static func disposeShared()
+  final public func setUserId(_ id: Swift.String?)
+  final public func addBreadcrumb(category: Swift.String, level: Swift.String, message: Swift.String, data: [Swift.String : Any] = [:], timestampMs: Swift.Int64 = Int64(Date().timeIntervalSince1970 * 1000))
+  final public func captureException(type: Swift.String, message: Swift.String?, stackTrace: Swift.String?, library: Swift.String?)
+  final public func reportThreatDetected(_ threats: [Swift.String])
+  final public func reportExitThreat(matched: [Swift.String])
+  final public func flushPending()
+  @objc deinit
+}
+public struct ReporterConfig {
+  public let endpoint: Swift.String
+  public let headers: [Swift.String : Swift.String]
+  public let hmacKey: Swift.String?
+  public let pinnedCertPem: Foundation.Data?
+  public let exitTimeoutMs: Swift.Int
+  public let httpTimeoutMs: Swift.Int
+  public let maxBreadcrumbs: Swift.Int
+  public let maxPendingReports: Swift.Int
+  public let retryBackoffsMs: [Swift.Int]
+  public let captureFlutterErrors: Swift.Bool
+  public let capturePlatformErrors: Swift.Bool
+  public let captureExitThreats: Swift.Bool
+  public let captureDetectedThreats: Swift.Bool
+  public let userId: Swift.String?
+  public init(endpoint: Swift.String, headers: [Swift.String : Swift.String], hmacKey: Swift.String?, pinnedCertPem: Foundation.Data?, exitTimeoutMs: Swift.Int, httpTimeoutMs: Swift.Int, maxBreadcrumbs: Swift.Int, maxPendingReports: Swift.Int, retryBackoffsMs: [Swift.Int], captureFlutterErrors: Swift.Bool, capturePlatformErrors: Swift.Bool, captureExitThreats: Swift.Bool, captureDetectedThreats: Swift.Bool, userId: Swift.String?)
+}
+public struct DeviceIdentity {
+  public let stableId: Swift.String
+  public let platform: Swift.String
+  public let source: Swift.String?
+}
+public struct DeviceInfo {
+  public let platform: Swift.String
+  public let model: Swift.String
+  public let manufacturer: Swift.String
+  public let osVersion: Swift.String
+  public let apiLevel: Swift.Int?
+  public let locale: Swift.String?
+  public let country: Swift.String?
+  public let timezone: Swift.String?
+  public let isPhysicalDevice: Swift.Bool?
+}
+public struct AppInfo {
+  public let packageName: Swift.String
+  public let version: Swift.String
+  public let build: Swift.String
+  public let installer: Swift.String
+  public let firstInstallMs: Swift.Int64?
+  public let lastUpdateMs: Swift.Int64?
+  public let buildType: Swift.String?
+  public let abi: Swift.String?
+}
+public struct NetworkInfo {
+  public let type: Swift.String
+  public let carrier: Swift.String?
+  public let mcc: Swift.String?
+  public let mnc: Swift.String?
 }

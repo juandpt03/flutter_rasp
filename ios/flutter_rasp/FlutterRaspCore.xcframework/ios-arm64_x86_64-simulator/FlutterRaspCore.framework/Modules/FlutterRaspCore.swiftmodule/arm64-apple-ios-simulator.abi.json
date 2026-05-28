@@ -555,6 +555,3064 @@
         "printedName": "Foundation",
         "declKind": "Import",
         "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "CommonCrypto",
+        "printedName": "CommonCrypto",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Security",
+        "printedName": "Security",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Network",
+        "printedName": "Network",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "DeviceIdProvider",
+        "printedName": "DeviceIdProvider",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "resolve",
+            "printedName": "resolve()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "DeviceIdentity",
+                "printedName": "FlutterRaspCore.DeviceIdentity",
+                "usr": "s:15FlutterRaspCore14DeviceIdentityV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore16DeviceIdProviderO7resolveAA0D8IdentityVyFZ",
+            "mangledName": "$s15FlutterRaspCore16DeviceIdProviderO7resolveAA0D8IdentityVyFZ",
+            "moduleName": "FlutterRaspCore",
+            "static": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:15FlutterRaspCore16DeviceIdProviderO",
+        "mangledName": "$s15FlutterRaspCore16DeviceIdProviderO",
+        "moduleName": "FlutterRaspCore",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "DeviceMetadataCollector",
+        "printedName": "DeviceMetadataCollector",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "collect",
+            "printedName": "collect()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "DeviceInfo",
+                "printedName": "FlutterRaspCore.DeviceInfo",
+                "usr": "s:15FlutterRaspCore10DeviceInfoV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore23DeviceMetadataCollectorO7collectAA0D4InfoVyFZ",
+            "mangledName": "$s15FlutterRaspCore23DeviceMetadataCollectorO7collectAA0D4InfoVyFZ",
+            "moduleName": "FlutterRaspCore",
+            "static": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:15FlutterRaspCore23DeviceMetadataCollectorO",
+        "mangledName": "$s15FlutterRaspCore23DeviceMetadataCollectorO",
+        "moduleName": "FlutterRaspCore",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "AppMetadataCollector",
+        "printedName": "AppMetadataCollector",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "collect",
+            "printedName": "collect()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "AppInfo",
+                "printedName": "FlutterRaspCore.AppInfo",
+                "usr": "s:15FlutterRaspCore7AppInfoV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore20AppMetadataCollectorO7collectAA0D4InfoVyFZ",
+            "mangledName": "$s15FlutterRaspCore20AppMetadataCollectorO7collectAA0D4InfoVyFZ",
+            "moduleName": "FlutterRaspCore",
+            "static": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:15FlutterRaspCore20AppMetadataCollectorO",
+        "mangledName": "$s15FlutterRaspCore20AppMetadataCollectorO",
+        "moduleName": "FlutterRaspCore",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "NetworkInfoCollector",
+        "printedName": "NetworkInfoCollector",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "collect",
+            "printedName": "collect()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "NetworkInfo",
+                "printedName": "FlutterRaspCore.NetworkInfo",
+                "usr": "s:15FlutterRaspCore11NetworkInfoV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore20NetworkInfoCollectorO7collectAA0dE0VyFZ",
+            "mangledName": "$s15FlutterRaspCore20NetworkInfoCollectorO7collectAA0dE0VyFZ",
+            "moduleName": "FlutterRaspCore",
+            "static": true,
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:15FlutterRaspCore20NetworkInfoCollectorO",
+        "mangledName": "$s15FlutterRaspCore20NetworkInfoCollectorO",
+        "moduleName": "FlutterRaspCore",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Security",
+        "printedName": "Security",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "CryptoKit",
+        "printedName": "CryptoKit",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "CommonCrypto",
+        "printedName": "CommonCrypto",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "os.log",
+        "printedName": "os.log",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Security",
+        "printedName": "Security",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "CryptoKit",
+        "printedName": "CryptoKit",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "CryptoKit",
+        "printedName": "CryptoKit",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "os.log",
+        "printedName": "os.log",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "Reporter",
+        "printedName": "Reporter",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "shared",
+            "printedName": "shared",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "FlutterRaspCore.Reporter?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Reporter",
+                    "printedName": "FlutterRaspCore.Reporter",
+                    "usr": "s:15FlutterRaspCore8ReporterC"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore8ReporterC6sharedACSgvpZ",
+            "mangledName": "$s15FlutterRaspCore8ReporterC6sharedACSgvpZ",
+            "moduleName": "FlutterRaspCore",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "SetterAccess",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "FlutterRaspCore.Reporter?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Reporter",
+                        "printedName": "FlutterRaspCore.Reporter",
+                        "usr": "s:15FlutterRaspCore8ReporterC"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore8ReporterC6sharedACSgvgZ",
+                "mangledName": "$s15FlutterRaspCore8ReporterC6sharedACSgvgZ",
+                "moduleName": "FlutterRaspCore",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "initShared",
+            "printedName": "initShared(config:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "ReporterConfig",
+                "printedName": "FlutterRaspCore.ReporterConfig",
+                "usr": "s:15FlutterRaspCore14ReporterConfigV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore8ReporterC10initShared6configyAA0D6ConfigV_tFZ",
+            "mangledName": "$s15FlutterRaspCore8ReporterC10initShared6configyAA0D6ConfigV_tFZ",
+            "moduleName": "FlutterRaspCore",
+            "static": true,
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "disposeShared",
+            "printedName": "disposeShared()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore8ReporterC13disposeSharedyyFZ",
+            "mangledName": "$s15FlutterRaspCore8ReporterC13disposeSharedyyFZ",
+            "moduleName": "FlutterRaspCore",
+            "static": true,
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setUserId",
+            "printedName": "setUserId(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore8ReporterC9setUserIdyySSSgF",
+            "mangledName": "$s15FlutterRaspCore8ReporterC9setUserIdyySSSgF",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "addBreadcrumb",
+            "printedName": "addBreadcrumb(category:level:message:data:timestampMs:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Dictionary",
+                "printedName": "[Swift.String : Any]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ProtocolComposition",
+                    "printedName": "Any"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:SD"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int64",
+                "printedName": "Swift.Int64",
+                "hasDefaultArg": true,
+                "usr": "s:s5Int64V"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore8ReporterC13addBreadcrumb8category5level7message4data11timestampMsySS_S2SSDySSypGs5Int64VtF",
+            "mangledName": "$s15FlutterRaspCore8ReporterC13addBreadcrumb8category5level7message4data11timestampMsySS_S2SSDySSypGs5Int64VtF",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "captureException",
+            "printedName": "captureException(type:message:stackTrace:library:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore8ReporterC16captureException4type7message10stackTrace7libraryySS_SSSgA2ItF",
+            "mangledName": "$s15FlutterRaspCore8ReporterC16captureException4type7message10stackTrace7libraryySS_SSSgA2ItF",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "reportThreatDetected",
+            "printedName": "reportThreatDetected(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Swift.String]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore8ReporterC20reportThreatDetectedyySaySSGF",
+            "mangledName": "$s15FlutterRaspCore8ReporterC20reportThreatDetectedyySaySSGF",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "reportExitThreat",
+            "printedName": "reportExitThreat(matched:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Swift.String]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore8ReporterC16reportExitThreat7matchedySaySSG_tF",
+            "mangledName": "$s15FlutterRaspCore8ReporterC16reportExitThreat7matchedySaySSG_tF",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "flushPending",
+            "printedName": "flushPending()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore8ReporterC12flushPendingyyF",
+            "mangledName": "$s15FlutterRaspCore8ReporterC12flushPendingyyF",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:15FlutterRaspCore8ReporterC",
+        "mangledName": "$s15FlutterRaspCore8ReporterC",
+        "moduleName": "FlutterRaspCore",
+        "declAttributes": [
+          "Final",
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "hasMissingDesignatedInitializers": true,
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "ReporterConfig",
+        "printedName": "ReporterConfig",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "endpoint",
+            "printedName": "endpoint",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore14ReporterConfigV8endpointSSvp",
+            "mangledName": "$s15FlutterRaspCore14ReporterConfigV8endpointSSvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore14ReporterConfigV8endpointSSvg",
+                "mangledName": "$s15FlutterRaspCore14ReporterConfigV8endpointSSvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "headers",
+            "printedName": "headers",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Dictionary",
+                "printedName": "[Swift.String : Swift.String]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:SD"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore14ReporterConfigV7headersSDyS2SGvp",
+            "mangledName": "$s15FlutterRaspCore14ReporterConfigV7headersSDyS2SGvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Dictionary",
+                    "printedName": "[Swift.String : Swift.String]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:SD"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore14ReporterConfigV7headersSDyS2SGvg",
+                "mangledName": "$s15FlutterRaspCore14ReporterConfigV7headersSDyS2SGvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "hmacKey",
+            "printedName": "hmacKey",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore14ReporterConfigV7hmacKeySSSgvp",
+            "mangledName": "$s15FlutterRaspCore14ReporterConfigV7hmacKeySSSgvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore14ReporterConfigV7hmacKeySSSgvg",
+                "mangledName": "$s15FlutterRaspCore14ReporterConfigV7hmacKeySSSgvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "pinnedCertPem",
+            "printedName": "pinnedCertPem",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.Data?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Data",
+                    "printedName": "Foundation.Data",
+                    "usr": "s:10Foundation4DataV"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore14ReporterConfigV13pinnedCertPem10Foundation4DataVSgvp",
+            "mangledName": "$s15FlutterRaspCore14ReporterConfigV13pinnedCertPem10Foundation4DataVSgvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Foundation.Data?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Data",
+                        "printedName": "Foundation.Data",
+                        "usr": "s:10Foundation4DataV"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore14ReporterConfigV13pinnedCertPem10Foundation4DataVSgvg",
+                "mangledName": "$s15FlutterRaspCore14ReporterConfigV13pinnedCertPem10Foundation4DataVSgvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "exitTimeoutMs",
+            "printedName": "exitTimeoutMs",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore14ReporterConfigV13exitTimeoutMsSivp",
+            "mangledName": "$s15FlutterRaspCore14ReporterConfigV13exitTimeoutMsSivp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore14ReporterConfigV13exitTimeoutMsSivg",
+                "mangledName": "$s15FlutterRaspCore14ReporterConfigV13exitTimeoutMsSivg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "httpTimeoutMs",
+            "printedName": "httpTimeoutMs",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore14ReporterConfigV13httpTimeoutMsSivp",
+            "mangledName": "$s15FlutterRaspCore14ReporterConfigV13httpTimeoutMsSivp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore14ReporterConfigV13httpTimeoutMsSivg",
+                "mangledName": "$s15FlutterRaspCore14ReporterConfigV13httpTimeoutMsSivg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "maxBreadcrumbs",
+            "printedName": "maxBreadcrumbs",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore14ReporterConfigV14maxBreadcrumbsSivp",
+            "mangledName": "$s15FlutterRaspCore14ReporterConfigV14maxBreadcrumbsSivp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore14ReporterConfigV14maxBreadcrumbsSivg",
+                "mangledName": "$s15FlutterRaspCore14ReporterConfigV14maxBreadcrumbsSivg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "maxPendingReports",
+            "printedName": "maxPendingReports",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore14ReporterConfigV17maxPendingReportsSivp",
+            "mangledName": "$s15FlutterRaspCore14ReporterConfigV17maxPendingReportsSivp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore14ReporterConfigV17maxPendingReportsSivg",
+                "mangledName": "$s15FlutterRaspCore14ReporterConfigV17maxPendingReportsSivg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "retryBackoffsMs",
+            "printedName": "retryBackoffsMs",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Swift.Int]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore14ReporterConfigV15retryBackoffsMsSaySiGvp",
+            "mangledName": "$s15FlutterRaspCore14ReporterConfigV15retryBackoffsMsSaySiGvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[Swift.Int]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Int",
+                        "printedName": "Swift.Int",
+                        "usr": "s:Si"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore14ReporterConfigV15retryBackoffsMsSaySiGvg",
+                "mangledName": "$s15FlutterRaspCore14ReporterConfigV15retryBackoffsMsSaySiGvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "captureFlutterErrors",
+            "printedName": "captureFlutterErrors",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore14ReporterConfigV07captureA6ErrorsSbvp",
+            "mangledName": "$s15FlutterRaspCore14ReporterConfigV07captureA6ErrorsSbvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore14ReporterConfigV07captureA6ErrorsSbvg",
+                "mangledName": "$s15FlutterRaspCore14ReporterConfigV07captureA6ErrorsSbvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "capturePlatformErrors",
+            "printedName": "capturePlatformErrors",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore14ReporterConfigV21capturePlatformErrorsSbvp",
+            "mangledName": "$s15FlutterRaspCore14ReporterConfigV21capturePlatformErrorsSbvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore14ReporterConfigV21capturePlatformErrorsSbvg",
+                "mangledName": "$s15FlutterRaspCore14ReporterConfigV21capturePlatformErrorsSbvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "captureExitThreats",
+            "printedName": "captureExitThreats",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore14ReporterConfigV18captureExitThreatsSbvp",
+            "mangledName": "$s15FlutterRaspCore14ReporterConfigV18captureExitThreatsSbvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore14ReporterConfigV18captureExitThreatsSbvg",
+                "mangledName": "$s15FlutterRaspCore14ReporterConfigV18captureExitThreatsSbvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "captureDetectedThreats",
+            "printedName": "captureDetectedThreats",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore14ReporterConfigV22captureDetectedThreatsSbvp",
+            "mangledName": "$s15FlutterRaspCore14ReporterConfigV22captureDetectedThreatsSbvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore14ReporterConfigV22captureDetectedThreatsSbvg",
+                "mangledName": "$s15FlutterRaspCore14ReporterConfigV22captureDetectedThreatsSbvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "userId",
+            "printedName": "userId",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore14ReporterConfigV6userIdSSSgvp",
+            "mangledName": "$s15FlutterRaspCore14ReporterConfigV6userIdSSSgvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore14ReporterConfigV6userIdSSSgvg",
+                "mangledName": "$s15FlutterRaspCore14ReporterConfigV6userIdSSSgvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(endpoint:headers:hmacKey:pinnedCertPem:exitTimeoutMs:httpTimeoutMs:maxBreadcrumbs:maxPendingReports:retryBackoffsMs:captureFlutterErrors:capturePlatformErrors:captureExitThreats:captureDetectedThreats:userId:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "ReporterConfig",
+                "printedName": "FlutterRaspCore.ReporterConfig",
+                "usr": "s:15FlutterRaspCore14ReporterConfigV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Dictionary",
+                "printedName": "[Swift.String : Swift.String]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:SD"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.Data?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Data",
+                    "printedName": "Foundation.Data",
+                    "usr": "s:10Foundation4DataV"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Swift.Int]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "usr": "s:Sa"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:15FlutterRaspCore14ReporterConfigV8endpoint7headers7hmacKey13pinnedCertPem13exitTimeoutMs04httpnO014maxBreadcrumbs0Q14PendingReports013retryBackoffsO007captureA6Errors0w8PlatformX00W11ExitThreats0W15DetectedThreats6userIdACSS_SDyS2SGSSSg10Foundation4DataVSgS4iSaySiGS4bAStcfc",
+            "mangledName": "$s15FlutterRaspCore14ReporterConfigV8endpoint7headers7hmacKey13pinnedCertPem13exitTimeoutMs04httpnO014maxBreadcrumbs0Q14PendingReports013retryBackoffsO007captureA6Errors0w8PlatformX00W11ExitThreats0W15DetectedThreats6userIdACSS_SDyS2SGSSSg10Foundation4DataVSgS4iSaySiGS4bAStcfc",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:15FlutterRaspCore14ReporterConfigV",
+        "mangledName": "$s15FlutterRaspCore14ReporterConfigV",
+        "moduleName": "FlutterRaspCore",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "DeviceIdentity",
+        "printedName": "DeviceIdentity",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "stableId",
+            "printedName": "stableId",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore14DeviceIdentityV8stableIdSSvp",
+            "mangledName": "$s15FlutterRaspCore14DeviceIdentityV8stableIdSSvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore14DeviceIdentityV8stableIdSSvg",
+                "mangledName": "$s15FlutterRaspCore14DeviceIdentityV8stableIdSSvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "platform",
+            "printedName": "platform",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore14DeviceIdentityV8platformSSvp",
+            "mangledName": "$s15FlutterRaspCore14DeviceIdentityV8platformSSvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore14DeviceIdentityV8platformSSvg",
+                "mangledName": "$s15FlutterRaspCore14DeviceIdentityV8platformSSvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "source",
+            "printedName": "source",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore14DeviceIdentityV6sourceSSSgvp",
+            "mangledName": "$s15FlutterRaspCore14DeviceIdentityV6sourceSSSgvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore14DeviceIdentityV6sourceSSSgvg",
+                "mangledName": "$s15FlutterRaspCore14DeviceIdentityV6sourceSSSgvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:15FlutterRaspCore14DeviceIdentityV",
+        "mangledName": "$s15FlutterRaspCore14DeviceIdentityV",
+        "moduleName": "FlutterRaspCore",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "DeviceInfo",
+        "printedName": "DeviceInfo",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "platform",
+            "printedName": "platform",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore10DeviceInfoV8platformSSvp",
+            "mangledName": "$s15FlutterRaspCore10DeviceInfoV8platformSSvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore10DeviceInfoV8platformSSvg",
+                "mangledName": "$s15FlutterRaspCore10DeviceInfoV8platformSSvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "model",
+            "printedName": "model",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore10DeviceInfoV5modelSSvp",
+            "mangledName": "$s15FlutterRaspCore10DeviceInfoV5modelSSvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore10DeviceInfoV5modelSSvg",
+                "mangledName": "$s15FlutterRaspCore10DeviceInfoV5modelSSvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "manufacturer",
+            "printedName": "manufacturer",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore10DeviceInfoV12manufacturerSSvp",
+            "mangledName": "$s15FlutterRaspCore10DeviceInfoV12manufacturerSSvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore10DeviceInfoV12manufacturerSSvg",
+                "mangledName": "$s15FlutterRaspCore10DeviceInfoV12manufacturerSSvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "osVersion",
+            "printedName": "osVersion",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore10DeviceInfoV9osVersionSSvp",
+            "mangledName": "$s15FlutterRaspCore10DeviceInfoV9osVersionSSvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore10DeviceInfoV9osVersionSSvg",
+                "mangledName": "$s15FlutterRaspCore10DeviceInfoV9osVersionSSvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "apiLevel",
+            "printedName": "apiLevel",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.Int?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore10DeviceInfoV8apiLevelSiSgvp",
+            "mangledName": "$s15FlutterRaspCore10DeviceInfoV8apiLevelSiSgvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.Int?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Int",
+                        "printedName": "Swift.Int",
+                        "usr": "s:Si"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore10DeviceInfoV8apiLevelSiSgvg",
+                "mangledName": "$s15FlutterRaspCore10DeviceInfoV8apiLevelSiSgvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "locale",
+            "printedName": "locale",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore10DeviceInfoV6localeSSSgvp",
+            "mangledName": "$s15FlutterRaspCore10DeviceInfoV6localeSSSgvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore10DeviceInfoV6localeSSSgvg",
+                "mangledName": "$s15FlutterRaspCore10DeviceInfoV6localeSSSgvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "country",
+            "printedName": "country",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore10DeviceInfoV7countrySSSgvp",
+            "mangledName": "$s15FlutterRaspCore10DeviceInfoV7countrySSSgvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore10DeviceInfoV7countrySSSgvg",
+                "mangledName": "$s15FlutterRaspCore10DeviceInfoV7countrySSSgvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "timezone",
+            "printedName": "timezone",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore10DeviceInfoV8timezoneSSSgvp",
+            "mangledName": "$s15FlutterRaspCore10DeviceInfoV8timezoneSSSgvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore10DeviceInfoV8timezoneSSSgvg",
+                "mangledName": "$s15FlutterRaspCore10DeviceInfoV8timezoneSSSgvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "isPhysicalDevice",
+            "printedName": "isPhysicalDevice",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.Bool?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore10DeviceInfoV010isPhysicalD0SbSgvp",
+            "mangledName": "$s15FlutterRaspCore10DeviceInfoV010isPhysicalD0SbSgvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.Bool?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Bool",
+                        "printedName": "Swift.Bool",
+                        "usr": "s:Sb"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore10DeviceInfoV010isPhysicalD0SbSgvg",
+                "mangledName": "$s15FlutterRaspCore10DeviceInfoV010isPhysicalD0SbSgvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:15FlutterRaspCore10DeviceInfoV",
+        "mangledName": "$s15FlutterRaspCore10DeviceInfoV",
+        "moduleName": "FlutterRaspCore",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "AppInfo",
+        "printedName": "AppInfo",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "packageName",
+            "printedName": "packageName",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore7AppInfoV11packageNameSSvp",
+            "mangledName": "$s15FlutterRaspCore7AppInfoV11packageNameSSvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore7AppInfoV11packageNameSSvg",
+                "mangledName": "$s15FlutterRaspCore7AppInfoV11packageNameSSvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "version",
+            "printedName": "version",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore7AppInfoV7versionSSvp",
+            "mangledName": "$s15FlutterRaspCore7AppInfoV7versionSSvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore7AppInfoV7versionSSvg",
+                "mangledName": "$s15FlutterRaspCore7AppInfoV7versionSSvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "build",
+            "printedName": "build",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore7AppInfoV5buildSSvp",
+            "mangledName": "$s15FlutterRaspCore7AppInfoV5buildSSvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore7AppInfoV5buildSSvg",
+                "mangledName": "$s15FlutterRaspCore7AppInfoV5buildSSvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "installer",
+            "printedName": "installer",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore7AppInfoV9installerSSvp",
+            "mangledName": "$s15FlutterRaspCore7AppInfoV9installerSSvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore7AppInfoV9installerSSvg",
+                "mangledName": "$s15FlutterRaspCore7AppInfoV9installerSSvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "firstInstallMs",
+            "printedName": "firstInstallMs",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.Int64?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int64",
+                    "printedName": "Swift.Int64",
+                    "usr": "s:s5Int64V"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore7AppInfoV14firstInstallMss5Int64VSgvp",
+            "mangledName": "$s15FlutterRaspCore7AppInfoV14firstInstallMss5Int64VSgvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.Int64?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Int64",
+                        "printedName": "Swift.Int64",
+                        "usr": "s:s5Int64V"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore7AppInfoV14firstInstallMss5Int64VSgvg",
+                "mangledName": "$s15FlutterRaspCore7AppInfoV14firstInstallMss5Int64VSgvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "lastUpdateMs",
+            "printedName": "lastUpdateMs",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.Int64?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int64",
+                    "printedName": "Swift.Int64",
+                    "usr": "s:s5Int64V"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore7AppInfoV12lastUpdateMss5Int64VSgvp",
+            "mangledName": "$s15FlutterRaspCore7AppInfoV12lastUpdateMss5Int64VSgvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.Int64?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Int64",
+                        "printedName": "Swift.Int64",
+                        "usr": "s:s5Int64V"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore7AppInfoV12lastUpdateMss5Int64VSgvg",
+                "mangledName": "$s15FlutterRaspCore7AppInfoV12lastUpdateMss5Int64VSgvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "buildType",
+            "printedName": "buildType",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore7AppInfoV9buildTypeSSSgvp",
+            "mangledName": "$s15FlutterRaspCore7AppInfoV9buildTypeSSSgvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore7AppInfoV9buildTypeSSSgvg",
+                "mangledName": "$s15FlutterRaspCore7AppInfoV9buildTypeSSSgvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "abi",
+            "printedName": "abi",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore7AppInfoV3abiSSSgvp",
+            "mangledName": "$s15FlutterRaspCore7AppInfoV3abiSSSgvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore7AppInfoV3abiSSSgvg",
+                "mangledName": "$s15FlutterRaspCore7AppInfoV3abiSSSgvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:15FlutterRaspCore7AppInfoV",
+        "mangledName": "$s15FlutterRaspCore7AppInfoV",
+        "moduleName": "FlutterRaspCore",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "NetworkInfo",
+        "printedName": "NetworkInfo",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "type",
+            "printedName": "type",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore11NetworkInfoV4typeSSvp",
+            "mangledName": "$s15FlutterRaspCore11NetworkInfoV4typeSSvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore11NetworkInfoV4typeSSvg",
+                "mangledName": "$s15FlutterRaspCore11NetworkInfoV4typeSSvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "carrier",
+            "printedName": "carrier",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore11NetworkInfoV7carrierSSSgvp",
+            "mangledName": "$s15FlutterRaspCore11NetworkInfoV7carrierSSSgvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore11NetworkInfoV7carrierSSSgvg",
+                "mangledName": "$s15FlutterRaspCore11NetworkInfoV7carrierSSSgvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "mcc",
+            "printedName": "mcc",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore11NetworkInfoV3mccSSSgvp",
+            "mangledName": "$s15FlutterRaspCore11NetworkInfoV3mccSSSgvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore11NetworkInfoV3mccSSSgvg",
+                "mangledName": "$s15FlutterRaspCore11NetworkInfoV3mccSSSgvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "mnc",
+            "printedName": "mnc",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15FlutterRaspCore11NetworkInfoV3mncSSSgvp",
+            "mangledName": "$s15FlutterRaspCore11NetworkInfoV3mncSSSgvp",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15FlutterRaspCore11NetworkInfoV3mncSSSgvg",
+                "mangledName": "$s15FlutterRaspCore11NetworkInfoV3mncSSSgvg",
+                "moduleName": "FlutterRaspCore",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:15FlutterRaspCore11NetworkInfoV",
+        "mangledName": "$s15FlutterRaspCore11NetworkInfoV",
+        "moduleName": "FlutterRaspCore",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
       }
     ],
     "json_format_version": 8
@@ -713,6 +3771,111 @@
       "offset": 130,
       "length": 30,
       "value": "[\"tun\", \"tap\", \"ppp\", \"ipsec\"]"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/BreadcrumbBuffer.swift",
+      "kind": "Array",
+      "offset": 447,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/Collectors.swift",
+      "kind": "StringLiteral",
+      "offset": 531,
+      "length": 35,
+      "value": "\"com.juandpt.flutter_rasp.reporter\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/Collectors.swift",
+      "kind": "StringLiteral",
+      "offset": 600,
+      "length": 18,
+      "value": "\"device_stable_id\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/Collectors.swift",
+      "kind": "StringLiteral",
+      "offset": 3844,
+      "length": 49,
+      "value": "\"com.juandpt.flutter_rasp.reporter.firstLaunchAt\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/EncryptionKeyProvider.swift",
+      "kind": "StringLiteral",
+      "offset": 702,
+      "length": 42,
+      "value": "\"com.juandpt.flutter_rasp.reporter.crypto\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/EncryptionKeyProvider.swift",
+      "kind": "StringLiteral",
+      "offset": 778,
+      "length": 16,
+      "value": "\"report_aes_key\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/ReportCipher.swift",
+      "kind": "Array",
+      "offset": 374,
+      "length": 24,
+      "value": "[0x52, 0x41, 0x53, 0x50]"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/ReportCipher.swift",
+      "kind": "IntegerLiteral",
+      "offset": 449,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/Reporter.swift",
+      "kind": "StringLiteral",
+      "offset": 929,
+      "length": 3,
+      "value": "\"-\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/Reporter.swift",
+      "kind": "StringLiteral",
+      "offset": 940,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/Reporter.swift",
+      "kind": "Array",
+      "offset": 1187,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/Reporter.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1302,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/Reporter.swift",
+      "kind": "Dictionary",
+      "offset": 2355,
+      "length": 3,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/Reporter.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2426,
+      "length": 4,
+      "value": "1000"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/ReporterTypes.swift",
+      "kind": "IntegerLiteral",
+      "offset": 3041,
+      "length": 4,
+      "value": "1000"
     }
   ]
 }

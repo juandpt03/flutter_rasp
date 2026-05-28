@@ -6,12 +6,9 @@ import 'errors/rasp_exception.dart';
 import 'flutter_rasp_platform_interface.dart';
 import 'generated/rasp_api.g.dart';
 import 'models/rasp_config.dart';
+import 'reporting/rasp_reporter_config.dart';
 
 /// Pigeon-based implementation of [FlutterRaspPlatform].
-///
-/// Replaces the manual [MethodChannel]/[EventChannel] approach with
-/// type-safe generated code. Native-to-Dart threat events are received
-/// via [FlutterRaspFlutterApi] and exposed as a broadcast [Stream].
 class PigeonFlutterRasp extends FlutterRaspPlatform
     implements FlutterRaspFlutterApi {
   static const _timeout = Duration(seconds: 30);
@@ -27,6 +24,7 @@ class PigeonFlutterRasp extends FlutterRaspPlatform
       _flutterApiSetUp = true;
     }
   }
+
 
   @override
   Future<void> startMonitoring(RaspConfig config) async {
@@ -61,14 +59,87 @@ class PigeonFlutterRasp extends FlutterRaspPlatform
   Future<bool> isScreenCaptureBlocked() =>
       _call(() => _hostApi.isScreenCaptureBlocked());
 
-  // -- FlutterApi: called from native --
+
+  @override
+  Future<void> initReporter(ReporterConfig config) async {
+    _ensureFlutterApiSetUp();
+    final msg = ReporterConfigMessage(
+      endpoint: config.endpoint.toString(),
+      headers: config.headers,
+      hmacKey: config.hmacKey,
+      pinnedCertPem: config.pinnedCertPem,
+      exitTimeoutMs: config.exitTimeout.inMilliseconds,
+      httpTimeoutMs: config.httpTimeout.inMilliseconds,
+      maxBreadcrumbs: config.maxBreadcrumbs,
+      maxPendingReports: config.maxPendingReports,
+      retryBackoffsMs:
+          config.retryBackoffs.map((d) => d.inMilliseconds).toList(),
+      captureFlutterErrors: config.captureFlutterErrors,
+      capturePlatformErrors: config.capturePlatformErrors,
+      captureExitThreats: config.captureExitThreats,
+      captureDetectedThreats: config.captureDetectedThreats,
+      userId: config.userId,
+    );
+    await _call(() => _hostApi.initReporter(msg));
+  }
+
+  @override
+  Future<void> disposeReporter() =>
+      _call(() => _hostApi.disposeReporter());
+
+  @override
+  Future<void> addBreadcrumb({
+    required int timestampMs,
+    required String category,
+    required String level,
+    required String message,
+    required String dataJson,
+  }) async {
+    await _call(
+      () => _hostApi.addBreadcrumb(
+        BreadcrumbMessage(
+          timestampMs: timestampMs,
+          category: category,
+          level: level,
+          message: message,
+          dataJson: dataJson,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Future<void> captureError({
+    required String type,
+    String? message,
+    String? stackTrace,
+    String? library,
+  }) async {
+    await _call(
+      () => _hostApi.captureError(
+        CaptureErrorMessage(
+          type: type,
+          message: message,
+          stackTrace: stackTrace,
+          library: library,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Future<void> setReporterUserId(String? userId) =>
+      _call(() => _hostApi.setReporterUserId(userId));
+
+  @override
+  Future<void> flushReporter() => _call(() => _hostApi.flushReporter());
+
 
   @override
   void onThreatsDetected(List<String> threats) {
     _threatController.add(threats);
   }
 
-  // -- Internal --
 
   Future<T> _call<T>(Future<T> Function() fn) async {
     try {
@@ -109,3 +180,4 @@ class PigeonFlutterRasp extends FlutterRaspPlatform
     );
   }
 }
+

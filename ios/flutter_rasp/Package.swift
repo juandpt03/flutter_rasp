@@ -9,11 +9,16 @@ let package = Package(
     products: [
         .library(name: "flutter-rasp", targets: ["flutter_rasp"])
     ],
-    dependencies: [],
+    dependencies: [
+        .package(name: "FlutterFramework", path: "../FlutterFramework")
+    ],
     targets: [
         .target(
             name: "flutter_rasp",
-            dependencies: ["FlutterRaspCore"],
+            dependencies: [
+                "FlutterRaspCore",
+                .product(name: "FlutterFramework", package: "FlutterFramework"),
+            ],
             resources: [
                 .process("PrivacyInfo.xcprivacy"),
             ]

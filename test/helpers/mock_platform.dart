@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_rasp/flutter_rasp.dart';
+// ignore: implementation_imports
 import 'package:flutter_rasp/src/flutter_rasp_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -14,11 +15,8 @@ class MockFlutterRaspPlatform
   bool monitoringStopped = false;
   bool screenCaptureBlocked = false;
 
-  /// Map threat name -> result for [checkThreat].
-  /// Defaults to false for unknown threats.
   Map<String, bool> checkResults = {'emulator': true};
 
-  /// Fixed results for [scanAll].
   Map<String, bool> scanResults = {
     'root': false,
     'emulator': true,
@@ -37,6 +35,15 @@ class MockFlutterRaspPlatform
     'multiInstance': false,
   };
 
+  // Reporter spies.
+  ReporterConfig? lastReporterConfig;
+  int initReporterCalls = 0;
+  int disposeReporterCalls = 0;
+  final List<Map<String, Object?>> breadcrumbs = <Map<String, Object?>>[];
+  final List<Map<String, Object?>> capturedErrors = <Map<String, Object?>>[];
+  String? lastUserId;
+  int flushCalls = 0;
+
   @override
   Future<void> startMonitoring(RaspConfig config) async {
     monitoringStarted = true;
@@ -51,14 +58,12 @@ class MockFlutterRaspPlatform
   Stream<List<String>> get threatStream => controller.stream;
 
   @override
-  Future<bool> checkThreat(String threatName) async {
-    return checkResults[threatName] ?? false;
-  }
+  Future<bool> checkThreat(String threatName) async =>
+      checkResults[threatName] ?? false;
 
   @override
-  Future<Map<String, bool>> scanAll(List<String> enabledThreats) async {
-    return scanResults;
-  }
+  Future<Map<String, bool>> scanAll(List<String> enabledThreats) async =>
+      scanResults;
 
   @override
   Future<void> blockScreenCapture(bool enabled) async {
@@ -66,8 +71,61 @@ class MockFlutterRaspPlatform
   }
 
   @override
-  Future<bool> isScreenCaptureBlocked() async {
-    return screenCaptureBlocked;
+  Future<bool> isScreenCaptureBlocked() async => screenCaptureBlocked;
+
+  // ── Reporter ──
+
+  @override
+  Future<void> initReporter(ReporterConfig config) async {
+    lastReporterConfig = config;
+    initReporterCalls++;
+  }
+
+  @override
+  Future<void> disposeReporter() async {
+    disposeReporterCalls++;
+  }
+
+  @override
+  Future<void> addBreadcrumb({
+    required int timestampMs,
+    required String category,
+    required String level,
+    required String message,
+    required String dataJson,
+  }) async {
+    breadcrumbs.add(<String, Object?>{
+      'timestampMs': timestampMs,
+      'category': category,
+      'level': level,
+      'message': message,
+      'dataJson': dataJson,
+    });
+  }
+
+  @override
+  Future<void> captureError({
+    required String type,
+    String? message,
+    String? stackTrace,
+    String? library,
+  }) async {
+    capturedErrors.add(<String, Object?>{
+      'type': type,
+      'message': message,
+      'stackTrace': stackTrace,
+      'library': library,
+    });
+  }
+
+  @override
+  Future<void> setReporterUserId(String? userId) async {
+    lastUserId = userId;
+  }
+
+  @override
+  Future<void> flushReporter() async {
+    flushCalls++;
   }
 }
 

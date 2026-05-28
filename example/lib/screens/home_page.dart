@@ -13,11 +13,12 @@ class HomePage extends StatelessWidget {
         child: Column(
           children: [
             const DashboardHeader(),
-            ScreenCaptureSection(notifier: screenCaptureNotifier),
-            SslPinningSection(notifier: sslPinningNotifier),
-            ControlStrip(notifier: raspNotifier),
-            ThreatStatusBar(notifier: raspNotifier),
-            Expanded(child: MonitorConsole(notifier: monitorNotifier)),
+            ScreenCaptureSection(notifier: screenCapture),
+            SslPinningSection(notifier: sslPinning),
+            RaspReporterSection(notifier: reporter),
+            ControlStrip(notifier: rasp),
+            ThreatStatusBar(notifier: rasp),
+            Expanded(child: MonitorConsole(notifier: monitor)),
           ],
         ),
       ),

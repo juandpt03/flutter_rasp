@@ -11,7 +11,7 @@ import 'package:pigeon/pigeon.dart';
 )
 
 // ──────────────────────────────────────────
-// DTOs
+// DTOs — Threat detection (existing)
 // ──────────────────────────────────────────
 
 class AndroidConfigMessage {
@@ -61,11 +61,91 @@ class ScanResultMessage {
 }
 
 // ──────────────────────────────────────────
+// DTOs — Reporter (new, native-driven)
+// ──────────────────────────────────────────
+
+/// All-in-one config for the native Reporter living in flutter_rasp_core.
+class ReporterConfigMessage {
+  ReporterConfigMessage({
+    required this.endpoint,
+    required this.headers,
+    this.hmacKey,
+    this.pinnedCertPem,
+    required this.exitTimeoutMs,
+    required this.httpTimeoutMs,
+    required this.maxBreadcrumbs,
+    required this.maxPendingReports,
+    required this.retryBackoffsMs,
+    required this.captureFlutterErrors,
+    required this.capturePlatformErrors,
+    required this.captureExitThreats,
+    required this.captureDetectedThreats,
+    this.userId,
+  });
+
+  final String endpoint;
+  final Map<String, String> headers;
+  final String? hmacKey;
+
+  /// Raw PEM bytes for SSL pinning. `null` means no pinning (default
+  /// system TLS validation).
+  final Uint8List? pinnedCertPem;
+
+  final int exitTimeoutMs;
+  final int httpTimeoutMs;
+  final int maxBreadcrumbs;
+  final int maxPendingReports;
+  final List<int> retryBackoffsMs;
+  final bool captureFlutterErrors;
+  final bool capturePlatformErrors;
+  final bool captureExitThreats;
+  final bool captureDetectedThreats;
+  final String? userId;
+}
+
+class BreadcrumbMessage {
+  BreadcrumbMessage({
+    required this.timestampMs,
+    required this.category,
+    required this.level,
+    required this.message,
+    required this.dataJson,
+  });
+
+  final int timestampMs;
+  final String category;
+
+  /// `'debug' | 'info' | 'warning' | 'error' | 'fatal'`.
+  final String level;
+  final String message;
+
+  /// Optional structured payload encoded as JSON string. Empty when
+  /// no extra data.
+  final String dataJson;
+}
+
+class CaptureErrorMessage {
+  CaptureErrorMessage({
+    required this.type,
+    this.message,
+    this.stackTrace,
+    this.library,
+  });
+
+  /// `'flutterError' | 'dartError' | 'manual'`.
+  final String type;
+  final String? message;
+  final String? stackTrace;
+  final String? library;
+}
+
+// ──────────────────────────────────────────
 // HostApi: Dart -> Native
 // ──────────────────────────────────────────
 
 @HostApi()
 abstract class FlutterRaspHostApi {
+  // Threat monitoring
   @async
   void startMonitoring(RaspConfigMessage config);
 
@@ -83,13 +163,35 @@ abstract class FlutterRaspHostApi {
 
   @async
   bool isScreenCaptureBlocked();
+
+  // Reporter — everything lives natively in flutter_rasp_core
+  @async
+  void initReporter(ReporterConfigMessage config);
+
+  @async
+  void disposeReporter();
+
+  @async
+  void addBreadcrumb(BreadcrumbMessage breadcrumb);
+
+  @async
+  void captureError(CaptureErrorMessage error);
+
+  @async
+  void setReporterUserId(String? userId);
+
+  @async
+  void flushReporter();
 }
 
 // ──────────────────────────────────────────
-// FlutterApi: Native -> Dart (replaces EventChannel)
+// FlutterApi: Native -> Dart
 // ──────────────────────────────────────────
 
 @FlutterApi()
 abstract class FlutterRaspFlutterApi {
+  /// Fired by native each time the monitoring loop spots one or more
+  /// non-exit threats. Used by `FlutterRasp.onThreatDetected` and the
+  /// per-threat `ThreatCallback`.
   void onThreatsDetected(List<String> threats);
 }

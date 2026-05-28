@@ -1,3 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.juandpt.flutter_rasp">
+  <!-- Required by the native reporter to POST events to the integrator's backend. -->
+  <uses-permission android:name="android.permission.INTERNET" />
+  <!-- Normal permission, auto-granted at install. Used by the reporter
+       to label each event with the active network type and carrier. -->
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 </manifest>

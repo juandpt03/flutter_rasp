@@ -3,11 +3,14 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 
 import 'callbacks/threat_callback.dart';
+import 'enums/breadcrumb_level.dart';
 import 'enums/threat.dart';
 import 'errors/rasp_exception.dart';
 import 'flutter_rasp_platform_interface.dart';
 import 'models/rasp_config.dart';
 import 'models/rasp_result.dart';
+import 'reporting/rasp_reporter.dart';
+import 'reporting/rasp_reporter_config.dart';
 
 /// Main entry point for the flutter_rasp plugin.
 ///
@@ -26,14 +29,14 @@ class FlutterRasp {
 
   bool get isInitialized => _config != null;
 
-  /// Starts real-time threat monitoring.
-  ///
-  /// At least one of [onThreatDetected] or [threatCallback] must be provided.
-  /// Throws [RaspException] if already initialized or both callbacks are null.
+  /// Starts real-time threat monitoring. Provide at least one of
+  /// [onThreatDetected] or [threatCallback]. Pass [reporter] to also
+  /// boot the [RaspReporter] in the same call.
   Future<void> initialize({
     RaspConfig config = RaspConfig.defaultConfig,
     void Function(Set<Threat> threats)? onThreatDetected,
     ThreatCallback? threatCallback,
+    ReporterConfig? reporter,
   }) async {
     if (_config != null) {
       throw RaspException.alreadyInitialized();
@@ -41,11 +44,24 @@ class FlutterRasp {
     if (onThreatDetected == null && threatCallback == null) {
       throw RaspException.invalidArgument();
     }
-    config.validate();
-    _config = config;
-    _threatCallback = threatCallback;
-
-    await _platform.startMonitoring(config);
+    if (reporter != null) {
+      await RaspReporter.instance.initialize(reporter);
+    }
+    try {
+      config.validate();
+      _config = config;
+      _threatCallback = threatCallback;
+      await _platform.startMonitoring(config);
+    } catch (e) {
+      // Roll back the reporter so a retry doesn't trip the
+      // "already initialized" guard.
+      if (reporter != null && RaspReporter.instance.isInitialized) {
+        await RaspReporter.instance.dispose();
+      }
+      _config = null;
+      _threatCallback = null;
+      rethrow;
+    }
 
     _subscription = _platform.threatStream.listen(
       (threatNames) {
@@ -54,6 +70,11 @@ class FlutterRasp {
             .where((t) => t != Threat.undefined)
             .toSet();
         if (threats.isEmpty) return;
+        _breadcrumb(
+          'threats detected',
+          level: BreadcrumbLevel.warning,
+          data: {'threats': threats.map((t) => t.name).toList()},
+        );
         onThreatDetected?.call(threats);
         _dispatchThreats(threats);
       },
@@ -86,6 +107,10 @@ class FlutterRasp {
     final threats = enabledThreats.isEmpty
         ? Threat.active
         : enabledThreats.intersection(Threat.active);
+    _breadcrumb(
+      'scanAll',
+      data: {'requested': threats.map((t) => t.name).toList()},
+    );
     final result = await _platform.scanAll(threats.map((t) => t.name).toList());
     return RaspResult.fromMap(result);
   }
@@ -155,7 +180,22 @@ class FlutterRasp {
 
   Future<bool> _check(Threat threat) {
     _ensureInitialized();
+    _breadcrumb('checkThreat', data: {'threat': threat.name});
     return _platform.checkThreat(threat.name);
+  }
+
+  void _breadcrumb(
+    String message, {
+    BreadcrumbLevel level = BreadcrumbLevel.info,
+    Map<String, Object?> data = const <String, Object?>{},
+  }) {
+    if (!RaspReporter.instance.isInitialized) return;
+    RaspReporter.instance.addBreadcrumb(
+      message: message,
+      category: 'rasp',
+      level: level,
+      data: data,
+    );
   }
 
   void _dispatchThreats(Set<Threat> threats) {

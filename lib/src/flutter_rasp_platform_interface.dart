@@ -2,6 +2,7 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'flutter_rasp_pigeon.dart';
 import 'models/rasp_config.dart';
+import 'reporting/rasp_reporter_config.dart';
 
 /// Platform interface for flutter_rasp native communication.
 abstract class FlutterRaspPlatform extends PlatformInterface {
@@ -18,6 +19,7 @@ abstract class FlutterRaspPlatform extends PlatformInterface {
     _instance = instance;
   }
 
+
   Future<void> startMonitoring(RaspConfig config);
   Future<void> stopMonitoring();
   Stream<List<String>> get threatStream;
@@ -25,4 +27,23 @@ abstract class FlutterRaspPlatform extends PlatformInterface {
   Future<Map<String, bool>> scanAll(List<String> enabledThreats);
   Future<void> blockScreenCapture(bool enabled);
   Future<bool> isScreenCaptureBlocked();
+
+
+  Future<void> initReporter(ReporterConfig config);
+  Future<void> disposeReporter();
+  Future<void> addBreadcrumb({
+    required int timestampMs,
+    required String category,
+    required String level,
+    required String message,
+    required String dataJson,
+  });
+  Future<void> captureError({
+    required String type,
+    String? message,
+    String? stackTrace,
+    String? library,
+  });
+  Future<void> setReporterUserId(String? userId);
+  Future<void> flushReporter();
 }

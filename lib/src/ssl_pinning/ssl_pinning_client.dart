@@ -95,7 +95,6 @@ class SslPinningClient {
 
   static void invalidateCache() => _cache.clear();
 
-  // -- Internal --
 
   static SecurityContext _buildContext(Uint8List bytes, String? passphrase) {
     final Uint8List pemBytes;

@@ -91,6 +91,16 @@ class RaspException implements Exception {
         detail ?? RaspErrorCode.noCertificateAvailable.message,
       );
 
+  factory RaspException.raspReporterNotInitialized() => RaspException._(
+    RaspErrorCode.raspReporterNotInitialized,
+    RaspErrorCode.raspReporterNotInitialized.message,
+  );
+
+  factory RaspException.raspReporterAlreadyInitialized() => RaspException._(
+    RaspErrorCode.raspReporterAlreadyInitialized,
+    RaspErrorCode.raspReporterAlreadyInitialized.message,
+  );
+
   factory RaspException.general() =>
       RaspException._(RaspErrorCode.general, RaspErrorCode.general.message);
 

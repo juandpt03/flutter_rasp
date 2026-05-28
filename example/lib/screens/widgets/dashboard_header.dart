@@ -21,6 +21,16 @@ class DashboardHeader extends StatelessWidget {
               letterSpacing: 2.0,
             ),
           ),
+          const SizedBox(width: 8),
+          const Text(
+            'v6.0',
+            style: TextStyle(
+              fontFamily: 'monospace',
+              color: Color(0xFF7A7A8A),
+              fontSize: 10,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           const Spacer(),
           DecoratedBox(
             decoration: BoxDecoration(

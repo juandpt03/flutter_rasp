@@ -6,6 +6,11 @@ import android.os.Looper
 import android.util.Log
 import com.juandpt.flutter_rasp_core.DetectorRegistry
 import com.juandpt.flutter_rasp_core.ScreenCaptureManager
+import com.juandpt.flutter_rasp_core.reporter.Reporter
+import com.juandpt.flutter_rasp_core.reporter.ReporterConfig
+import com.juandpt.flutter_rasp_core.reporter.collectors.AppMetadataCollector
+import com.juandpt.flutter_rasp_core.reporter.collectors.DeviceIdProvider
+import com.juandpt.flutter_rasp_core.reporter.collectors.DeviceMetadataCollector
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -43,12 +48,11 @@ class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
         applicationContext = null
     }
 
-    // ── HostApi ────────────────────────────────────────────────
 
     override fun startMonitoring(config: RaspConfigMessage, callback: (Result<Unit>) -> Unit) {
         val context = applicationContext
         if (context == null) {
-            callback(Result.failure(FlutterError("NO_CONTEXT", "Application context is not available", null)))
+            callback(noContextFailure())
             return
         }
 
@@ -63,8 +67,19 @@ class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
             immediateThreats.any { it in currentExitThreats }) {
             val matched = immediateThreats.filter { it in currentExitThreats }
             logTermination(immediateThreats, matched)
-            terminateApp()
+            callback(Result.success(Unit))
+            Thread { terminateApp(matched) }.start()
             return
+        }
+
+        if (immediateThreats.isNotEmpty()) {
+            val reportable = immediateThreats.filter { it !in currentExitThreats }
+            if (reportable.isNotEmpty()) {
+                Reporter.get()?.reportThreatDetected(reportable)
+                mainHandler.post {
+                    flutterApi?.onThreatsDetected(reportable) {}
+                }
+            }
         }
 
         startMonitoringInternal(context, interval)
@@ -79,7 +94,7 @@ class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
     override fun checkThreat(threatName: String, callback: (Result<Boolean>) -> Unit) {
         val context = applicationContext
         if (context == null) {
-            callback(Result.failure(FlutterError("NO_CONTEXT", "Application context is not available", null)))
+            callback(noContextFailure())
             return
         }
         Thread {
@@ -91,7 +106,7 @@ class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
     override fun scanAll(enabledThreats: List<String>, callback: (Result<ScanResultMessage>) -> Unit) {
         val context = applicationContext
         if (context == null) {
-            callback(Result.failure(FlutterError("NO_CONTEXT", "Application context is not available", null)))
+            callback(noContextFailure())
             return
         }
         Thread {
@@ -107,7 +122,15 @@ class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
     override fun blockScreenCapture(enabled: Boolean, callback: (Result<Unit>) -> Unit) {
         val currentActivity = activity
         if (currentActivity == null) {
-            callback(Result.failure(FlutterError("SCREEN_CAPTURE_NO_ACTIVITY", "No active Activity available to block screen capture", null)))
+            callback(
+                Result.failure(
+                    FlutterError(
+                        "SCREEN_CAPTURE_NO_ACTIVITY",
+                        "No active Activity available to block screen capture",
+                        null,
+                    ),
+                ),
+            )
             return
         }
         screenCaptureManager.block(currentActivity, enabled)
@@ -118,7 +141,67 @@ class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
         callback(Result.success(screenCaptureManager.isBlocked()))
     }
 
-    // ── ActivityAware ─────────────────────────────────────────
+
+    override fun initReporter(
+        config: ReporterConfigMessage,
+        callback: (Result<Unit>) -> Unit,
+    ) {
+        val context = applicationContext
+        if (context == null) {
+            callback(noContextFailure())
+            return
+        }
+        try {
+            Reporter.init(context, config.toCoreConfig())
+            callback(Result.success(Unit))
+        } catch (e: Throwable) {
+            Log.w(TAG, "initReporter failed: ${e.message}")
+            callback(Result.failure(e))
+        }
+    }
+
+    override fun disposeReporter(callback: (Result<Unit>) -> Unit) {
+        Reporter.dispose()
+        callback(Result.success(Unit))
+    }
+
+    override fun addBreadcrumb(
+        breadcrumb: BreadcrumbMessage,
+        callback: (Result<Unit>) -> Unit,
+    ) {
+        Reporter.get()?.addBreadcrumb(
+            category = breadcrumb.category,
+            level = breadcrumb.level,
+            message = breadcrumb.message,
+            data = decodeJsonObject(breadcrumb.dataJson),
+            timestampMs = breadcrumb.timestampMs,
+        )
+        callback(Result.success(Unit))
+    }
+
+    override fun captureError(
+        error: CaptureErrorMessage,
+        callback: (Result<Unit>) -> Unit,
+    ) {
+        Reporter.get()?.captureException(
+            type = error.type,
+            message = error.message,
+            stackTrace = error.stackTrace,
+            library = error.library,
+        )
+        callback(Result.success(Unit))
+    }
+
+    override fun setReporterUserId(userId: String?, callback: (Result<Unit>) -> Unit) {
+        Reporter.get()?.setUserId(userId)
+        callback(Result.success(Unit))
+    }
+
+    override fun flushReporter(callback: (Result<Unit>) -> Unit) {
+        Reporter.get()?.flushPending()
+        callback(Result.success(Unit))
+    }
+
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         activity = binding.activity
@@ -136,7 +219,6 @@ class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
         activity = null
     }
 
-    // ── Internal ──────────────────────────────────────────────
 
     private fun applyAndroidConfig(config: AndroidConfigMessage) {
         DetectorRegistry.configure(config.signingCertHashes, config.supportedStores)
@@ -156,11 +238,12 @@ class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
                     if (currentExitThreats.isNotEmpty() && threats.any { it in currentExitThreats }) {
                         val matched = threats.filter { it in currentExitThreats }
                         logTermination(threats, matched)
-                        terminateApp()
+                        terminateApp(matched)
                         return@scheduleAtFixedRate
                     }
                     val reportable = threats.filter { it !in currentExitThreats }
                     if (reportable.isNotEmpty()) {
+                        Reporter.get()?.reportThreatDetected(reportable)
                         mainHandler.post {
                             flutterApi?.onThreatsDetected(reportable) {}
                         }
@@ -182,7 +265,10 @@ class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
         Log.e(TAG, separator)
     }
 
-    private fun terminateApp() {
+    private fun terminateApp(matchedExitThreats: List<String>) {
+        // Synchronous; the reporter caps itself at config.exitTimeoutMs.
+        runCatching { Reporter.get()?.reportExitThreat(matchedExitThreats) }
+
         val currentActivity = activity
         if (currentActivity != null) {
             mainHandler.post {
@@ -209,4 +295,39 @@ class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
         enabledThreats = null
         exitThreats = emptyList()
     }
+
+    private fun noContextFailure(): Result<Nothing> = Result.failure(
+        FlutterError("NO_CONTEXT", "Application context is not available", null),
+    )
+
+    private fun decodeJsonObject(json: String): Map<String, Any?> {
+        if (json.isEmpty()) return emptyMap()
+        return runCatching {
+            val obj = org.json.JSONObject(json)
+            val map = mutableMapOf<String, Any?>()
+            val keys = obj.keys()
+            while (keys.hasNext()) {
+                val k = keys.next()
+                map[k] = obj.opt(k).takeUnless { it == org.json.JSONObject.NULL }
+            }
+            map.toMap()
+        }.getOrDefault(emptyMap())
+    }
+
+    private fun ReporterConfigMessage.toCoreConfig() = ReporterConfig(
+        endpoint = endpoint,
+        headers = headers,
+        hmacKey = hmacKey,
+        pinnedCertPem = pinnedCertPem,
+        exitTimeoutMs = exitTimeoutMs.coerceAtLeast(0L),
+        httpTimeoutMs = httpTimeoutMs.toInt().coerceAtLeast(100),
+        maxBreadcrumbs = maxBreadcrumbs.toInt().coerceAtLeast(1),
+        maxPendingReports = maxPendingReports.toInt().coerceAtLeast(1),
+        retryBackoffsMs = retryBackoffsMs.map { it.coerceAtLeast(100L) },
+        captureFlutterErrors = captureFlutterErrors,
+        capturePlatformErrors = capturePlatformErrors,
+        captureExitThreats = captureExitThreats,
+        captureDetectedThreats = captureDetectedThreats,
+        userId = userId,
+    )
 }

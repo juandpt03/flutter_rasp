@@ -38,6 +38,10 @@ enum RaspErrorCode {
     'No certificate available. Remote fetch failed, no stored '
     'certificate, and asset fallback failed.',
   ),
+  raspReporterNotInitialized(
+    'RaspReporter must be initialized. Call RaspReporter.instance.initialize() first.',
+  ),
+  raspReporterAlreadyInitialized('RaspReporter is already initialized.'),
   general('A general error occurred.'),
   unknown('An unknown error occurred.');
 

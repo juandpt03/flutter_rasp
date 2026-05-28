@@ -38,7 +38,6 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterRaspHostApi {
         )
     }
 
-    // ── HostApi ────────────────────────────────────────────────
 
     func startMonitoring(config: RaspConfigMessage, completion: @escaping (Result<Void, Error>) -> Void) {
         enabledThreats = config.enabledThreats
@@ -56,7 +55,21 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterRaspHostApi {
             immediateThreats.contains(where: { currentExitThreats.contains($0) }) {
             let matched = immediateThreats.filter { currentExitThreats.contains($0) }
             logTermination(detected: immediateThreats, matched: matched)
-            exit(1)
+            completion(.success(()))
+            monitoringQueue.async { [weak self] in
+                self?.terminateApp(matchedExitThreats: matched)
+            }
+            return
+        }
+
+        if !immediateThreats.isEmpty {
+            let reportable = immediateThreats.filter { !currentExitThreats.contains($0) }
+            if !reportable.isEmpty {
+                Reporter.shared?.reportThreatDetected(reportable)
+                DispatchQueue.main.async { [weak self] in
+                    self?.flutterApi?.onThreatsDetected(threats: reportable) { _ in }
+                }
+            }
         }
 
         cancelTimer()
@@ -111,7 +124,74 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterRaspHostApi {
         completion(.success(screenCaptureManager.getIsBlocked()))
     }
 
-    // ── Internal ──────────────────────────────────────────────
+
+    func initReporter(
+        config: ReporterConfigMessage,
+        completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        let coreConfig = ReporterConfig(
+            endpoint: config.endpoint,
+            headers: config.headers,
+            hmacKey: config.hmacKey,
+            pinnedCertPem: config.pinnedCertPem.flatMap { Data($0.data) },
+            exitTimeoutMs: max(0, Int(config.exitTimeoutMs)),
+            httpTimeoutMs: max(100, Int(config.httpTimeoutMs)),
+            maxBreadcrumbs: max(1, Int(config.maxBreadcrumbs)),
+            maxPendingReports: max(1, Int(config.maxPendingReports)),
+            retryBackoffsMs: config.retryBackoffsMs.map { max(100, Int($0)) },
+            captureFlutterErrors: config.captureFlutterErrors,
+            capturePlatformErrors: config.capturePlatformErrors,
+            captureExitThreats: config.captureExitThreats,
+            captureDetectedThreats: config.captureDetectedThreats,
+            userId: config.userId
+        )
+        Reporter.initShared(config: coreConfig)
+        completion(.success(()))
+    }
+
+    func disposeReporter(completion: @escaping (Result<Void, Error>) -> Void) {
+        Reporter.disposeShared()
+        completion(.success(()))
+    }
+
+    func addBreadcrumb(
+        breadcrumb: BreadcrumbMessage,
+        completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        let data = decodeJsonObject(breadcrumb.dataJson)
+        Reporter.shared?.addBreadcrumb(
+            category: breadcrumb.category,
+            level: breadcrumb.level,
+            message: breadcrumb.message,
+            data: data,
+            timestampMs: breadcrumb.timestampMs
+        )
+        completion(.success(()))
+    }
+
+    func captureError(
+        error: CaptureErrorMessage,
+        completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        Reporter.shared?.captureException(
+            type: error.type,
+            message: error.message,
+            stackTrace: error.stackTrace,
+            library: error.library
+        )
+        completion(.success(()))
+    }
+
+    func setReporterUserId(userId: String?, completion: @escaping (Result<Void, Error>) -> Void) {
+        Reporter.shared?.setUserId(userId)
+        completion(.success(()))
+    }
+
+    func flushReporter(completion: @escaping (Result<Void, Error>) -> Void) {
+        Reporter.shared?.flushPending()
+        completion(.success(()))
+    }
+
 
     private func applyIosConfig(_ config: IosConfigMessage) {
         DetectorRegistry.shared.configure(teamId: config.teamId, bundleIds: config.bundleIds)
@@ -128,6 +208,12 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterRaspHostApi {
         NSLog("[FlutterRASP] %@", separator)
     }
 
+    private func terminateApp(matchedExitThreats: [String]) {
+        // Synchronous; Reporter blocks for at most config.exitTimeoutMs.
+        Reporter.shared?.reportExitThreat(matched: matchedExitThreats)
+        exit(1)
+    }
+
     private func performMonitoringScan() {
         guard isMonitoringActive else { return }
 
@@ -137,10 +223,12 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterRaspHostApi {
             if !currentExitThreats.isEmpty && threats.contains(where: { currentExitThreats.contains($0) }) {
                 let matched = threats.filter { currentExitThreats.contains($0) }
                 logTermination(detected: threats, matched: matched)
-                exit(1)
+                terminateApp(matchedExitThreats: matched)
+                return
             }
             let reportable = threats.filter { !currentExitThreats.contains($0) }
             if !reportable.isEmpty {
+                Reporter.shared?.reportThreatDetected(reportable)
                 DispatchQueue.main.async { [weak self] in
                     self?.flutterApi?.onThreatsDetected(threats: reportable) { _ in }
                 }
@@ -169,7 +257,6 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterRaspHostApi {
 
     private func addLifecycleObservers() {
         removeLifecycleObservers()
-
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(appDidBecomeActive),
@@ -191,7 +278,6 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterRaspHostApi {
 
     @objc private func appDidBecomeActive() {
         guard isMonitoringActive else { return }
-
         DetectorRegistry.shared.clearCache()
         cancelTimer()
         startMonitoringTimer()
@@ -202,5 +288,13 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterRaspHostApi {
 
     @objc private func appWillResignActive() {
         cancelTimer()
+    }
+
+    private func decodeJsonObject(_ json: String) -> [String: Any] {
+        guard !json.isEmpty,
+              let data = json.data(using: .utf8),
+              let dict = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any]
+        else { return [:] }
+        return dict
     }
 }
