@@ -1,3 +1,11 @@
+## 6.1.1
+
+- The reporter now ships only security events (detected threats and
+  policy-triggered exits) out of the box. Flutter and Dart error
+  capture is opt-in via `captureFlutterErrors` / `capturePlatformErrors`.
+- SSL pinning on the reporter is optional: pin its HTTP client with
+  `pinnedCertPem`, or omit it to use the system's TLS validation.
+
 ## 6.1.0
 
 - Reporter payload reshape: `type` → `event`, values renamed to

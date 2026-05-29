@@ -44,12 +44,15 @@ void main() {
       ]);
     });
 
-    test('all capture switches default to true', () {
-      expect(config.captureFlutterErrors, isTrue);
-      expect(config.capturePlatformErrors, isTrue);
-      expect(config.captureExitThreats, isTrue);
-      expect(config.captureDetectedThreats, isTrue);
-    });
+    test(
+      'error capture switches default to false; threat switches to true',
+      () {
+        expect(config.captureFlutterErrors, isFalse);
+        expect(config.capturePlatformErrors, isFalse);
+        expect(config.captureExitThreats, isTrue);
+        expect(config.captureDetectedThreats, isTrue);
+      },
+    );
   });
 
   group('ReporterConfig overrides', () {

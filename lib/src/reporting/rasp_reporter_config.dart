@@ -16,8 +16,8 @@ class ReporterConfig {
       Duration(seconds: 9),
       Duration(seconds: 27),
     ],
-    this.captureFlutterErrors = true,
-    this.capturePlatformErrors = true,
+    this.captureFlutterErrors = false,
+    this.capturePlatformErrors = false,
     this.captureExitThreats = true,
     this.captureDetectedThreats = true,
     this.userId,
@@ -56,10 +56,18 @@ class ReporterConfig {
 
   /// Install a global `FlutterError.onError` handler that captures
   /// framework errors. Previous handler is chained.
+  ///
+  /// Disabled by default: in development these errors can be very
+  /// noisy. Opt in by setting it to `true` when you want framework
+  /// errors shipped to your backend.
   final bool captureFlutterErrors;
 
   /// Install a global `PlatformDispatcher.instance.onError` handler
   /// that captures uncaught Dart errors. Previous handler is chained.
+  ///
+  /// Disabled by default: in development these errors can be very
+  /// noisy. Opt in by setting it to `true` when you want uncaught
+  /// Dart errors shipped to your backend.
   final bool capturePlatformErrors;
 
   /// Build + ship a report before RASP kills the process.

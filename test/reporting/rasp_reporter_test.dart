@@ -27,9 +27,13 @@ void main() {
     await RaspReporter.instance.dispose();
   });
 
+  // Error capture is opt-in (off by default), so enable it explicitly
+  // here — these tests exercise the installed-handler behavior.
   ReporterConfig configFor() => ReporterConfig(
     endpoint: Uri.parse('https://example.com/v1/ingest'),
     headers: const {'X-Project-Id': 'test'},
+    captureFlutterErrors: true,
+    capturePlatformErrors: true,
   );
 
   group('initialize', () {

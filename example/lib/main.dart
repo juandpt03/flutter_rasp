@@ -26,6 +26,17 @@ Future<void> main() async {
 }
 
 Future<void> _initSecurity() async {
+  // 1. SSL pinning is always initialized first.
+  await SslPinningClient.createContext(
+    const SslPinningConfig(
+      certificateAssetPaths: ['assets/certs/httpbin.org.enc'],
+      passphrase: 'flutter_rasp',
+    ),
+  );
+
+  // 2. RASP monitoring + reporter. The reporter's `pinnedCertPem` is
+  //    optional and omitted here (the local mock backend runs over
+  //    plain HTTP).
   await FlutterRasp.instance.initialize(
     config: RaspConfig(
       policy: rasp.policy,
@@ -46,13 +57,6 @@ Future<void> _initSecurity() async {
       endpoint: Uri.parse('http://$_backendHost:8787/v1/ingest'),
       headers: const {'X-Project-Id': 'flutter_rasp_example'},
       httpTimeout: const Duration(milliseconds: 1200),
-    ),
-  );
-
-  await SslPinningClient.createContext(
-    const SslPinningConfig(
-      certificateAssetPaths: ['assets/certs/httpbin.org.enc'],
-      passphrase: 'flutter_rasp',
     ),
   );
 }

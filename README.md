@@ -16,9 +16,10 @@ runtime tampering and ships every event to your own backend.
 - Screen capture protection.
 - SSL certificate pinning (plain `.pem`, encrypted `.enc`, remote
   cert updates with secure storage).
-- Built-in security reporter — every detected threat, policy-
-  triggered exit and uncaught Dart error shipped to your HTTPS
-  endpoint with HMAC + optional pinning.
+- Built-in security reporter — every detected threat and policy-
+  triggered exit shipped to your HTTPS endpoint with HMAC + optional
+  pinning. Flutter/Dart error capture is available but **off by
+  default** (opt in via `captureFlutterErrors` / `capturePlatformErrors`).
 
 | Platform | Minimum |
 | -------- | ------- |
@@ -27,7 +28,7 @@ runtime tampering and ships every event to your own backend.
 
 ```yaml
 dependencies:
-  flutter_rasp: ^6.1.0
+  flutter_rasp: ^6.1.1
 ```
 
 ---
@@ -55,24 +56,54 @@ dependencies:
 
 ### Initialize
 
+Recommended order: **set up SSL pinning first**, then initialize
+RASP (and, optionally, the reporter). Doing pinning first resolves
+and caches the certificate, so the reporter can reuse it through
+`pinnedCertPem` — no second fetch, no duplicated cert handling.
+
 ```dart
-await FlutterRasp.instance.initialize(
-  config: const RaspConfig(
-    policy: ThreatPolicy.high,
-    monitoringInterval: Duration(seconds: 10),
-    androidConfig: AndroidRaspConfig(
-      signingCertHashes: ['<sha256-from-Play-Console>'],
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 1. SSL pinning first.
+  const pinningConfig = SslPinningConfig(
+    certificateAssetPaths: ['assets/certs/api.pem'],
+  );
+  await SslPinningClient.createContext(pinningConfig);
+
+  // 2. RASP monitoring (+ optional reporter).
+  await FlutterRasp.instance.initialize(
+    config: const RaspConfig(
+      policy: ThreatPolicy.high,
+      monitoringInterval: Duration(seconds: 10),
+      androidConfig: AndroidRaspConfig(
+        signingCertHashes: ['<sha256-from-Play-Console>'],
+      ),
+      iosConfig: IosRaspConfig(
+        teamId: '<APPLE-TEAM-ID>',
+        bundleIds: ['com.your.bundle'],
+      ),
     ),
-    iosConfig: IosRaspConfig(
-      teamId: '<APPLE-TEAM-ID>',
-      bundleIds: ['com.your.bundle'],
+    onThreatDetected: (threats) => debugPrint('$threats'),
+    // Optional — ship reports to your backend.
+    reporter: ReporterConfig(
+      endpoint: Uri.parse('https://your-backend.example.com/v1/ingest'),
+      // Optional — pin the reporter's internal HTTP client too.
+      // Omit it to fall back to system TLS validation (no pinning).
+      pinnedCertPem: SslPinningClient.cachedPem(pinningConfig),
     ),
-  ),
-  onThreatDetected: (threats) => debugPrint('$threats'),
-);
+  );
+
+  runApp(const MyApp());
+}
 ```
 
 > Provide at least one of `onThreatDetected` or `threatCallback`.
+> The `reporter` argument is optional — omit it if you don't need
+> backend reporting. Pinning the reporter's HTTP client is **also
+> optional**: pass `pinnedCertPem` to pin it, or leave it `null` for
+> system TLS validation. Flutter/Dart error capture is **off by
+> default**; see [Security reporter](#security-reporter).
 
 **`signingCertHashes`** is the SHA-256 of the **Play signing key**
 (Play Console → App integrity → App signing). **`teamId`** is on
@@ -154,8 +185,13 @@ second fetch.
 ## Security reporter
 
 Pass a `ReporterConfig` to `FlutterRasp.initialize(...)` and the
-plugin ships every detected threat, policy-triggered exit and
-uncaught Dart error to your backend.
+plugin ships every detected threat and policy-triggered exit to
+your backend.
+
+> **Flutter/Dart errors are not captured by default.** In
+> development they can be extremely noisy, so `captureFlutterErrors`
+> and `capturePlatformErrors` both default to `false`. Set them to
+> `true` when you want framework / uncaught Dart errors shipped too.
 
 ```dart
 await FlutterRasp.instance.initialize(
@@ -174,8 +210,8 @@ await FlutterRasp.instance.initialize(
 
 | Field | Default | Purpose |
 | --- | --- | --- |
-| `captureFlutterErrors` | `true` | Hook `FlutterError.onError`. |
-| `capturePlatformErrors` | `true` | Hook `PlatformDispatcher.onError`. |
+| `captureFlutterErrors` | `false` | Hook `FlutterError.onError`. Disabled by default — opt in. |
+| `capturePlatformErrors` | `false` | Hook `PlatformDispatcher.onError`. Disabled by default — opt in. |
 | `captureExitThreats` | `true` | Ship a report synchronously before RASP kills the process. |
 | `captureDetectedThreats` | `true` | Auto-ship when a new threat is observed (deduped per session). |
 | `maxBreadcrumbs` | `50` | FIFO cap. |
