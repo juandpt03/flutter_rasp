@@ -524,8 +524,8 @@ struct BreadcrumbMessage: Hashable {
 
 /// Generated class from Pigeon that represents data sent in messages.
 struct CaptureErrorMessage: Hashable {
-  /// `'flutterError' | 'dartError' | 'manual'`.
-  var type: String
+  /// `'flutterError' | 'dartError' | 'manualCapture'`.
+  var event: String
   var message: String? = nil
   var stackTrace: String? = nil
   var library: String? = nil
@@ -533,13 +533,13 @@ struct CaptureErrorMessage: Hashable {
 
   // swift-format-ignore: AlwaysUseLowerCamelCase
   static func fromList(_ pigeonVar_list: [Any?]) -> CaptureErrorMessage? {
-    let type = pigeonVar_list[0] as! String
+    let event = pigeonVar_list[0] as! String
     let message: String? = nilOrValue(pigeonVar_list[1])
     let stackTrace: String? = nilOrValue(pigeonVar_list[2])
     let library: String? = nilOrValue(pigeonVar_list[3])
 
     return CaptureErrorMessage(
-      type: type,
+      event: event,
       message: message,
       stackTrace: stackTrace,
       library: library
@@ -547,7 +547,7 @@ struct CaptureErrorMessage: Hashable {
   }
   func toList() -> [Any?] {
     return [
-      type,
+      event,
       message,
       stackTrace,
       library,
@@ -557,12 +557,12 @@ struct CaptureErrorMessage: Hashable {
     if Swift.type(of: lhs) != Swift.type(of: rhs) {
       return false
     }
-    return deepEqualsRaspApi(lhs.type, rhs.type) && deepEqualsRaspApi(lhs.message, rhs.message) && deepEqualsRaspApi(lhs.stackTrace, rhs.stackTrace) && deepEqualsRaspApi(lhs.library, rhs.library)
+    return deepEqualsRaspApi(lhs.event, rhs.event) && deepEqualsRaspApi(lhs.message, rhs.message) && deepEqualsRaspApi(lhs.stackTrace, rhs.stackTrace) && deepEqualsRaspApi(lhs.library, rhs.library)
   }
 
   func hash(into hasher: inout Hasher) {
     hasher.combine("CaptureErrorMessage")
-    deepHashRaspApi(value: type, hasher: &hasher)
+    deepHashRaspApi(value: event, hasher: &hasher)
     deepHashRaspApi(value: message, hasher: &hasher)
     deepHashRaspApi(value: stackTrace, hasher: &hasher)
     deepHashRaspApi(value: library, hasher: &hasher)

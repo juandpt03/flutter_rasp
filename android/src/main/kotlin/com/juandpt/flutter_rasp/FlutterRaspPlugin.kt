@@ -60,6 +60,7 @@ class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
         exitThreats = config.exitThreats
         val interval = config.monitoringIntervalMs.toLong()
         config.androidConfig?.let { applyAndroidConfig(it) }
+        Reporter.get()?.setActivePolicy(config.exitThreats)
 
         val immediateThreats = DetectorRegistry.detectThreats(context, enabledThreats)
         val currentExitThreats = exitThreats
@@ -184,7 +185,7 @@ class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
         callback: (Result<Unit>) -> Unit,
     ) {
         Reporter.get()?.captureException(
-            type = error.type,
+            event = error.event,
             message = error.message,
             stackTrace = error.stackTrace,
             library = error.library,

@@ -105,13 +105,13 @@ class MockFlutterRaspPlatform
 
   @override
   Future<void> captureError({
-    required String type,
+    required String event,
     String? message,
     String? stackTrace,
     String? library,
   }) async {
     capturedErrors.add(<String, Object?>{
-      'type': type,
+      'event': event,
       'message': message,
       'stackTrace': stackTrace,
       'library': library,

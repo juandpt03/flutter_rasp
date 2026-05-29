@@ -515,14 +515,14 @@ class BreadcrumbMessage {
 
 class CaptureErrorMessage {
   CaptureErrorMessage({
-    required this.type,
+    required this.event,
     this.message,
     this.stackTrace,
     this.library,
   });
 
-  /// `'flutterError' | 'dartError' | 'manual'`.
-  String type;
+  /// `'flutterError' | 'dartError' | 'manualCapture'`.
+  String event;
 
   String? message;
 
@@ -532,7 +532,7 @@ class CaptureErrorMessage {
 
   List<Object?> _toList() {
     return <Object?>[
-      type,
+      event,
       message,
       stackTrace,
       library,
@@ -545,7 +545,7 @@ class CaptureErrorMessage {
   static CaptureErrorMessage decode(Object result) {
     result as List<Object?>;
     return CaptureErrorMessage(
-      type: result[0]! as String,
+      event: result[0]! as String,
       message: result[1] as String?,
       stackTrace: result[2] as String?,
       library: result[3] as String?,
@@ -561,7 +561,7 @@ class CaptureErrorMessage {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(type, other.type) && _deepEquals(message, other.message) && _deepEquals(stackTrace, other.stackTrace) && _deepEquals(library, other.library);
+    return _deepEquals(event, other.event) && _deepEquals(message, other.message) && _deepEquals(stackTrace, other.stackTrace) && _deepEquals(library, other.library);
   }
 
   @override

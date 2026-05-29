@@ -47,6 +47,7 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterRaspHostApi {
         if let ios = config.iosConfig {
             applyIosConfig(ios)
         }
+        Reporter.shared?.setActivePolicy(exitThreats: config.exitThreats)
         DetectorRegistry.shared.clearCache()
 
         let immediateThreats = DetectorRegistry.shared.detectThreats(enabledThreats: enabledThreats)
@@ -174,7 +175,7 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterRaspHostApi {
         completion: @escaping (Result<Void, Error>) -> Void
     ) {
         Reporter.shared?.captureException(
-            type: error.type,
+            event: error.event,
             message: error.message,
             stackTrace: error.stackTrace,
             library: error.library

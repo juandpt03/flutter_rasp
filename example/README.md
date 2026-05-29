@@ -1,6 +1,6 @@
 # flutter_rasp · example
 
-End-to-end demo of `flutter_rasp` 6.0.1 — RASP monitoring, SSL
+End-to-end demo of `flutter_rasp` 6.1.0 — RASP monitoring, SSL
 pinning, and the security reporter shipping to a tiny local backend
 bundled in this same package.
 

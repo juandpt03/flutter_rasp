@@ -544,8 +544,8 @@ data class BreadcrumbMessage (
 
 /** Generated class from Pigeon that represents data sent in messages. */
 data class CaptureErrorMessage (
-  /** `'flutterError' | 'dartError' | 'manual'`. */
-  val type: String,
+  /** `'flutterError' | 'dartError' | 'manualCapture'`. */
+  val event: String,
   val message: String? = null,
   val stackTrace: String? = null,
   val library: String? = null
@@ -553,16 +553,16 @@ data class CaptureErrorMessage (
  {
   companion object {
     fun fromList(pigeonVar_list: List<Any?>): CaptureErrorMessage {
-      val type = pigeonVar_list[0] as String
+      val event = pigeonVar_list[0] as String
       val message = pigeonVar_list[1] as String?
       val stackTrace = pigeonVar_list[2] as String?
       val library = pigeonVar_list[3] as String?
-      return CaptureErrorMessage(type, message, stackTrace, library)
+      return CaptureErrorMessage(event, message, stackTrace, library)
     }
   }
   fun toList(): List<Any?> {
     return listOf(
-      type,
+      event,
       message,
       stackTrace,
       library,
@@ -576,12 +576,12 @@ data class CaptureErrorMessage (
       return true
     }
     val other = other as CaptureErrorMessage
-    return RaspApiPigeonUtils.deepEquals(this.type, other.type) && RaspApiPigeonUtils.deepEquals(this.message, other.message) && RaspApiPigeonUtils.deepEquals(this.stackTrace, other.stackTrace) && RaspApiPigeonUtils.deepEquals(this.library, other.library)
+    return RaspApiPigeonUtils.deepEquals(this.event, other.event) && RaspApiPigeonUtils.deepEquals(this.message, other.message) && RaspApiPigeonUtils.deepEquals(this.stackTrace, other.stackTrace) && RaspApiPigeonUtils.deepEquals(this.library, other.library)
   }
 
   override fun hashCode(): Int {
     var result = javaClass.hashCode()
-    result = 31 * result + RaspApiPigeonUtils.deepHash(this.type)
+    result = 31 * result + RaspApiPigeonUtils.deepHash(this.event)
     result = 31 * result + RaspApiPigeonUtils.deepHash(this.message)
     result = 31 * result + RaspApiPigeonUtils.deepHash(this.stackTrace)
     result = 31 * result + RaspApiPigeonUtils.deepHash(this.library)

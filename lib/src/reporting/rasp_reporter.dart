@@ -89,7 +89,7 @@ class RaspReporter {
   }) async {
     if (_config == null) return;
     await _platform.captureError(
-      type: 'manual',
+      event: 'manualCapture',
       message: hint ?? error.toString(),
       stackTrace: stackTrace?.toString(),
       library: null,
@@ -114,7 +114,7 @@ class RaspReporter {
     unawaited(
       _platform
           .captureError(
-            type: 'flutterError',
+            event: 'flutterError',
             message: details.exceptionAsString(),
             stackTrace: details.stack?.toString(),
             library: details.library,
@@ -132,7 +132,7 @@ class RaspReporter {
     unawaited(
       _platform
           .captureError(
-            type: 'dartError',
+            event: 'dartError',
             message: error.toString(),
             stackTrace: stackTrace.toString(),
             library: null,

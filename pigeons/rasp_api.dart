@@ -126,14 +126,14 @@ class BreadcrumbMessage {
 
 class CaptureErrorMessage {
   CaptureErrorMessage({
-    required this.type,
+    required this.event,
     this.message,
     this.stackTrace,
     this.library,
   });
 
-  /// `'flutterError' | 'dartError' | 'manual'`.
-  final String type;
+  /// `'flutterError' | 'dartError' | 'manualCapture'`.
+  final String event;
   final String? message;
   final String? stackTrace;
   final String? library;

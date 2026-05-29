@@ -20,9 +20,15 @@ class RaspState {
 }
 
 class RaspNotifier extends ValueNotifier<RaspState> {
-  RaspNotifier({this.monitor}) : super(RaspState.initial());
+  RaspNotifier({this.monitor, this.policy = ThreatPolicy.none})
+    : super(RaspState.initial());
 
   final MonitorNotifier? monitor;
+
+  /// Single source of truth for the active [ThreatPolicy]. Bootstrap
+  /// reads it to build `RaspConfig`; the dashboard reads it to render
+  /// the configured exit threats.
+  final ThreatPolicy policy;
 
   void updateThreats(Set<Threat> current) {
     value = value.copyWith(detectedThreats: current);

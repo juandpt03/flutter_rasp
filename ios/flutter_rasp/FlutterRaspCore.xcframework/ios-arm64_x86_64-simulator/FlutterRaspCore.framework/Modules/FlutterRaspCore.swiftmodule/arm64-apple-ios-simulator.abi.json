@@ -1080,6 +1080,42 @@
           },
           {
             "kind": "Function",
+            "name": "setActivePolicy",
+            "printedName": "setActivePolicy(exitThreats:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Swift.String]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15FlutterRaspCore8ReporterC15setActivePolicy11exitThreatsySaySSG_tF",
+            "mangledName": "$s15FlutterRaspCore8ReporterC15setActivePolicy11exitThreatsySaySSG_tF",
+            "moduleName": "FlutterRaspCore",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
             "name": "addBreadcrumb",
             "printedName": "addBreadcrumb(category:level:message:data:timestampMs:)",
             "children": [
@@ -1147,7 +1183,7 @@
           {
             "kind": "Function",
             "name": "captureException",
-            "printedName": "captureException(type:message:stackTrace:library:)",
+            "printedName": "captureException(event:message:stackTrace:library:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -1204,8 +1240,8 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:15FlutterRaspCore8ReporterC16captureException4type7message10stackTrace7libraryySS_SSSgA2ItF",
-            "mangledName": "$s15FlutterRaspCore8ReporterC16captureException4type7message10stackTrace7libraryySS_SSSgA2ItF",
+            "usr": "s:15FlutterRaspCore8ReporterC16captureException5event7message10stackTrace7libraryySS_SSSgA2ItF",
+            "mangledName": "$s15FlutterRaspCore8ReporterC16captureException5event7message10stackTrace7libraryySS_SSSgA2ItF",
             "moduleName": "FlutterRaspCore",
             "declAttributes": [
               "Final",
@@ -3845,28 +3881,35 @@
     {
       "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/Reporter.swift",
       "kind": "Array",
-      "offset": 1187,
+      "offset": 991,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/Reporter.swift",
+      "kind": "Array",
+      "offset": 1515,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/Reporter.swift",
       "kind": "IntegerLiteral",
-      "offset": 1302,
+      "offset": 1630,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/Reporter.swift",
       "kind": "Dictionary",
-      "offset": 2355,
+      "offset": 2961,
       "length": 3,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Reporter\/Reporter.swift",
       "kind": "IntegerLiteral",
-      "offset": 2426,
+      "offset": 3032,
       "length": 4,
       "value": "1000"
     },

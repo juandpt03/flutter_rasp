@@ -110,7 +110,7 @@ class PigeonFlutterRasp extends FlutterRaspPlatform
 
   @override
   Future<void> captureError({
-    required String type,
+    required String event,
     String? message,
     String? stackTrace,
     String? library,
@@ -118,7 +118,7 @@ class PigeonFlutterRasp extends FlutterRaspPlatform
     await _call(
       () => _hostApi.captureError(
         CaptureErrorMessage(
-          type: type,
+          event: event,
           message: message,
           stackTrace: stackTrace,
           library: library,

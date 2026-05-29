@@ -148,7 +148,7 @@ void main() {
 
       expect(mockPlatform.capturedErrors, hasLength(1));
       final e = mockPlatform.capturedErrors.single;
-      expect(e['type'], 'manual');
+      expect(e['event'], 'manualCapture');
       expect(e['message'], contains('Bad state: boom'));
       expect(e['stackTrace'], stack.toString());
     });
@@ -211,7 +211,7 @@ void main() {
 
       expect(mockPlatform.capturedErrors, hasLength(1));
       final e = mockPlatform.capturedErrors.single;
-      expect(e['type'], 'flutterError');
+      expect(e['event'], 'flutterError');
       expect(e['library'], 'rendering');
       expect(e['message'], contains('flutter-fail'));
     });

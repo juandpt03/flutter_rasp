@@ -27,8 +27,8 @@ Future<void> main() async {
 
 Future<void> _initSecurity() async {
   await FlutterRasp.instance.initialize(
-    config: const RaspConfig(
-      policy: ThreatPolicy.high,
+    config: RaspConfig(
+      policy: rasp.policy,
       monitoringInterval: Duration(seconds: 5),
       androidConfig: AndroidRaspConfig(
         signingCertHashes: [

@@ -39,7 +39,7 @@ abstract class FlutterRaspPlatform extends PlatformInterface {
     required String dataJson,
   });
   Future<void> captureError({
-    required String type,
+    required String event,
     String? message,
     String? stackTrace,
     String? library,

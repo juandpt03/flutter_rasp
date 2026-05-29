@@ -1,3 +1,21 @@
+## 6.1.0
+
+- Reporter payload reshape: `type` → `event`, values renamed to
+  actions (`threatsDetected`, `enforcedExit`, `manualCapture`).
+- New `crashThreat` field, set only on `enforcedExit`, captures the
+  threat that triggered the termination.
+- New `policy.exitThreats` section ships the integrator's
+  configured exit policy on every report.
+- New `device.country` and `network.*` (type + carrier + MCC/MNC
+  on Android) for fraud telemetry.
+- `app.*` extended with `firstInstallMs`, `lastUpdateMs`,
+  `buildType` and `abi`.
+- iOS `app.installer` now classifies into `appStore` / `testFlight`
+  / `simulator` / `dev` / `enterprise` / `sideload` / `unknown`.
+- Android `app.installer` never null — `sideload` when the OS has
+  no installer recorded (adb / unknown sources).
+- README rewritten for concision; full field reference table.
+
 ## 6.0.1
 
 - Added `SslPinningClient.cachedPem(config)` to retrieve the PEM

@@ -84,15 +84,15 @@ Future<void> _ingest(HttpRequest req) async {
 }
 
 void _printReport(Map<String, Object?> r, {String? hmac}) {
-  final type = r['type'];
-  final vuln = r['vulnerabilityKind'] ?? '-';
+  final event = r['event'];
+  final vuln = r['crashThreat'] ?? '-';
   final device = (r['device'] as Map?)?.cast<String, Object?>() ?? const {};
   final app = (r['app'] as Map?)?.cast<String, Object?>() ?? const {};
   final id = (device['id'] as String?) ?? '';
   final idShort = id.length > 12 ? id.substring(0, 12) : id;
 
   stdout.writeln('---');
-  stdout.writeln('[$type] vuln=$vuln  device=$idShort...');
+  stdout.writeln('[$event] crash=$vuln  device=$idShort...');
   stdout.writeln(
     '  ${device['manufacturer']} ${device['model']} . ${device['platform']} ${device['osVersion']}',
   );
@@ -186,22 +186,25 @@ void _renderDashboard(HttpRequest req) {
 }
 
 String _renderRow(Map<String, Object?> r) {
-  final type = (r['type'] as String?) ?? 'manual';
-  final cls = switch (type) {
-    'exitThreat' => 'exit',
+  final event = (r['event'] as String?) ?? 'manualCapture';
+  final cls = switch (event) {
+    'enforcedExit' => 'exit',
     'flutterError' => 'flutter',
     'dartError' => 'dart',
-    'threatDetected' => 'threatDetected',
+    'threatsDetected' => 'threatDetected',
     _ => 'manual',
   };
   final device = (r['device'] as Map?)?.cast<String, Object?>() ?? const {};
   final app = (r['app'] as Map?)?.cast<String, Object?>() ?? const {};
   final user = (r['user'] as Map?)?.cast<String, Object?>() ?? const {};
   final extras = (r['extras'] as Map?)?.cast<String, Object?>() ?? const {};
+  final network = (r['network'] as Map?)?.cast<String, Object?>() ?? const {};
+  final policy = (r['policy'] as Map?)?.cast<String, Object?>() ?? const {};
   final breadcrumbs = (r['breadcrumbs'] as List?) ?? const [];
   final detected = (r['detectedThreats'] as List?) ?? const [];
+  final activeExit = (policy['exitThreats'] as List?) ?? const [];
   final msg = r['message'];
-  final vuln = r['vulnerabilityKind'];
+  final vuln = r['crashThreat'];
   final stack = r['stackTrace'];
 
   final threatTags = detected.map((t) =>
@@ -210,7 +213,7 @@ String _renderRow(Map<String, Object?> r) {
   return '''
 <div class="row">
   <div class="head">
-    <span class="tag $cls">$type</span>
+    <span class="tag $cls">$event</span>
     ${vuln != null ? '<span class="tag exit">$vuln</span>' : ''}
     $threatTags
   </div>
@@ -219,6 +222,10 @@ String _renderRow(Map<String, Object?> r) {
   <div class="grid">
     ${_kvSection('Device', _entries(device))}
     ${_kvSection('App', _entries(app))}
+    ${_kvSection('Network', _entries(network))}
+    ${_kvSection('Policy · exitThreats', [
+        MapEntry('list', activeExit.isEmpty ? '∅' : activeExit.join(', ')),
+      ])}
     ${user.isNotEmpty ? _kvSection('User', _entries(user)) : ''}
     ${extras.isNotEmpty ? _kvSection('Extras', _entries(extras)) : ''}
   </div>

@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            const DashboardHeader(),
+            DashboardHeader(policy: rasp.policy),
             ScreenCaptureSection(notifier: screenCapture),
             SslPinningSection(notifier: sslPinning),
             RaspReporterSection(notifier: reporter),
