@@ -7,11 +7,8 @@ void main() {
       expect(ThreatPolicy.none.exitThreats, isEmpty);
     });
 
-    test('low exits on repackaging and trustedInstall', () {
-      expect(ThreatPolicy.low.exitThreats, {
-        Threat.repackaging,
-        Threat.trustedInstall,
-      });
+    test('low exits on repackaging', () {
+      expect(ThreatPolicy.low.exitThreats, {Threat.repackaging});
     });
 
     test('medium exits on core + obfuscation + multiInstance', () {
@@ -19,7 +16,6 @@ void main() {
         Threat.root,
         Threat.hook,
         Threat.repackaging,
-        Threat.trustedInstall,
         Threat.obfuscationIssues,
         Threat.multiInstance,
       });
@@ -30,7 +26,6 @@ void main() {
         Threat.root,
         Threat.hook,
         Threat.repackaging,
-        Threat.trustedInstall,
         Threat.debug,
         Threat.adbEnabled,
         Threat.devicePasscode,

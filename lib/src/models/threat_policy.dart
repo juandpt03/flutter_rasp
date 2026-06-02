@@ -9,6 +9,11 @@ import '../enums/threat.dart';
 /// ```dart
 /// const policy = ThreatPolicy(exitThreats: {Threat.root, Threat.repackaging});
 /// ```
+///
+/// `Threat.trustedInstall` is still detected and reported, but it's not
+/// part of the presets' [exitThreats] — some install channels don't always
+/// expose the installer package name (see [Threat.trustedInstall]). Add it
+/// to a custom policy if you want it to terminate the app.
 class ThreatPolicy {
   final Set<Threat> exitThreats;
 
@@ -17,7 +22,7 @@ class ThreatPolicy {
   static const none = ThreatPolicy();
 
   static const low = ThreatPolicy(
-    exitThreats: {Threat.repackaging, Threat.trustedInstall},
+    exitThreats: {Threat.repackaging},
   );
 
   static const medium = ThreatPolicy(
@@ -25,7 +30,6 @@ class ThreatPolicy {
       Threat.root,
       Threat.hook,
       Threat.repackaging,
-      Threat.trustedInstall,
       Threat.obfuscationIssues,
       Threat.multiInstance,
     },
@@ -36,7 +40,6 @@ class ThreatPolicy {
       Threat.root,
       Threat.hook,
       Threat.repackaging,
-      Threat.trustedInstall,
       Threat.debug,
       Threat.adbEnabled,
       Threat.devicePasscode,

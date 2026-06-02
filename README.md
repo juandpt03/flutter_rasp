@@ -28,31 +28,31 @@ runtime tampering and ships every event to your own backend.
 
 ```yaml
 dependencies:
-  flutter_rasp: ^6.1.2
+  flutter_rasp: ^6.1.3
 ```
 
 ---
 
 ## Threat detection
 
-| Threat | Android | iOS |
-| --- | :---: | :---: |
-| Root / Jailbreak | ✅ | ✅ |
-| Emulator / Simulator | ✅ | ✅ |
-| Debugger | ✅ | ✅ |
-| Hooks (Frida / Xposed) | ✅ | ✅ |
-| Repackaging | ✅ | ✅ |
-| Trusted install | ✅ | ✅ |
-| VPN | ✅ | ✅ |
-| Device passcode | ✅ | ✅ |
-| Secure hardware | ✅ | ✅ |
-| Screen capture block | ✅ | ✅ |
-| Developer mode | ✅ | — |
-| ADB enabled | ✅ | — |
-| Obfuscation | ✅ | — |
-| Time spoofing | ✅ | — |
-| Location spoofing | ✅ | — |
-| Multi-instance | ✅ | — |
+| Threat                 | Android | iOS |
+| ---------------------- | :-----: | :-: |
+| Root / Jailbreak       |   ✅    | ✅  |
+| Emulator / Simulator   |   ✅    | ✅  |
+| Debugger               |   ✅    | ✅  |
+| Hooks (Frida / Xposed) |   ✅    | ✅  |
+| Repackaging            |   ✅    | ✅  |
+| Trusted install        |   ✅    | ✅  |
+| VPN                    |   ✅    | ✅  |
+| Device passcode        |   ✅    | ✅  |
+| Secure hardware        |   ✅    | ✅  |
+| Screen capture block   |   ✅    | ✅  |
+| Developer mode         |   ✅    |  —  |
+| ADB enabled            |   ✅    |  —  |
+| Obfuscation            |   ✅    |  —  |
+| Time spoofing          |   ✅    |  —  |
+| Location spoofing      |   ✅    |  —  |
+| Multi-instance         |   ✅    |  —  |
 
 ### Initialize
 
@@ -112,14 +112,15 @@ Membership Details.
 
 ### Threat policies
 
-| Policy | Terminates on |
-| --- | --- |
-| `ThreatPolicy.none` | nothing (report-only) |
-| `ThreatPolicy.low` | repackaging, trustedInstall |
-| `ThreatPolicy.medium` | + root, hook, obfuscationIssues, multiInstance |
-| `ThreatPolicy.high` | + debug, devicePasscode, secureHardware, adbEnabled, locationSpoofing |
+| Policy                | Terminates on                                                         |
+| --------------------- | --------------------------------------------------------------------- |
+| `ThreatPolicy.none`   | nothing (report-only)                                                 |
+| `ThreatPolicy.low`    | repackaging                                                           |
+| `ThreatPolicy.medium` | + root, hook, obfuscationIssues, multiInstance                        |
+| `ThreatPolicy.high`   | + debug, devicePasscode, secureHardware, adbEnabled, locationSpoofing |
 
 Or roll your own:
+
 ```dart
 const policy = ThreatPolicy(exitThreats: {Threat.root, Threat.vpn});
 ```
@@ -155,6 +156,7 @@ Works with `dart:io`, Dio (`IOHttpClientAdapter`), `package:http`
 (`IOClient`).
 
 **Encrypted PEM** — encrypt with the [Certificate Encryptor](tool/certificate_encryptor/) web tool, pass `passphrase`:
+
 ```dart
 const config = SslPinningConfig(
   certificateAssetPaths: ['assets/certs/api.enc'],
@@ -165,6 +167,7 @@ const config = SslPinningConfig(
 **Remote updates** — fetch a new cert at runtime; the plugin
 stores it in Keychain (iOS) / EncryptedSharedPreferences (Android)
 and falls back to the asset if the fetch fails:
+
 ```dart
 final ctx = await SslPinningClient.createContext(
   config,
@@ -208,18 +211,18 @@ await FlutterRasp.instance.initialize(
 
 ### Configuration
 
-| Field | Default | Purpose |
-| --- | --- | --- |
-| `captureFlutterErrors` | `false` | Hook `FlutterError.onError`. Disabled by default — opt in. |
-| `capturePlatformErrors` | `false` | Hook `PlatformDispatcher.onError`. Disabled by default — opt in. |
-| `captureExitThreats` | `true` | Ship a report synchronously before RASP kills the process. |
-| `captureDetectedThreats` | `true` | Auto-ship when a new threat is observed (deduped per session). |
-| `maxBreadcrumbs` | `50` | FIFO cap. |
-| `maxPendingReports` | `50` | On-disk queue cap. |
-| `exitTimeout` | `1.5 s` | Max wait for the exit report before termination. |
-| `httpTimeout` | `1.2 s` | Per-attempt timeout. |
-| `retryBackoffs` | `[3 s, 9 s, 27 s]` | Backoff schedule. |
-| `userId` | `null` | Optional `user.id`. |
+| Field                    | Default            | Purpose                                                          |
+| ------------------------ | ------------------ | ---------------------------------------------------------------- |
+| `captureFlutterErrors`   | `false`            | Hook `FlutterError.onError`. Disabled by default — opt in.       |
+| `capturePlatformErrors`  | `false`            | Hook `PlatformDispatcher.onError`. Disabled by default — opt in. |
+| `captureExitThreats`     | `true`             | Ship a report synchronously before RASP kills the process.       |
+| `captureDetectedThreats` | `true`             | Auto-ship when a new threat is observed (deduped per session).   |
+| `maxBreadcrumbs`         | `50`               | FIFO cap.                                                        |
+| `maxPendingReports`      | `50`               | On-disk queue cap.                                               |
+| `exitTimeout`            | `1.5 s`            | Max wait for the exit report before termination.                 |
+| `httpTimeout`            | `1.2 s`            | Per-attempt timeout.                                             |
+| `retryBackoffs`          | `[3 s, 9 s, 27 s]` | Backoff schedule.                                                |
+| `userId`                 | `null`             | Optional `user.id`.                                              |
 
 ### Wire format
 
@@ -234,23 +237,40 @@ await FlutterRasp.instance.initialize(
   "detectedThreats": ["root", "hook"],
   "message": "enforcedExit triggered by: root",
   "breadcrumbs": [
-    { "ts": "...", "category": "rasp", "level": "warning",
-      "message": "threats detected" }
+    {
+      "ts": "...",
+      "category": "rasp",
+      "level": "warning",
+      "message": "threats detected"
+    }
   ],
   "device": {
-    "id": "<sha256-hex>", "platform": "android", "model": "Pixel 7",
-    "manufacturer": "Google", "osVersion": "14", "apiLevel": 34,
-    "locale": "es-ES", "country": "CO", "timezone": "America/Bogota",
+    "id": "<sha256-hex>",
+    "platform": "android",
+    "model": "Pixel 7",
+    "manufacturer": "Google",
+    "osVersion": "14",
+    "apiLevel": 34,
+    "locale": "es-ES",
+    "country": "CO",
+    "timezone": "America/Bogota",
     "isPhysicalDevice": true
   },
   "app": {
-    "packageName": "com.example.app", "version": "1.2.3",
-    "build": "456", "installer": "com.android.vending",
-    "firstInstallMs": 1747000000000, "lastUpdateMs": 1747500000000,
-    "buildType": "release", "abi": "arm64-v8a"
+    "packageName": "com.example.app",
+    "version": "1.2.3",
+    "build": "456",
+    "installer": "com.android.vending",
+    "firstInstallMs": 1747000000000,
+    "lastUpdateMs": 1747500000000,
+    "buildType": "release",
+    "abi": "arm64-v8a"
   },
   "network": {
-    "type": "wifi", "carrier": "Claro", "mcc": "732", "mnc": "101"
+    "type": "wifi",
+    "carrier": "Claro",
+    "mcc": "732",
+    "mnc": "101"
   },
   "policy": { "exitThreats": ["root", "hook", "repackaging"] },
   "user": { "id": "<optional>" },
@@ -258,15 +278,15 @@ await FlutterRasp.instance.initialize(
 }
 ```
 
-| Field | Description |
-| --- | --- |
-| `event` | `threatsDetected` · `enforcedExit` · `flutterError` · `dartError` · `manualCapture`. |
-| `crashThreat` | Set only on `enforcedExit` — the threat that triggered termination. |
-| `detectedThreats` | All threats observed in this event. |
-| `policy.exitThreats` | The exact list the integrator configured as `exitThreats`. |
-| `app.installer` | Android: package name (Play, Amazon…) or `sideload`. iOS: `appStore` / `testFlight` / `simulator` / `dev` / `enterprise` / `sideload` / `unknown`. |
-| `network.type` | `wifi` / `cellular` / `ethernet` / `vpn` / `none` / `unknown`. Carrier + MCC/MNC on Android with a SIM. |
-| `extras.source` | `enforcedExit` ships `"native"` (built and shipped from the native exit path). |
+| Field                | Description                                                                                                                                        |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `event`              | `threatsDetected` · `enforcedExit` · `flutterError` · `dartError` · `manualCapture`.                                                               |
+| `crashThreat`        | Set only on `enforcedExit` — the threat that triggered termination.                                                                                |
+| `detectedThreats`    | All threats observed in this event.                                                                                                                |
+| `policy.exitThreats` | The exact list the integrator configured as `exitThreats`.                                                                                         |
+| `app.installer`      | Android: package name (Play, Amazon…) or `sideload`. iOS: `appStore` / `testFlight` / `simulator` / `dev` / `enterprise` / `sideload` / `unknown`. |
+| `network.type`       | `wifi` / `cellular` / `ethernet` / `vpn` / `none` / `unknown`. Carrier + MCC/MNC on Android with a SIM.                                            |
+| `extras.source`      | `enforcedExit` ships `"native"` (built and shipped from the native exit path).                                                                     |
 
 When `hmacKey` is set, every body is signed with `HMAC-SHA256`
 and forwarded as the `X-Rasp-Signature` header.

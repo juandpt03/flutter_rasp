@@ -15,7 +15,14 @@ enum Threat {
   /// App signature or bundle has been modified.
   repackaging,
 
-  /// Installed from an untrusted source.
+  /// Installed from a source outside the trusted list
+  /// (`AndroidRaspConfig.supportedStores`).
+  ///
+  /// Note: some install channels don't always expose the installer package
+  /// name to the OS (e.g. sideload or Firebase App Distribution), so this
+  /// check may not flag them. For robust app-integrity validation on Android,
+  /// it's recommended to pair it with [repackaging] and
+  /// `AndroidRaspConfig.signingCertHashes`.
   trustedInstall,
 
   /// Active VPN connection.

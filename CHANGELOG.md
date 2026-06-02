@@ -1,3 +1,14 @@
+## 6.1.3
+
+- `trustedInstall` is no longer part of the `ThreatPolicy.low` / `medium`
+  / `high` presets' exit threats. It is still detected and reported; some
+  install channels (sideload, Firebase App Distribution) don't always
+  expose the installer package name, so it's better suited to telemetry.
+  Add `Threat.trustedInstall` to a custom `ThreatPolicy` to keep it as an
+  exit threat.
+- Docs: recommend validating Android app integrity via `repackaging` +
+  `AndroidRaspConfig.signingCertHashes`.
+
 ## 6.1.2
 
 - Fix Android `repackaging` false positive when multiple
