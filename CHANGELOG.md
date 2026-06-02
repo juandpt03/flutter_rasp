@@ -1,3 +1,9 @@
+## 6.1.2
+
+- Fix Android `repackaging` false positive when multiple
+  `signingCertHashes` are configured. The APK is now valid if its
+  signing certificate matches **any** of the configured hashes.
+
 ## 6.1.1
 
 - The reporter now ships only security events (detected threats and

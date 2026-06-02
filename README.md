@@ -28,7 +28,7 @@ runtime tampering and ships every event to your own backend.
 
 ```yaml
 dependencies:
-  flutter_rasp: ^6.1.1
+  flutter_rasp: ^6.1.2
 ```
 
 ---
