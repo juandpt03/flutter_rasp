@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:isolate';
 import 'dart:typed_data' show BytesBuilder;
 
 import 'package:flutter/services.dart';
@@ -41,7 +42,7 @@ class SslPinningClient {
 
       if (stored != null) {
         try {
-          final ctx = _buildContext(stored, config.passphrase, key);
+          final ctx = await _buildContext(stored, config.passphrase, key);
           _cache[key] = ctx;
           unawaited(
             _backgroundUpdate(onFetchRemote, key, config.passphrase),
@@ -54,7 +55,7 @@ class SslPinningClient {
       try {
         final bytes = await onFetchRemote();
         if (bytes != null) {
-          final ctx = _buildContext(bytes, config.passphrase, key);
+          final ctx = await _buildContext(bytes, config.passphrase, key);
           await CertificateStore.save(bytes, key: key);
           _cache[key] = ctx;
           return ctx;
@@ -107,14 +108,17 @@ class SslPinningClient {
   static Uint8List? cachedPem(SslPinningConfig config) =>
       _pemCache[_storageKey(config)];
 
-  static SecurityContext _buildContext(
+  static Future<SecurityContext> _buildContext(
     Uint8List bytes,
     String? passphrase,
     String key,
-  ) {
+  ) async {
     final Uint8List pemBytes;
     if (passphrase != null) {
-      pemBytes = CertificateDecryptor.decrypt(bytes, passphrase);
+      // PBKDF2 takes seconds on low-end devices; keep it off the UI isolate.
+      pemBytes = await Isolate.run(
+        () => CertificateDecryptor.decrypt(bytes, passphrase),
+      );
     } else {
       validatePem(bytes);
       pemBytes = bytes;
@@ -153,13 +157,16 @@ class SslPinningClient {
     for (final assetPath in config.certificateAssetPaths) {
       final Uint8List pemBytes;
 
-      if (config.passphrase != null) {
+      final passphrase = config.passphrase;
+      if (passphrase != null) {
         final byteData = await effectiveBundle.load(assetPath);
         final encrypted = byteData.buffer.asUint8List(
           byteData.offsetInBytes,
           byteData.lengthInBytes,
         );
-        pemBytes = CertificateDecryptor.decrypt(encrypted, config.passphrase!);
+        pemBytes = await Isolate.run(
+          () => CertificateDecryptor.decrypt(encrypted, passphrase),
+        );
       } else {
         final pem = await effectiveBundle.loadString(assetPath);
         final pemAsBytes = Uint8List.fromList(utf8.encode(pem));
@@ -184,7 +191,7 @@ class SslPinningClient {
       final bytes = await onFetch();
       if (bytes == null) return;
       if (passphrase != null) {
-        CertificateDecryptor.decrypt(bytes, passphrase);
+        await Isolate.run(() => CertificateDecryptor.decrypt(bytes, passphrase));
       } else {
         validatePem(bytes);
       }

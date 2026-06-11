@@ -1,3 +1,18 @@
+## 6.2.0
+
+- **Faster app startup.** `initialize()` now returns in milliseconds;
+  the first security scan runs in the background with the same
+  enforcement — exit threats still terminate the app and detected
+  threats still reach your callbacks. Most noticeable on older Android
+  devices.
+  - Gate security-sensitive flows on your threat callback (or an
+    explicit `scanAll()`) rather than on `initialize()` returning.
+- Enabling the reporter adds no startup cost.
+- SSL pinning no longer blocks the UI while preparing the pinned client.
+- More reliable delivery of reports queued while offline.
+- Lower overhead from real-time monitoring, especially on low-end
+  devices.
+
 ## 6.1.3
 
 - `trustedInstall` is no longer part of the `ThreatPolicy.low` / `medium`

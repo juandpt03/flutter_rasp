@@ -34,6 +34,7 @@ class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
     private var monitoringFuture: ScheduledFuture<*>? = null
     @Volatile private var enabledThreats: List<String>? = null
     @Volatile private var exitThreats: List<String> = emptyList()
+    @Volatile private var monitoringActive = false
 
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         applicationContext = binding.applicationContext
@@ -45,6 +46,8 @@ class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
         FlutterRaspHostApi.setUp(binding.binaryMessenger, null)
         flutterApi = null
         stopMonitoringInternal()
+        enabledThreats = null
+        exitThreats = emptyList()
         applicationContext = null
     }
 
@@ -62,33 +65,14 @@ class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
         config.androidConfig?.let { applyAndroidConfig(it) }
         Reporter.get()?.setActivePolicy(config.exitThreats)
 
-        val immediateThreats = DetectorRegistry.detectThreats(context, enabledThreats)
-        val currentExitThreats = exitThreats
-        if (immediateThreats.isNotEmpty() && currentExitThreats.isNotEmpty() &&
-            immediateThreats.any { it in currentExitThreats }) {
-            val matched = immediateThreats.filter { it in currentExitThreats }
-            logTermination(immediateThreats, matched)
-            callback(Result.success(Unit))
-            Thread { terminateApp(matched) }.start()
-            return
-        }
-
-        if (immediateThreats.isNotEmpty()) {
-            val reportable = immediateThreats.filter { it !in currentExitThreats }
-            if (reportable.isNotEmpty()) {
-                Reporter.get()?.reportThreatDetected(reportable)
-                mainHandler.post {
-                    flutterApi?.onThreatsDetected(reportable) {}
-                }
-            }
-        }
-
         startMonitoringInternal(context, interval)
         callback(Result.success(Unit))
     }
 
     override fun stopMonitoring(callback: (Result<Unit>) -> Unit) {
         stopMonitoringInternal()
+        enabledThreats = null
+        exitThreats = emptyList()
         callback(Result.success(Unit))
     }
 
@@ -227,15 +211,21 @@ class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
 
     private fun startMonitoringInternal(context: android.content.Context, intervalMs: Long) {
         stopMonitoringInternal()
+        monitoringActive = true
         val executor = Executors.newSingleThreadScheduledExecutor { runnable ->
-            Thread(runnable, "flutter-rasp-monitor").apply { isDaemon = true }
+            Thread(runnable, "flutter-rasp-monitor").apply {
+                isDaemon = true
+                priority = Thread.NORM_PRIORITY - 1
+            }
         }
         scheduledExecutor = executor
         monitoringFuture = executor.scheduleAtFixedRate({
             try {
-                val threats = DetectorRegistry.detectThreats(context, enabledThreats)
+                if (!monitoringActive) return@scheduleAtFixedRate
+                val currentEnabled = enabledThreats
+                val currentExitThreats = exitThreats
+                val threats = DetectorRegistry.detectThreats(context, currentEnabled)
                 if (threats.isNotEmpty()) {
-                    val currentExitThreats = exitThreats
                     if (currentExitThreats.isNotEmpty() && threats.any { it in currentExitThreats }) {
                         val matched = threats.filter { it in currentExitThreats }
                         logTermination(threats, matched)
@@ -250,9 +240,10 @@ class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
                         }
                     }
                 }
-            } catch (_: Exception) {
+            } catch (_: Throwable) {
+                // Throwable: anything escaping cancels all future runs.
             }
-        }, intervalMs, intervalMs, TimeUnit.MILLISECONDS)
+        }, 0L, intervalMs, TimeUnit.MILLISECONDS)
     }
 
     private fun logTermination(detected: List<String>, matched: List<String>) {
@@ -289,12 +280,11 @@ class FlutterRaspPlugin : FlutterPlugin, FlutterRaspHostApi, ActivityAware {
     }
 
     private fun stopMonitoringInternal() {
+        monitoringActive = false
         monitoringFuture?.cancel(false)
         monitoringFuture = null
         scheduledExecutor?.shutdown()
         scheduledExecutor = null
-        enabledThreats = null
-        exitThreats = emptyList()
     }
 
     private fun noContextFailure(): Result<Nothing> = Result.failure(

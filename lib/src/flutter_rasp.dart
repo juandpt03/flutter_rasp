@@ -51,42 +51,54 @@ class FlutterRasp {
       config.validate();
       _config = config;
       _threatCallback = threatCallback;
+      // Listen before starting so the first scan's threats can't be
+      // emitted into a broadcast stream that has no subscriber yet.
+      _subscription = _platform.threatStream.listen(
+        (threatNames) {
+          final threats = threatNames
+              .map(Threat.fromName)
+              .where((t) => t != Threat.undefined)
+              .toSet();
+          if (threats.isEmpty) return;
+          _breadcrumb(
+            'threats detected',
+            level: BreadcrumbLevel.warning,
+            data: {'threats': threats.map((t) => t.name).toList()},
+          );
+          onThreatDetected?.call(threats);
+          _dispatchThreats(threats);
+        },
+        onError: (error) {
+          debugPrint('FlutterRasp stream error: $error');
+        },
+        onDone: () {
+          _config = null;
+          _subscription = null;
+          _threatCallback = null;
+        },
+      );
       await _platform.startMonitoring(config);
     } catch (e) {
+      final subscription = _subscription;
+      _subscription = null;
+      _config = null;
+      _threatCallback = null;
+      try {
+        await subscription?.cancel();
+      } catch (_) {}
+      // Stop any native monitoring that may have partially started.
+      try {
+        await _platform.stopMonitoring();
+      } catch (_) {}
       // Roll back the reporter so a retry doesn't trip the
       // "already initialized" guard.
       if (reporter != null && RaspReporter.instance.isInitialized) {
-        await RaspReporter.instance.dispose();
+        try {
+          await RaspReporter.instance.dispose();
+        } catch (_) {}
       }
-      _config = null;
-      _threatCallback = null;
       rethrow;
     }
-
-    _subscription = _platform.threatStream.listen(
-      (threatNames) {
-        final threats = threatNames
-            .map(Threat.fromName)
-            .where((t) => t != Threat.undefined)
-            .toSet();
-        if (threats.isEmpty) return;
-        _breadcrumb(
-          'threats detected',
-          level: BreadcrumbLevel.warning,
-          data: {'threats': threats.map((t) => t.name).toList()},
-        );
-        onThreatDetected?.call(threats);
-        _dispatchThreats(threats);
-      },
-      onError: (error) {
-        debugPrint('FlutterRasp stream error: $error');
-      },
-      onDone: () {
-        _config = null;
-        _subscription = null;
-        _threatCallback = null;
-      },
-    );
   }
 
   /// Replaces the current [ThreatCallback] at runtime.

@@ -50,29 +50,6 @@ public class FlutterRaspPlugin: NSObject, FlutterPlugin, FlutterRaspHostApi {
         Reporter.shared?.setActivePolicy(exitThreats: config.exitThreats)
         DetectorRegistry.shared.clearCache()
 
-        let immediateThreats = DetectorRegistry.shared.detectThreats(enabledThreats: enabledThreats)
-        let currentExitThreats = exitThreats
-        if !immediateThreats.isEmpty && !currentExitThreats.isEmpty &&
-            immediateThreats.contains(where: { currentExitThreats.contains($0) }) {
-            let matched = immediateThreats.filter { currentExitThreats.contains($0) }
-            logTermination(detected: immediateThreats, matched: matched)
-            completion(.success(()))
-            monitoringQueue.async { [weak self] in
-                self?.terminateApp(matchedExitThreats: matched)
-            }
-            return
-        }
-
-        if !immediateThreats.isEmpty {
-            let reportable = immediateThreats.filter { !currentExitThreats.contains($0) }
-            if !reportable.isEmpty {
-                Reporter.shared?.reportThreatDetected(reportable)
-                DispatchQueue.main.async { [weak self] in
-                    self?.flutterApi?.onThreatsDetected(threats: reportable) { _ in }
-                }
-            }
-        }
-
         cancelTimer()
         monitoringInterval = TimeInterval(interval) / 1000.0
         isMonitoringActive = true
