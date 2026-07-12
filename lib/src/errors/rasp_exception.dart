@@ -91,6 +91,12 @@ class RaspException implements Exception {
         detail ?? RaspErrorCode.noCertificateAvailable.message,
       );
 
+  factory RaspException.certificateDownloadFailed([String? detail]) =>
+      RaspException._(
+        RaspErrorCode.certificateDownloadFailed,
+        detail ?? RaspErrorCode.certificateDownloadFailed.message,
+      );
+
   factory RaspException.raspReporterNotInitialized() => RaspException._(
     RaspErrorCode.raspReporterNotInitialized,
     RaspErrorCode.raspReporterNotInitialized.message,

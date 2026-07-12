@@ -26,12 +26,20 @@ class SslPinningSection extends StatelessWidget {
           SslPinningStatus.success => (
             const Color(0xFF00E676),
             Icons.lock,
-            '${notifier.lastMode?.label ?? ''} — secure',
+            '${notifier.lastMode?.label ?? ''} · '
+                '${notifier.lastMessage ?? 'secure'}',
+          ),
+          SslPinningStatus.warning => (
+            const Color(0xFFFFB74D),
+            Icons.gpp_maybe,
+            '${notifier.lastMode?.label ?? ''} · '
+                '${notifier.lastMessage ?? 'Pin OK, server error'}',
           ),
           SslPinningStatus.failure => (
             const Color(0xFFEF5350),
             Icons.lock_open,
-            notifier.lastError ?? 'Pin mismatch',
+            '${notifier.lastMode?.label ?? ''} · '
+                '${notifier.lastError ?? 'Pin mismatch'}',
           ),
         };
 
@@ -78,43 +86,89 @@ class SslPinningSection extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 6,
-                  runSpacing: 6,
-                  children: [
-                    _ClientButton(
-                      label: 'dart:io',
-                      color: color,
-                      onTap: isTesting ? null : notifier.testWithDartIo,
-                    ),
-                    _ClientButton(
-                      label: 'Dio',
-                      color: color,
-                      onTap: isTesting ? null : notifier.testWithDio,
-                    ),
-                    _ClientButton(
-                      label: 'http',
-                      color: color,
-                      onTap: isTesting ? null : notifier.testWithHttp,
-                    ),
-                    _ClientButton(
-                      label: 'Encrypted',
-                      color: color,
-                      onTap: isTesting ? null : notifier.testWithEncrypted,
-                    ),
-                    _ClientButton(
-                      label: 'Remote',
-                      color: color,
-                      onTap: isTesting ? null : notifier.testWithRemote,
-                    ),
+                const SizedBox(height: 10),
+                _ModeGroup(
+                  title: 'LOCAL · PLAIN .PEM (not encrypted)',
+                  color: color,
+                  buttons: [
+                    ('dart:io', notifier.testPlainDartIo),
+                    ('Dio', notifier.testPlainDio),
+                    ('http', notifier.testPlainHttp),
                   ],
+                  enabled: !isTesting,
+                ),
+                const SizedBox(height: 8),
+                _ModeGroup(
+                  title: 'LOCAL · ENCRYPTED .ENC (passphrase)',
+                  color: color,
+                  buttons: [
+                    ('dart:io', notifier.testEncryptedDartIo),
+                    ('Dio', notifier.testEncryptedDio),
+                    ('http', notifier.testEncryptedHttp),
+                  ],
+                  enabled: !isTesting,
+                ),
+                const SizedBox(height: 8),
+                _ModeGroup(
+                  title: 'REMOTE · DOWNLOADED FROM ENDPOINT',
+                  color: color,
+                  buttons: [
+                    ('1. Download', notifier.downloadCertificate),
+                    ('2. Use remote', notifier.testRemote),
+                  ],
+                  enabled: !isTesting,
                 ),
               ],
             ),
           ),
         );
       },
+    );
+  }
+}
+
+class _ModeGroup extends StatelessWidget {
+  const _ModeGroup({
+    required this.title,
+    required this.color,
+    required this.buttons,
+    required this.enabled,
+  });
+
+  final String title;
+  final Color color;
+  final List<(String, VoidCallback)> buttons;
+  final bool enabled;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontFamily: 'monospace',
+            color: color.withValues(alpha: 0.5),
+            fontSize: 8,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 0.8,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          children: [
+            for (final (label, onTap) in buttons)
+              _ClientButton(
+                label: label,
+                color: color,
+                onTap: enabled ? onTap : null,
+              ),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -157,8 +211,9 @@ class _ClientButton extends StatelessWidget {
 
 extension on SslPinningMode {
   String get label => switch (this) {
-    SslPinningMode.plainPem => 'Plain PEM',
-    SslPinningMode.encrypted => 'Encrypted',
-    SslPinningMode.remote => 'Remote fallback',
+    SslPinningMode.plainPem => 'Plain .pem',
+    SslPinningMode.encrypted => 'Encrypted .enc',
+    SslPinningMode.download => 'Download',
+    SslPinningMode.remote => 'Remote (sync)',
   };
 }

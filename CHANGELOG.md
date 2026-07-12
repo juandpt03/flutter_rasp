@@ -1,3 +1,18 @@
+## 7.0.0
+
+- **SSL pinning, simpler and faster.** Three methods:
+  - `createContext()` / `createHttpClient()` — local certificate,
+    plain or encrypted.
+  - `downloadCertificate(RemoteCertificateConfig)` — downloads the
+    certificate from your endpoint (plain or encrypted, depending on
+    the file and `passphrase`) and always replaces the stored copy.
+  - `createRemoteContext()` / `createRemoteHttpClient()` — build
+    pinned clients synchronously from the downloaded certificate.
+- **Breaking:** `onFetchRemote` was removed — use
+  `downloadCertificate()` instead. `clearStoredCertificate()` is now
+  `clearRemoteCertificate(RemoteCertificateConfig)`.
+- Example app updated with the new SSL pinning flow.
+
 ## 6.2.0
 
 - **Faster app startup.** `initialize()` now returns in milliseconds;

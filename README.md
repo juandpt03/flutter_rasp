@@ -14,8 +14,9 @@ runtime tampering and ships every event to your own backend.
 - Real-time monitoring with native-level termination when a
   configured threat fires.
 - Screen capture protection.
-- SSL certificate pinning (plain `.pem`, encrypted `.enc`, remote
-  cert updates with secure storage).
+- SSL certificate pinning (plain `.pem`, encrypted `.enc`, or a
+  remote certificate downloaded from your endpoint and kept in
+  secure storage).
 - Built-in security reporter — every detected threat and policy-
   triggered exit shipped to your HTTPS endpoint with HMAC + optional
   pinning. Flutter/Dart error capture is available but **off by
@@ -28,7 +29,7 @@ runtime tampering and ships every event to your own backend.
 
 ```yaml
 dependencies:
-  flutter_rasp: ^6.1.3
+  flutter_rasp: ^7.0.0
 ```
 
 ---
@@ -145,9 +146,14 @@ await FlutterRasp.instance.blockScreenCapture(true);
 
 ## SSL certificate pinning
 
+**1. Local certificate** (recommended) — bundled asset, plain or
+encrypted (encrypt with the
+[Certificate Encryptor](tool/certificate_encryptor/) web tool):
+
 ```dart
 const config = SslPinningConfig(
-  certificateAssetPaths: ['assets/certs/api.pem'],
+  certificateAssetPaths: ['assets/certs/api.enc'],
+  passphrase: 'your_passphrase', // omit for plain .pem
 );
 final client = await SslPinningClient.createHttpClient(config);
 ```
@@ -155,33 +161,28 @@ final client = await SslPinningClient.createHttpClient(config);
 Works with `dart:io`, Dio (`IOHttpClientAdapter`), `package:http`
 (`IOClient`).
 
-**Encrypted PEM** — encrypt with the [Certificate Encryptor](tool/certificate_encryptor/) web tool, pass `passphrase`:
+**2. Download a remote certificate** — plain or encrypted, depending
+on the file and `passphrase`. The download **always replaces** the
+stored copy; if it fails, the copy from a previous session is
+restored, so one call at startup is enough:
 
 ```dart
-const config = SslPinningConfig(
-  certificateAssetPaths: ['assets/certs/api.enc'],
-  passphrase: 'your_passphrase',
+final remoteConfig = RemoteCertificateConfig(
+  url: Uri.parse('https://your-cdn.example.com/api.enc'),
+  passphrase: 'your_passphrase', // omit for plain PEM
 );
+await SslPinningClient.downloadCertificate(remoteConfig);
 ```
 
-**Remote updates** — fetch a new cert at runtime; the plugin
-stores it in Keychain (iOS) / EncryptedSharedPreferences (Android)
-and falls back to the asset if the fetch fails:
+**3. Use the downloaded certificate** — synchronous, no network:
 
 ```dart
-final ctx = await SslPinningClient.createContext(
-  config,
-  onFetchRemote: () => yourApi.fetchCert(),
-);
+final client = SslPinningClient.createRemoteHttpClient(remoteConfig);
 ```
 
-Resolution chain: memory → stored cert (background refresh) →
-remote fetch → asset.
-
-`SslPinningClient.cachedPem(config)` returns the resolved PEM
-bytes synchronously after the first call — forward to the
-reporter's `pinnedCertPem` to reuse the same cert without a
-second fetch.
+`cachedPem(config)` / `cachedRemotePem(remoteConfig)` return the
+resolved PEM after initialization — forward to the reporter's
+`pinnedCertPem` to reuse the same cert.
 
 ---
 
@@ -204,7 +205,7 @@ await FlutterRasp.instance.initialize(
     endpoint: Uri.parse('https://your-backend.example.com/v1/ingest'),
     headers: const {'X-Project-Id': 'my-app'},
     hmacKey: const String.fromEnvironment('RASP_HMAC_KEY'),
-    pinnedCertPem: SslPinningClient.cachedPem(apiConfig), // optional
+    pinnedCertPem: SslPinningClient.cachedPem(pinningConfig), // optional
   ),
 );
 ```

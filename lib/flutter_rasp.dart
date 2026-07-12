@@ -17,6 +17,7 @@ export 'src/models/android_config.dart';
 export 'src/models/ios_config.dart';
 export 'src/models/rasp_config.dart';
 export 'src/models/rasp_result.dart';
+export 'src/models/remote_certificate_config.dart';
 export 'src/models/ssl_pinning_config.dart';
 export 'src/models/threat_policy.dart';
 export 'src/reporting/rasp_reporter.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rasp/flutter_rasp.dart';
 
+import 'backend_host.dart';
 import 'notifiers/notifiers.dart';
 import 'screens/screens.dart';
 
@@ -29,7 +30,7 @@ Future<void> _initSecurity() async {
   // 1. SSL pinning is always initialized first.
   await SslPinningClient.createContext(
     const SslPinningConfig(
-      certificateAssetPaths: ['assets/certs/httpbin.org.enc'],
+      certificateAssetPaths: ['assets/certs/api.github.com.enc'],
       passphrase: 'flutter_rasp',
     ),
   );
@@ -54,15 +55,12 @@ Future<void> _initSecurity() async {
     ),
     onThreatDetected: rasp.updateThreats,
     reporter: ReporterConfig(
-      endpoint: Uri.parse('http://$_backendHost:8787/v1/ingest'),
+      endpoint: Uri.parse('http://$backendHost:8787/v1/ingest'),
       headers: const {'X-Project-Id': 'flutter_rasp_example'},
       httpTimeout: const Duration(milliseconds: 1200),
     ),
   );
 }
-
-// Replace with your machine's LAN IP. See ../README.md.
-const String _backendHost = '192.168.1.4';
 
 class _ExampleApp extends StatelessWidget {
   const _ExampleApp();

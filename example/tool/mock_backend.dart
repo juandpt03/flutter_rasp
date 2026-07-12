@@ -41,6 +41,10 @@ Future<void> _handle(HttpRequest req) async {
       _renderDashboard(req);
     } else if (req.method == 'GET' && path == '/reports') {
       _renderJson(req);
+    } else if (req.method == 'GET' && path == '/cert.enc') {
+      await _serveCertificate(req, 'assets/certs/api.github.com.enc');
+    } else if (req.method == 'GET' && path == '/cert.pem') {
+      await _serveCertificate(req, 'assets/certs/api.github.com.pem');
     } else if (req.method == 'DELETE' && path == '/reports') {
       _reports.clear();
       stdout.writeln('reports cleared');
@@ -57,6 +61,23 @@ Future<void> _handle(HttpRequest req) async {
       await req.response.close();
     } catch (_) {}
   }
+}
+
+/// Serves the example's pinned certificate so the app can exercise
+/// `SslPinningClient.downloadCertificate`. Run from the example/ directory.
+Future<void> _serveCertificate(HttpRequest req, String path) async {
+  final file = File(path);
+  if (!file.existsSync()) {
+    stderr.writeln('certificate not found: $path (run from example/)');
+    req.response.statusCode = HttpStatus.notFound;
+    await req.response.close();
+    return;
+  }
+  final bytes = await file.readAsBytes();
+  req.response.headers.contentType = ContentType.binary;
+  req.response.add(bytes);
+  await req.response.close();
+  stdout.writeln('served certificate: $path (${bytes.length} bytes)');
 }
 
 Future<void> _ingest(HttpRequest req) async {

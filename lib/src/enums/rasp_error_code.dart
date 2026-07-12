@@ -35,8 +35,11 @@ enum RaspErrorCode {
     'Decryption failed: invalid passphrase or corrupted certificate file.',
   ),
   noCertificateAvailable(
-    'No certificate available. Remote fetch failed, no stored '
-    'certificate, and asset fallback failed.',
+    'No pinned certificate available. Call downloadCertificate() '
+    'before using the remote pinned client.',
+  ),
+  certificateDownloadFailed(
+    'Certificate download failed and no stored certificate is available.',
   ),
   raspReporterNotInitialized(
     'RaspReporter must be initialized. Call RaspReporter.instance.initialize() first.',
