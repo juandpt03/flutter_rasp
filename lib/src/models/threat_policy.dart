@@ -14,6 +14,11 @@ import '../enums/threat.dart';
 /// part of the presets' [exitThreats] — some install channels don't always
 /// expose the installer package name (see [Threat.trustedInstall]). Add it
 /// to a custom policy if you want it to terminate the app.
+///
+/// `Threat.deviceBinding` is also intentionally excluded from every preset:
+/// it fires when a user migrates to a new phone, which is a legitimate flow.
+/// Respond with re-enrollment (see [Threat.deviceBinding]) instead of
+/// terminating the app.
 class ThreatPolicy {
   final Set<Threat> exitThreats;
 

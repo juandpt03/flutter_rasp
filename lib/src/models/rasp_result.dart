@@ -51,6 +51,8 @@ class RaspResult {
 
   bool get isMultiInstance => threats[Threat.multiInstance] ?? false;
 
+  bool get isDeviceBindingCompromised => threats[Threat.deviceBinding] ?? false;
+
   @override
   String toString() => 'RaspResult(detected: $detectedThreats)';
 

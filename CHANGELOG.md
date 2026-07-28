@@ -1,3 +1,18 @@
+## 7.1.0
+
+- **New threat: device binding** (`Threat.deviceBinding`), on Android and
+  iOS. Detects that the app is running with data that belongs to a
+  different device (backup restore, device transfer, or data cloning) —
+  also known as "app lifted". Listen with
+  `ThreatCallback.onDeviceBinding`, or check on demand with
+  `FlutterRasp.isDeviceBindingCompromised()` and
+  `RaspResult.isDeviceBindingCompromised`.
+  - Not part of any `ThreatPolicy` preset: moving to a new phone is a
+    legitimate flow. Respond with re-authentication instead of
+    terminating the app.
+- Widened the `pointycastle` constraint to `>=3.9.1 <5.0.0`, allowing
+  consumers to depend on pointycastle 4.x.
+
 ## 7.0.0
 
 - **SSL pinning, simpler and faster.** Three methods:

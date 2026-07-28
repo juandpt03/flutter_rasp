@@ -1,5 +1,5 @@
 group = "com.juandpt.flutter_rasp"
-version = "7.0.0"
+version = "7.1.0"
 
 buildscript {
     val kotlinVersion = "2.2.20"
@@ -81,7 +81,7 @@ android {
 }
 
 dependencies {
-    api("com.juandpt:flutter_rasp_core:1.0.0")
+    api("com.juandpt:flutter_rasp_core:1.1.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.mockito:mockito-core:5.0.0")
 }

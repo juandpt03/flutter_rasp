@@ -342,6 +342,27 @@
       },
       {
         "kind": "Import",
+        "name": "CryptoKit",
+        "printedName": "CryptoKit",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
+        "name": "Security",
+        "printedName": "Security",
+        "declKind": "Import",
+        "moduleName": "FlutterRaspCore"
+      },
+      {
+        "kind": "Import",
         "name": "LocalAuthentication",
         "printedName": "LocalAuthentication",
         "declKind": "Import",
@@ -3671,9 +3692,37 @@
     {
       "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/DetectorRegistry.swift",
       "kind": "FloatLiteral",
-      "offset": 576,
+      "offset": 609,
       "length": 3,
       "value": "5.0"
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/DeviceBindingDetector.swift",
+      "kind": "StringLiteral",
+      "offset": 127,
+      "length": 15,
+      "value": "\"deviceBinding\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/DeviceBindingDetector.swift",
+      "kind": "StringLiteral",
+      "offset": 170,
+      "length": 26,
+      "value": "\"com.juandpt.flutter_rasp\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/DeviceBindingDetector.swift",
+      "kind": "StringLiteral",
+      "offset": 223,
+      "length": 23,
+      "value": "\"device_binding_secret\""
+    },
+    {
+      "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/DeviceBindingDetector.swift",
+      "kind": "StringLiteral",
+      "offset": 275,
+      "length": 48,
+      "value": "\"com.juandpt.flutter_rasp.device_binding.marker\""
     },
     {
       "filePath": "\/Users\/juandpt\/Desktop\/Proyectos\/Paquetes\/flutter_rasp_project\/flutter_rasp_core\/ios\/FlutterRaspCore\/Sources\/Detectors\/DevicePasscodeDetector.swift",

@@ -52,6 +52,18 @@ enum Threat {
   /// Android only: app running in a cloned/dual-app environment.
   multiInstance,
 
+  /// The app is running with data that belongs to a different device
+  /// (backup restore, device transfer, or data cloning).
+  ///
+  /// Recommended response is re-enrollment (invalidate the session and
+  /// require a fresh login) rather than terminating the app: migrating to
+  /// a new phone is a legitimate user flow.
+  ///
+  /// On Android this works with the app's default backup configuration;
+  /// apps that customize it (`android:allowBackup="false"` or restrictive
+  /// `dataExtractionRules`) may not report this threat.
+  deviceBinding,
+
   undefined;
 
   static final Set<Threat> active = Set.unmodifiable(

@@ -29,7 +29,7 @@ runtime tampering and ships every event to your own backend.
 
 ```yaml
 dependencies:
-  flutter_rasp: ^7.0.0
+  flutter_rasp: ^7.1.0
 ```
 
 ---
@@ -47,6 +47,7 @@ dependencies:
 | VPN                    |   ✅    | ✅  |
 | Device passcode        |   ✅    | ✅  |
 | Secure hardware        |   ✅    | ✅  |
+| Device binding         |   ✅    | ✅  |
 | Screen capture block   |   ✅    | ✅  |
 | Developer mode         |   ✅    |  —  |
 | ADB enabled            |   ✅    |  —  |
@@ -54,6 +55,16 @@ dependencies:
 | Time spoofing          |   ✅    |  —  |
 | Location spoofing      |   ✅    |  —  |
 | Multi-instance         |   ✅    |  —  |
+
+**Device binding** (`Threat.deviceBinding`) fires when the app is running
+with data that belongs to a different device (backup restore, device
+transfer, or data cloning). Respond by re-authenticating the user rather
+than terminating the app — migrating to a new phone is a legitimate flow,
+so it is intentionally excluded from every `ThreatPolicy` preset.
+
+> **Note (Android):** device binding works with the app's default backup
+> configuration. If your app customizes it — `android:allowBackup="false"`
+> or restrictive `dataExtractionRules` — this threat may not be reported.
 
 ### Initialize
 

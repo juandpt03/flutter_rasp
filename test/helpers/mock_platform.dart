@@ -33,6 +33,7 @@ class MockFlutterRaspPlatform
     'timeSpoofing': false,
     'locationSpoofing': false,
     'multiInstance': false,
+    'deviceBinding': false,
   };
 
   // Reporter spies.

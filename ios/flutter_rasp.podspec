@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
   s.name             = 'flutter_rasp'
-  s.version          = '7.0.0'
+  s.version          = '7.1.0'
   s.summary          = 'RASP (Runtime Application Self-Protection) plugin for Flutter.'
   s.description      = <<-DESC
-A comprehensive RASP plugin for Flutter that detects root, jailbreak, emulators, debuggers, hooks, repackaging, untrusted installs, VPN, developer mode, device passcode, secure hardware, obfuscation, time spoofing, location spoofing, multi-instance, and screen capture threats.
+A comprehensive RASP plugin for Flutter that detects root, jailbreak, emulators, debuggers, hooks, repackaging, untrusted installs, VPN, developer mode, device passcode, secure hardware, obfuscation, time spoofing, location spoofing, multi-instance, device binding, and screen capture threats.
                        DESC
   s.homepage         = 'https://github.com/juandpt03/flutter_rasp'
   s.license          = { :file => '../LICENSE' }
