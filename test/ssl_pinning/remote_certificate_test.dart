@@ -10,7 +10,8 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   /// Self-signed EC test certificate (valid 10 years).
-  const testPem = '-----BEGIN CERTIFICATE-----\n'
+  const testPem =
+      '-----BEGIN CERTIFICATE-----\n'
       'MIIBizCCATGgAwIBAgIUV/NpLEzef0cEYN2As8oKdXoIcn0wCgYIKoZIzj0EAwIw\n'
       'GzEZMBcGA1UEAwwQdGVzdC5leGFtcGxlLmNvbTAeFw0yNjAyMTkwNDUyMTFaFw0z\n'
       'NjAyMTcwNDUyMTFaMBsxGTAXBgNVBAMMEHRlc3QuZXhhbXBsZS5jb20wWTATBgcq\n'
@@ -105,17 +106,20 @@ void main() {
       );
     });
 
-    test('downloadCertificate() stores cert and enables sync access',
-        () async {
+    test('downloadCertificate() stores cert and enables sync access', () async {
       SslPinningClient.debugFetchOverride = (_) async => pemBytes;
 
       final downloaded = await SslPinningClient.downloadCertificate(config);
 
       expect(downloaded, isTrue);
-      expect(SslPinningClient.createRemoteContext(config),
-          isA<SecurityContext>());
-      expect(SslPinningClient.createRemoteHttpClient(config),
-          isA<HttpClient>());
+      expect(
+        SslPinningClient.createRemoteContext(config),
+        isA<SecurityContext>(),
+      );
+      expect(
+        SslPinningClient.createRemoteHttpClient(config),
+        isA<HttpClient>(),
+      );
       expect(SslPinningClient.cachedRemotePem(config), pemBytes);
       expect(fakeStorage.values, hasLength(1));
     });
@@ -139,19 +143,21 @@ void main() {
 
       // Simulate a restart: memory gone, storage kept.
       SslPinningClient.invalidateCache();
-      SslPinningClient.debugFetchOverride =
-          (_) async => throw const SocketException('offline');
+      SslPinningClient.debugFetchOverride = (_) async =>
+          throw const SocketException('offline');
 
       final downloaded = await SslPinningClient.downloadCertificate(config);
 
       expect(downloaded, isFalse);
-      expect(SslPinningClient.createRemoteContext(config),
-          isA<SecurityContext>());
+      expect(
+        SslPinningClient.createRemoteContext(config),
+        isA<SecurityContext>(),
+      );
     });
 
     test('download failure with nothing stored throws', () async {
-      SslPinningClient.debugFetchOverride =
-          (_) async => throw const SocketException('offline');
+      SslPinningClient.debugFetchOverride = (_) async =>
+          throw const SocketException('offline');
 
       expect(
         SslPinningClient.downloadCertificate(config),
@@ -166,8 +172,8 @@ void main() {
     });
 
     test('downloadCertificate() rejects invalid certificate bytes', () async {
-      SslPinningClient.debugFetchOverride =
-          (_) async => Uint8List.fromList(utf8.encode('not a cert'));
+      SslPinningClient.debugFetchOverride = (_) async =>
+          Uint8List.fromList(utf8.encode('not a cert'));
 
       expect(
         SslPinningClient.downloadCertificate(config),
@@ -181,8 +187,7 @@ void main() {
       );
     });
 
-    test('clearRemoteCertificate() removes stored and cached copies',
-        () async {
+    test('clearRemoteCertificate() removes stored and cached copies', () async {
       SslPinningClient.debugFetchOverride = (_) async => pemBytes;
       await SslPinningClient.downloadCertificate(config);
 

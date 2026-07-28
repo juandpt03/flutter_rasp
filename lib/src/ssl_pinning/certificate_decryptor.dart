@@ -23,11 +23,7 @@ class CertificateDecryptor {
 
     final iterations = _readUint32BE(data, 5);
     final salt = Uint8List.sublistView(data, 9, 9 + _saltLen);
-    final iv = Uint8List.sublistView(
-      data,
-      _headerSize - _ivLen,
-      _headerSize,
-    );
+    final iv = Uint8List.sublistView(data, _headerSize - _ivLen, _headerSize);
     final ciphertextWithTag = Uint8List.sublistView(data, _headerSize);
 
     final key = _deriveKey(passphrase, salt, iterations);

@@ -20,10 +20,7 @@ class CertificateStore {
     final existing = await load(key: key);
     if (existing != null && listEquals(existing, bytes)) return false;
 
-    await _storage.write(
-      key: '$_prefix$key',
-      value: base64Encode(bytes),
-    );
+    await _storage.write(key: '$_prefix$key', value: base64Encode(bytes));
     return true;
   }
 

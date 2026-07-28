@@ -26,10 +26,7 @@ void main() {
 
     test('validate() succeeds with multiple plain paths', () {
       const config = SslPinningConfig(
-        certificateAssetPaths: [
-          'assets/certs/api.pem',
-          'assets/certs/cdn.crt',
-        ],
+        certificateAssetPaths: ['assets/certs/api.pem', 'assets/certs/cdn.crt'],
       );
       expect(() => config.validate(), returnsNormally);
     });

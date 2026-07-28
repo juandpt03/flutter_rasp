@@ -52,27 +52,33 @@ void main() {
 
       expect(
         () => reporter.initialize(configFor()),
-        throwsA(isA<RaspException>().having(
-          (e) => e.errorCode,
-          'errorCode',
-          RaspErrorCode.raspReporterAlreadyInitialized,
-        )),
+        throwsA(
+          isA<RaspException>().having(
+            (e) => e.errorCode,
+            'errorCode',
+            RaspErrorCode.raspReporterAlreadyInitialized,
+          ),
+        ),
       );
       expect(mockPlatform.initReporterCalls, 1);
     });
 
-    test('captureFlutterErrors:false leaves FlutterError.onError untouched',
-        () async {
-      final original = FlutterError.onError;
-      addTearDown(() => FlutterError.onError = original);
+    test(
+      'captureFlutterErrors:false leaves FlutterError.onError untouched',
+      () async {
+        final original = FlutterError.onError;
+        addTearDown(() => FlutterError.onError = original);
 
-      await reporter.initialize(ReporterConfig(
-        endpoint: Uri.parse('https://example.com'),
-        captureFlutterErrors: false,
-      ));
+        await reporter.initialize(
+          ReporterConfig(
+            endpoint: Uri.parse('https://example.com'),
+            captureFlutterErrors: false,
+          ),
+        );
 
-      expect(identical(FlutterError.onError, original), isTrue);
-    });
+        expect(identical(FlutterError.onError, original), isTrue);
+      },
+    );
 
     test('captureFlutterErrors:true installs a chained handler', () async {
       final original = FlutterError.onError;
@@ -145,10 +151,7 @@ void main() {
       await reporter.initialize(configFor());
 
       final stack = StackTrace.current;
-      await reporter.captureException(
-        StateError('boom'),
-        stackTrace: stack,
-      );
+      await reporter.captureException(StateError('boom'), stackTrace: stack);
 
       expect(mockPlatform.capturedErrors, hasLength(1));
       final e = mockPlatform.capturedErrors.single;
@@ -164,8 +167,10 @@ void main() {
         hint: 'user pressed Force error',
       );
 
-      expect(mockPlatform.capturedErrors.single['message'],
-          'user pressed Force error');
+      expect(
+        mockPlatform.capturedErrors.single['message'],
+        'user pressed Force error',
+      );
     });
 
     test('is a no-op before initialize()', () async {
@@ -199,17 +204,18 @@ void main() {
   });
 
   group('Dart-side error capture', () {
-    test('hooked FlutterError.onError ships a flutterError report',
-        () async {
+    test('hooked FlutterError.onError ships a flutterError report', () async {
       final original = FlutterError.onError;
       addTearDown(() => FlutterError.onError = original);
 
       await reporter.initialize(configFor());
 
-      FlutterError.onError!(FlutterErrorDetails(
-        exception: StateError('flutter-fail'),
-        library: 'rendering',
-      ));
+      FlutterError.onError!(
+        FlutterErrorDetails(
+          exception: StateError('flutter-fail'),
+          library: 'rendering',
+        ),
+      );
 
       await Future<void>.delayed(Duration.zero);
 

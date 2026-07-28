@@ -27,7 +27,11 @@ void main() {
         mockPlatform.controller.add([entry.threatName]);
         await Future.delayed(Duration.zero);
 
-        expect(called, isTrue, reason: '${entry.threatName} was not dispatched');
+        expect(
+          called,
+          isTrue,
+          reason: '${entry.threatName} was not dispatched',
+        );
       });
     }
 
@@ -59,7 +63,8 @@ void main() {
           onDeveloperMode: () => called.add('developerMode'),
           onAdbEnabled: () => called.add('adbEnabled'),
           onDevicePasscode: () => called.add('devicePasscode'),
-          onSecureHardwareNotAvailable: () => called.add('secureHardwareNotAvailable'),
+          onSecureHardwareNotAvailable: () =>
+              called.add('secureHardwareNotAvailable'),
           onObfuscationIssues: () => called.add('obfuscationIssues'),
           onTimeSpoofing: () => called.add('timeSpoofing'),
           onLocationSpoofing: () => called.add('locationSpoofing'),
@@ -90,15 +95,30 @@ final _callbackEntries = [
   _CallbackEntry('debug', (cb) => ThreatCallback(onDebug: cb)),
   _CallbackEntry('hook', (cb) => ThreatCallback(onHook: cb)),
   _CallbackEntry('repackaging', (cb) => ThreatCallback(onRepackaging: cb)),
-  _CallbackEntry('trustedInstall', (cb) => ThreatCallback(onTrustedInstall: cb)),
+  _CallbackEntry(
+    'trustedInstall',
+    (cb) => ThreatCallback(onTrustedInstall: cb),
+  ),
   _CallbackEntry('vpn', (cb) => ThreatCallback(onVpn: cb)),
   _CallbackEntry('developerMode', (cb) => ThreatCallback(onDeveloperMode: cb)),
   _CallbackEntry('adbEnabled', (cb) => ThreatCallback(onAdbEnabled: cb)),
-  _CallbackEntry('devicePasscode', (cb) => ThreatCallback(onDevicePasscode: cb)),
-  _CallbackEntry('secureHardwareNotAvailable', (cb) => ThreatCallback(onSecureHardwareNotAvailable: cb)),
-  _CallbackEntry('obfuscationIssues', (cb) => ThreatCallback(onObfuscationIssues: cb)),
+  _CallbackEntry(
+    'devicePasscode',
+    (cb) => ThreatCallback(onDevicePasscode: cb),
+  ),
+  _CallbackEntry(
+    'secureHardwareNotAvailable',
+    (cb) => ThreatCallback(onSecureHardwareNotAvailable: cb),
+  ),
+  _CallbackEntry(
+    'obfuscationIssues',
+    (cb) => ThreatCallback(onObfuscationIssues: cb),
+  ),
   _CallbackEntry('timeSpoofing', (cb) => ThreatCallback(onTimeSpoofing: cb)),
-  _CallbackEntry('locationSpoofing', (cb) => ThreatCallback(onLocationSpoofing: cb)),
+  _CallbackEntry(
+    'locationSpoofing',
+    (cb) => ThreatCallback(onLocationSpoofing: cb),
+  ),
   _CallbackEntry('multiInstance', (cb) => ThreatCallback(onMultiInstance: cb)),
   _CallbackEntry('deviceBinding', (cb) => ThreatCallback(onDeviceBinding: cb)),
 ];

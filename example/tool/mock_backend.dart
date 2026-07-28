@@ -117,21 +117,27 @@ void _printReport(Map<String, Object?> r, {String? hmac}) {
   stdout.writeln(
     '  ${device['manufacturer']} ${device['model']} . ${device['platform']} ${device['osVersion']}',
   );
-  stdout.writeln('  ${app['packageName']} v${app['version']} (${app['build']})');
+  stdout.writeln(
+    '  ${app['packageName']} v${app['version']} (${app['build']})',
+  );
   if (hmac != null) stdout.writeln('  hmac: $hmac');
   if (r['message'] != null) stdout.writeln('  msg: ${r['message']}');
 }
 
 void _renderJson(HttpRequest req) {
-  req.response.headers.contentType =
-      ContentType('application', 'json', charset: 'utf-8');
+  req.response.headers.contentType = ContentType(
+    'application',
+    'json',
+    charset: 'utf-8',
+  );
   req.response.write(jsonEncode(_reports));
   req.response.close();
 }
 
 void _renderDashboard(HttpRequest req) {
   final rows = _reports.map(_renderRow).join();
-  final html = '''
+  final html =
+      '''
 <!doctype html>
 <html lang="en">
 <head>
@@ -228,8 +234,9 @@ String _renderRow(Map<String, Object?> r) {
   final vuln = r['crashThreat'];
   final stack = r['stackTrace'];
 
-  final threatTags = detected.map((t) =>
-      '<span class="tag threat">${_escape(t.toString())}</span>').join(' ');
+  final threatTags = detected
+      .map((t) => '<span class="tag threat">${_escape(t.toString())}</span>')
+      .join(' ');
 
   return '''
 <div class="row">
@@ -244,9 +251,7 @@ String _renderRow(Map<String, Object?> r) {
     ${_kvSection('Device', _entries(device))}
     ${_kvSection('App', _entries(app))}
     ${_kvSection('Network', _entries(network))}
-    ${_kvSection('Policy · exitThreats', [
-        MapEntry('list', activeExit.isEmpty ? '∅' : activeExit.join(', ')),
-      ])}
+    ${_kvSection('Policy · exitThreats', [MapEntry('list', activeExit.isEmpty ? '∅' : activeExit.join(', '))])}
     ${user.isNotEmpty ? _kvSection('User', _entries(user)) : ''}
     ${extras.isNotEmpty ? _kvSection('Extras', _entries(extras)) : ''}
   </div>
@@ -278,8 +283,9 @@ String _stringify(Object? v) {
 
 String _kvSection(String title, List<MapEntry<String, String>> entries) {
   if (entries.isEmpty) return '';
-  final rows = entries.map((e) =>
-      '<b>${_escape(e.key)}</b><span>${_escape(e.value)}</span>').join();
+  final rows = entries
+      .map((e) => '<b>${_escape(e.key)}</b><span>${_escape(e.value)}</span>')
+      .join();
   return '<div class="sec"><h4>$title</h4><div class="kv">$rows</div></div>';
 }
 
@@ -303,10 +309,8 @@ String _breadcrumbsBlock(List<Object?> crumbs) {
   return '<details open><summary>Breadcrumbs (${crumbs.length})</summary>$items</details>';
 }
 
-String _escape(String s) => s
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;');
+String _escape(String s) =>
+    s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 
 Future<List<int>> _drain(HttpRequest req) async {
   final builder = BytesBuilder(copy: false);

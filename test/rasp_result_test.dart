@@ -4,10 +4,7 @@ import 'package:flutter_rasp/flutter_rasp.dart';
 void main() {
   group('RaspResult', () {
     test('fromMap filters undefined threats', () {
-      final result = RaspResult.fromMap({
-        'root': true,
-        'nonexistent': true,
-      });
+      final result = RaspResult.fromMap({'root': true, 'nonexistent': true});
       expect(result.threats.containsKey(Threat.undefined), isFalse);
       expect(result.isRooted, isTrue);
     });

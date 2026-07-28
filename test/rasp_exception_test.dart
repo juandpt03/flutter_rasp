@@ -30,13 +30,16 @@ void main() {
         });
       }
 
-      test('falls back to error code message when platform message is null', () {
-        final exception = RaspException.fromPlatform(
-          PlatformException(code: 'TIMEOUT'),
-        );
-        expect(exception.errorCode, RaspErrorCode.timeout);
-        expect(exception.message, RaspErrorCode.timeout.message);
-      });
+      test(
+        'falls back to error code message when platform message is null',
+        () {
+          final exception = RaspException.fromPlatform(
+            PlatformException(code: 'TIMEOUT'),
+          );
+          expect(exception.errorCode, RaspErrorCode.timeout);
+          expect(exception.message, RaspErrorCode.timeout.message);
+        },
+      );
 
       test('unknown code maps to RaspErrorCode.unknown', () {
         final exception = RaspException.fromPlatform(

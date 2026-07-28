@@ -7,7 +7,8 @@ import 'package:flutter_rasp/flutter_rasp.dart';
 import 'package:pointycastle/export.dart';
 
 /// Self-signed EC test certificate (valid 10 years).
-const _testPem = '-----BEGIN CERTIFICATE-----\n'
+const _testPem =
+    '-----BEGIN CERTIFICATE-----\n'
     'MIIBizCCATGgAwIBAgIUV/NpLEzef0cEYN2As8oKdXoIcn0wCgYIKoZIzj0EAwIw\n'
     'GzEZMBcGA1UEAwwQdGVzdC5leGFtcGxlLmNvbTAeFw0yNjAyMTkwNDUyMTFaFw0z\n'
     'NjAyMTcwNDUyMTFaMBsxGTAXBgNVBAMMEHRlc3QuZXhhbXBsZS5jb20wWTATBgcq\n'
@@ -35,9 +36,7 @@ Uint8List _encryptForTest(
   final salt = Uint8List.fromList(
     List.generate(32, (_) => random.nextInt(256)),
   );
-  final iv = Uint8List.fromList(
-    List.generate(12, (_) => random.nextInt(256)),
-  );
+  final iv = Uint8List.fromList(List.generate(12, (_) => random.nextInt(256)));
 
   // PBKDF2 key derivation
   final derivator = PBKDF2KeyDerivator(HMac(SHA256Digest(), 64));
@@ -46,10 +45,7 @@ Uint8List _encryptForTest(
 
   // AES-256-GCM encryption
   final cipher = GCMBlockCipher(AESEngine());
-  cipher.init(
-    true,
-    AEADParameters(KeyParameter(key), 128, iv, Uint8List(0)),
-  );
+  cipher.init(true, AEADParameters(KeyParameter(key), 128, iv, Uint8List(0)));
   final ciphertextWithTag = cipher.process(
     Uint8List.fromList(utf8.encode(pem)),
   );
@@ -150,7 +146,8 @@ void main() {
     });
 
     test('works with short PEM content', () {
-      const shortPem = '-----BEGIN CERTIFICATE-----\nABC\n'
+      const shortPem =
+          '-----BEGIN CERTIFICATE-----\nABC\n'
           '-----END CERTIFICATE-----';
       final encrypted = _encryptForTest(shortPem, _passphrase);
       final decrypted = CertificateDecryptor.decrypt(encrypted, _passphrase);

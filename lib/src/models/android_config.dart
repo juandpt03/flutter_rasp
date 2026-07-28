@@ -46,8 +46,9 @@ class AndroidRaspConfig {
   });
 
   Map<String, dynamic> toMap() => {
-    'signingCertHashes':
-        signingCertHashes.map(hashConverter.fromSha256toBase64).toList(),
+    'signingCertHashes': signingCertHashes
+        .map(hashConverter.fromSha256toBase64)
+        .toList(),
     'supportedStores': supportedStores,
   };
 }

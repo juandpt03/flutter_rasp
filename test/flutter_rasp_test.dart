@@ -7,10 +7,7 @@ import 'helpers/mock_platform.dart';
 
 void main() {
   test('PigeonFlutterRasp is the default instance', () {
-    expect(
-      FlutterRaspPlatform.instance,
-      isInstanceOf<PigeonFlutterRasp>(),
-    );
+    expect(FlutterRaspPlatform.instance, isInstanceOf<PigeonFlutterRasp>());
   });
 
   group('Initialization', () {
@@ -262,7 +259,12 @@ class _CheckEntry {
   final bool expected;
   final Future<bool> Function(FlutterRasp) check;
 
-  const _CheckEntry(this.methodName, this.threatName, this.expected, this.check);
+  const _CheckEntry(
+    this.methodName,
+    this.threatName,
+    this.expected,
+    this.check,
+  );
 }
 
 final _checkEntries = [
@@ -310,7 +312,12 @@ final _checkEntries = [
     true,
     (r) => r.isLocationSpoofed(),
   ),
-  _CheckEntry('isMultiInstance', 'multiInstance', true, (r) => r.isMultiInstance()),
+  _CheckEntry(
+    'isMultiInstance',
+    'multiInstance',
+    true,
+    (r) => r.isMultiInstance(),
+  ),
   _CheckEntry(
     'isDeviceBindingCompromised',
     'deviceBinding',

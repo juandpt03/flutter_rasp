@@ -13,7 +13,8 @@ void main() {
     });
 
     test('SHA-256 without colons roundtrip', () {
-      const sha = 'AE4F1231E0AFE135E9BC0AF521AF9BC67E0976B1B4D64E7990DBAC3082E46E69';
+      const sha =
+          'AE4F1231E0AFE135E9BC0AF521AF9BC67E0976B1B4D64E7990DBAC3082E46E69';
       final base64 = hashConverter.fromSha256toBase64(sha);
       final back = hashConverter.fromBase64toSha256(base64);
       // fromBase64toSha256 always returns with colons
@@ -24,7 +25,10 @@ void main() {
       test('accepts 64 hex chars', () {
         expect(hashConverter.isValidSha256Format('a' * 64), isTrue);
         expect(hashConverter.isValidSha256Format('A' * 64), isTrue);
-        expect(hashConverter.isValidSha256Format('0123456789abcdef' * 4), isTrue);
+        expect(
+          hashConverter.isValidSha256Format('0123456789abcdef' * 4),
+          isTrue,
+        );
       });
 
       test('rejects wrong length', () {

@@ -70,9 +70,7 @@ class ThreatStatusBar extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: const Color(0xFF16213E),
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: const Color(0xFF2A2A4A),
-                      ),
+                      border: Border.all(color: const Color(0xFF2A2A4A)),
                     ),
                     textStyle: const TextStyle(
                       fontFamily: 'monospace',

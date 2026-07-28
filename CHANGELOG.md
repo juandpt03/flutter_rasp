@@ -10,8 +10,9 @@
   - Not part of any `ThreatPolicy` preset: moving to a new phone is a
     legitimate flow. Respond with re-authentication instead of
     terminating the app.
-- Widened the `pointycastle` constraint to `>=3.9.1 <5.0.0`, allowing
-  consumers to depend on pointycastle 4.x.
+- Upgraded `pointycastle` to `^4.0.0`. If your app also depends on
+  pointycastle directly, bump it to 4.x.
+- Upgraded tooling to Pigeon 27.
 
 ## 7.0.0
 

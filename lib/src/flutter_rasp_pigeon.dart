@@ -25,7 +25,6 @@ class PigeonFlutterRasp extends FlutterRaspPlatform
     }
   }
 
-
   @override
   Future<void> startMonitoring(RaspConfig config) async {
     _ensureFlutterApiSetUp();
@@ -59,7 +58,6 @@ class PigeonFlutterRasp extends FlutterRaspPlatform
   Future<bool> isScreenCaptureBlocked() =>
       _call(() => _hostApi.isScreenCaptureBlocked());
 
-
   @override
   Future<void> initReporter(ReporterConfig config) async {
     _ensureFlutterApiSetUp();
@@ -72,8 +70,9 @@ class PigeonFlutterRasp extends FlutterRaspPlatform
       httpTimeoutMs: config.httpTimeout.inMilliseconds,
       maxBreadcrumbs: config.maxBreadcrumbs,
       maxPendingReports: config.maxPendingReports,
-      retryBackoffsMs:
-          config.retryBackoffs.map((d) => d.inMilliseconds).toList(),
+      retryBackoffsMs: config.retryBackoffs
+          .map((d) => d.inMilliseconds)
+          .toList(),
       captureFlutterErrors: config.captureFlutterErrors,
       capturePlatformErrors: config.capturePlatformErrors,
       captureExitThreats: config.captureExitThreats,
@@ -84,8 +83,7 @@ class PigeonFlutterRasp extends FlutterRaspPlatform
   }
 
   @override
-  Future<void> disposeReporter() =>
-      _call(() => _hostApi.disposeReporter());
+  Future<void> disposeReporter() => _call(() => _hostApi.disposeReporter());
 
   @override
   Future<void> addBreadcrumb({
@@ -134,12 +132,10 @@ class PigeonFlutterRasp extends FlutterRaspPlatform
   @override
   Future<void> flushReporter() => _call(() => _hostApi.flushReporter());
 
-
   @override
   void onThreatsDetected(List<String> threats) {
     _threatController.add(threats);
   }
-
 
   Future<T> _call<T>(Future<T> Function() fn) async {
     try {
@@ -180,4 +176,3 @@ class PigeonFlutterRasp extends FlutterRaspPlatform
     );
   }
 }
-

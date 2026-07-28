@@ -108,7 +108,6 @@ class RaspReporter {
     await _platform.flushReporter();
   }
 
-
   void _onFlutterError(FlutterErrorDetails details) {
     _previousFlutterOnError?.call(details);
     unawaited(
@@ -120,15 +119,13 @@ class RaspReporter {
             library: details.library,
           )
           .catchError(
-            (e) =>
-                debugPrint('flutter_rasp: captureError flutterError — $e'),
+            (e) => debugPrint('flutter_rasp: captureError flutterError — $e'),
           ),
     );
   }
 
   bool _onPlatformError(Object error, StackTrace stackTrace) {
-    final handled =
-        _previousPlatformOnError?.call(error, stackTrace) ?? false;
+    final handled = _previousPlatformOnError?.call(error, stackTrace) ?? false;
     unawaited(
       _platform
           .captureError(

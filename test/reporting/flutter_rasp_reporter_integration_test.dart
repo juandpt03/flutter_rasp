@@ -30,14 +30,9 @@ void main() {
     });
 
     test('boots the reporter when a config is provided', () async {
-      final cfg = ReporterConfig(
-        endpoint: Uri.parse('https://example.com'),
-      );
+      final cfg = ReporterConfig(endpoint: Uri.parse('https://example.com'));
 
-      await rasp.initialize(
-        onThreatDetected: (_) {},
-        reporter: cfg,
-      );
+      await rasp.initialize(onThreatDetected: (_) {}, reporter: cfg);
 
       expect(RaspReporter.instance.isInitialized, isTrue);
       expect(mockPlatform.initReporterCalls, 1);

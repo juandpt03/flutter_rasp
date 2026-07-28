@@ -3,17 +3,14 @@ import 'package:pigeon/pigeon.dart';
 @ConfigurePigeon(
   PigeonOptions(
     dartOut: 'lib/src/generated/rasp_api.g.dart',
-    kotlinOut:
-        'android/src/main/kotlin/com/juandpt/flutter_rasp/RaspApi.g.kt',
+    kotlinOut: 'android/src/main/kotlin/com/juandpt/flutter_rasp/RaspApi.g.kt',
     kotlinOptions: KotlinOptions(package: 'com.juandpt.flutter_rasp'),
     swiftOut: 'ios/flutter_rasp/Sources/flutter_rasp/RaspApi.g.swift',
   ),
 )
-
 // ──────────────────────────────────────────
 // DTOs — Threat detection (existing)
 // ──────────────────────────────────────────
-
 class AndroidConfigMessage {
   AndroidConfigMessage({
     required this.signingCertHashes,

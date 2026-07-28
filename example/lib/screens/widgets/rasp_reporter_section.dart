@@ -95,8 +95,7 @@ class _ActionChip extends StatelessWidget {
       onTap: () async => onTap(),
       borderRadius: BorderRadius.circular(4),
       child: Container(
-        padding:
-            const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(4),

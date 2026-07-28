@@ -19,7 +19,6 @@ abstract class FlutterRaspPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-
   Future<void> startMonitoring(RaspConfig config);
   Future<void> stopMonitoring();
   Stream<List<String>> get threatStream;
@@ -27,7 +26,6 @@ abstract class FlutterRaspPlatform extends PlatformInterface {
   Future<Map<String, bool>> scanAll(List<String> enabledThreats);
   Future<void> blockScreenCapture(bool enabled);
   Future<bool> isScreenCaptureBlocked();
-
 
   Future<void> initReporter(ReporterConfig config);
   Future<void> disposeReporter();

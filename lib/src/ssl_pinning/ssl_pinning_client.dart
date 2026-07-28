@@ -183,9 +183,7 @@ class SslPinningClient {
   static Future<Uint8List> _fetch(RemoteCertificateConfig config) async {
     final client = HttpClient()..connectionTimeout = config.timeout;
     try {
-      final request = await client
-          .getUrl(config.url)
-          .timeout(config.timeout);
+      final request = await client.getUrl(config.url).timeout(config.timeout);
       config.headers.forEach(request.headers.set);
       final response = await request.close().timeout(config.timeout);
       if (response.statusCode != HttpStatus.ok) {
@@ -275,9 +273,6 @@ class SslPinningClient {
       _hashKey('remote|${config.url}');
 
   static String _hashKey(String source) {
-    return source.hashCode
-        .toUnsigned(32)
-        .toRadixString(16)
-        .padLeft(8, '0');
+    return source.hashCode.toUnsigned(32).toRadixString(16).padLeft(8, '0');
   }
 }

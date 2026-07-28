@@ -10,7 +10,8 @@ void main() {
 
   group('SslPinningClient', () {
     /// Self-signed EC test certificate (valid 10 years).
-    const testPem = '-----BEGIN CERTIFICATE-----\n'
+    const testPem =
+        '-----BEGIN CERTIFICATE-----\n'
         'MIIBizCCATGgAwIBAgIUV/NpLEzef0cEYN2As8oKdXoIcn0wCgYIKoZIzj0EAwIw\n'
         'GzEZMBcGA1UEAwwQdGVzdC5leGFtcGxlLmNvbTAeFw0yNjAyMTkwNDUyMTFaFw0z\n'
         'NjAyMTcwNDUyMTFaMBsxGTAXBgNVBAMMEHRlc3QuZXhhbXBsZS5jb20wWTATBgcq\n'
@@ -61,7 +62,8 @@ void main() {
 
     test('createContext() throws on invalid PEM content', () async {
       final badBundle = _FakeAssetBundle({
-        'assets/certs/bad.pem': '-----BEGIN CERTIFICATE-----\n'
+        'assets/certs/bad.pem':
+            '-----BEGIN CERTIFICATE-----\n'
             'not-valid-base64!!!\n'
             '-----END CERTIFICATE-----',
       });

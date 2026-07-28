@@ -54,7 +54,8 @@ class SslPinningNotifier extends ValueNotifier<SslPinningStatus> {
   Future<void> testPlainDartIo() =>
       _testDartIo(_plainConfig, SslPinningMode.plainPem);
 
-  Future<void> testPlainDio() => _testDio(_plainConfig, SslPinningMode.plainPem);
+  Future<void> testPlainDio() =>
+      _testDio(_plainConfig, SslPinningMode.plainPem);
 
   Future<void> testPlainHttp() =>
       _testHttp(_plainConfig, SslPinningMode.plainPem);
@@ -188,8 +189,8 @@ class SslPinningNotifier extends ValueNotifier<SslPinningStatus> {
     final cause = e is DioException ? (e.error ?? e) : e;
     lastError = switch (cause) {
       TlsException _ => 'Pin mismatch: $cause',
-      TimeoutException _ || SocketException _ =>
-        'Network issue (not a pin failure): $cause',
+      TimeoutException _ ||
+      SocketException _ => 'Network issue (not a pin failure): $cause',
       _ => cause.toString(),
     };
     value = SslPinningStatus.failure;

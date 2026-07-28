@@ -26,7 +26,10 @@ void main() {
       expect(map['enabledThreats'], containsAll(['root', 'emulator']));
       expect(map['monitoringInterval'], 5000);
       final exitThreats = map['exitThreats'] as List;
-      expect(exitThreats, containsAll(['root', 'hook', 'repackaging', 'debug']));
+      expect(
+        exitThreats,
+        containsAll(['root', 'hook', 'repackaging', 'debug']),
+      );
     });
 
     test('interval clamps below 1 second', () {
@@ -62,7 +65,10 @@ void main() {
 
     test('iosConfig serializes correctly', () {
       const config = RaspConfig(
-        iosConfig: IosRaspConfig(teamId: 'ABC123', bundleIds: ['com.example.app']),
+        iosConfig: IosRaspConfig(
+          teamId: 'ABC123',
+          bundleIds: ['com.example.app'],
+        ),
       );
       final ios = config.toMap()['iosConfig'] as Map<String, dynamic>;
       expect(ios['teamId'], 'ABC123');
@@ -110,7 +116,10 @@ void main() {
       expect(config.supportedStores, contains('com.android.vending'));
       expect(config.supportedStores, contains('com.amazon.venezia'));
       expect(config.supportedStores, contains('com.huawei.appmarket'));
-      expect(config.supportedStores, contains('com.sec.android.app.samsungapps'));
+      expect(
+        config.supportedStores,
+        contains('com.sec.android.app.samsungapps'),
+      );
     });
   });
 }

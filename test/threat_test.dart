@@ -13,24 +13,27 @@ void main() {
     });
 
     test('active contains all threats', () {
-      expect(Threat.active, containsAll([
-        Threat.root,
-        Threat.emulator,
-        Threat.debug,
-        Threat.hook,
-        Threat.repackaging,
-        Threat.trustedInstall,
-        Threat.vpn,
-        Threat.developerMode,
-        Threat.adbEnabled,
-        Threat.devicePasscode,
-        Threat.secureHardwareNotAvailable,
-        Threat.obfuscationIssues,
-        Threat.timeSpoofing,
-        Threat.locationSpoofing,
-        Threat.multiInstance,
-        Threat.deviceBinding,
-      ]));
+      expect(
+        Threat.active,
+        containsAll([
+          Threat.root,
+          Threat.emulator,
+          Threat.debug,
+          Threat.hook,
+          Threat.repackaging,
+          Threat.trustedInstall,
+          Threat.vpn,
+          Threat.developerMode,
+          Threat.adbEnabled,
+          Threat.devicePasscode,
+          Threat.secureHardwareNotAvailable,
+          Threat.obfuscationIssues,
+          Threat.timeSpoofing,
+          Threat.locationSpoofing,
+          Threat.multiInstance,
+          Threat.deviceBinding,
+        ]),
+      );
     });
 
     test('fromName resolves known threats', () {

@@ -26,9 +26,7 @@ class ThreatPolicy {
 
   static const none = ThreatPolicy();
 
-  static const low = ThreatPolicy(
-    exitThreats: {Threat.repackaging},
-  );
+  static const low = ThreatPolicy(exitThreats: {Threat.repackaging});
 
   static const medium = ThreatPolicy(
     exitThreats: {
