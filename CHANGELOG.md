@@ -1,3 +1,6 @@
+## 7.1.1
+- Bump package `flutter_secure_storage` to ">=10.0.0 <12.0.0"
+
 ## 7.1.0
 
 - **New threat: device binding** (`Threat.deviceBinding`), on Android and
