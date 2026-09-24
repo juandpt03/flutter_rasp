@@ -1,5 +1,18 @@
+## 7.2.0
+
+- Migrate the plugin and example to built-in Kotlin; require Dart 3.12+.
+- Upgrade Android builds to AGP 9.0.1, Gradle 9.1.0, and Kotlin 2.3.20.
+
+- **Breaking:** remove CocoaPods support; iOS integration now requires Swift
+  Package Manager, Flutter 3.44+, and iOS 15+.
+- Migrate the example to the standalone `material_ui` package, requiring
+  Flutter 3.47+ and Dart 3.13+.
+- Update `flutter_secure_storage` to `^11.2.0` and Pigeon to `^29.0.2`.
+- Align the plugin, example, and native core artifacts on version `7.2.0`.
+
 ## 7.1.1
-- Bump package `flutter_secure_storage` to ">=10.0.0 <12.0.0"
+
+- Bump package `flutter_secure_storage` to ">=10.0.0 <12.0.0".
 
 ## 7.1.0
 

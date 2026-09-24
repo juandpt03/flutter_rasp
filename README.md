@@ -25,11 +25,15 @@ runtime tampering and ships every event to your own backend.
 | Platform | Minimum |
 | -------- | ------- |
 | Android  | API 24  |
-| iOS      | 13.0    |
+| iOS      | 15.0    |
+
+iOS dependencies use Swift Package Manager exclusively; CocoaPods is no longer
+supported. Use Flutter 3.44+ with Swift Package Manager enabled. The example
+requires Flutter 3.47+ and uses the standalone `material_ui` package.
 
 ```yaml
 dependencies:
-  flutter_rasp: ^7.1.0
+  flutter_rasp: ^7.2.0
 ```
 
 ---

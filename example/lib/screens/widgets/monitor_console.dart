@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../models/monitor_log.dart';
 import '../../notifiers/monitor_notifier.dart';
